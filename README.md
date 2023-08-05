@@ -75,9 +75,9 @@ or
 
 ## Authors
 
-  - **Anvar SECONDNAME** - *TeamLead* -
+  - **Anvar Abduragimov** - *TeamLead* -
     [crecker05ru](https://github.com/crecker05ru)
-  - **Tatsiana SECONDNAME** - *Half-TeamLead* -
+  - **Tatsiana Kulinkovich** - *Half-TeamLead* -
     [bogdanovich231](https://github.com/bogdanovich231)
   - **Sergey Gorin** - *Half-a-Half-TeamLead* -
     [seygorin](https://github.com/seygorin)
