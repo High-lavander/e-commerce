@@ -1,12 +1,12 @@
 import { useState } from 'react';
 import { InputElement } from './components';
 function App() {
-  const [count] = useState(0);
+  const [count, setCount] = useState('');
 
   return (
     <>
       <div>{count}</div>
-      <InputElement />
+      <input onChange={(e) => setCount(e.target.value)} />
     </>
   );
 }
