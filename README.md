@@ -1,4 +1,4 @@
 ### 3. CommerceTools Project and API Client Setup (30 points) 💻
 
-- **(15 points)** Create the project in CommerceTools, setting up the currencies, languages, and other configurations in the Merchant Center. 💼
-- **(15 points)** Create the API client for CommerceTools, enabling access to the platform's APIs and managing permissions and scopes required for the project. 🔐
+- **(15 points)** Create the project in CommerceTools - [**done**](https://mc.europe-west1.gcp.commercetools.com/rs-school-e-commerce-app), setting up the currencies - [**done**](https://mc.europe-west1.gcp.commercetools.com/rs-school-e-commerce-app/settings/project/international), languages - [**done**](https://mc.europe-west1.gcp.commercetools.com/rs-school-e-commerce-app/settings/project/international), and other configurations in the Merchant Center. 💼
+- **(15 points)** Create the API client for CommerceTools - [**done**](https://mc.europe-west1.gcp.commercetools.com/rs-school-e-commerce-app/settings/developer/api-clients), enabling access to the platform's APIs and managing permissions and scopes required for the project. 🔐
