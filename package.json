@@ -12,8 +12,13 @@
     "test": "jest --coverage"
   },
   "dependencies": {
+    "@reduxjs/toolkit": "^1.9.5",
+    "axios": "^1.4.0",
+    "jest-environment-jsdom": "^29.6.2",
     "react": "^18.2.0",
+    "react-axios": "^2.0.6",
     "react-dom": "^18.2.0",
+    "react-redux": "^8.1.2",
     "react-router-dom": "^6.14.2"
   },
   "devDependencies": {
@@ -37,6 +42,7 @@
     "jest-extended": "^4.0.1",
     "lint-staged": "^13.2.3",
     "prettier": "^3.0.1",
+    "sass": "^1.64.2",
     "ts-jest": "^29.1.1",
     "typescript": "^5.0.2",
     "vite": "^4.4.5"
