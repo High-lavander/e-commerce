@@ -1,6 +1,6 @@
 # E-commerce App
 
-The online store named "APPNAME" provides you, as a customer, with the opportunity to enjoy all the possibilities of purchasing organic products, viewing the descriptions and compositions of the items, adding them to your cart, and, ultimately, making a purchase and having it delivered to any part of the world!
+The online store named `Organic Shop` provides you, as a customer, with the opportunity to enjoy all the possibilities of purchasing organic products, viewing the descriptions and compositions of the items, adding them to your cart, and, ultimately, making a purchase and having it delivered to any part of the world!
 
 ## Getting Started
 
@@ -23,6 +23,10 @@ To get started, clone the [repository](https://github.com/High-lavander/e-commer
 
     npm install
 
+or 
+
+    yarn install
+
 This command installs dependencies in the root folder, as well as in the client and server folders.   
 
 ## Deployment
@@ -30,6 +34,10 @@ This command installs dependencies in the root folder, as well as in the client 
 To deploy the application, run the following command:
 
     npm run dev
+
+or 
+
+    yarn dev
 
 This will start the application by running development server.
 
@@ -40,6 +48,10 @@ Now, you're ready to enjoy the app!
 You can use the following commands to use scripts:
 
     npm run + ${name} 
+
+or 
+
+    yarn ${name} 
 
 `dev`: This script starts a development server using the Vite tool.
 
@@ -54,6 +66,7 @@ You can use the following commands to use scripts:
 ## Built With
 
   - [React](https://react.dev/)
+  - [Redux Toolkit](https://redux-toolkit.js.org/)
   - [TypeScript](https://www.typescriptlang.org/)
   - [Jest](https://jestjs.io/)
   - [Figma-template](https://www.figma.com/file/SKwG2RDjz3fWi9dq74I8zo/Organick?type=design&mode=design&t=RSxjBUIeGltu9Ide-0)
