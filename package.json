@@ -8,19 +8,8 @@
     "build": "vite build",
     "serve": "vite preview",
     "lint": "eslint . --ext .tsx",
+    "lint:fix": "eslint . --fix --color",
     "test": "jest --coverage"
-  },
-  "husky": {
-    "hooks": {
-      "pre-commit": "lint-staged"
-    }
-  },
-  "lint-staged": {
-    "*.{js,jsx,ts,tsx}": [
-      "npm run lint",
-      "npm run format",
-      "git add"
-    ]
   },
   "dependencies": {
     "react": "^18.2.0",
@@ -51,5 +40,16 @@
     "ts-jest": "^29.1.1",
     "typescript": "^5.0.2",
     "vite": "^4.4.5"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
+  },
+  "lint-staged": {
+    "*.{js,jsx,ts,tsx}": [
+      "npm run lint:fix",
+      "git add"
+    ]
   }
 }
