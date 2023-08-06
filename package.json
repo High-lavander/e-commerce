@@ -8,7 +8,7 @@
     "dev": "vite",
     "build": "vite build",
     "serve": "vite preview",
-    "lint": "eslint . --ext .tsx",
+    "lint": "eslint ./src --color --ext .tsx",
     "lint:fix": "eslint ./src --fix --color",
     "test": "jest --coverage"
   },
@@ -55,7 +55,7 @@
   },
   "lint-staged": {
     "*.tsx": [
-      "yarn lint:fix",
+      "yarn lint",
       "git add"
     ]
   }
