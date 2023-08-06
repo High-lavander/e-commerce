@@ -4,11 +4,12 @@
   "version": "0.0.0",
   "type": "commonjs",
   "scripts": {
+    "postinstall": "husky install",
     "dev": "vite",
     "build": "vite build",
     "serve": "vite preview",
-    "lint": "eslint . --ext .tsx",
-    "lint:fix": "eslint . --fix --color",
+    "lint": "eslint ./src --color --ext .tsx  --ext .ts",
+    "lint:fix": "eslint ./src --fix --color",
     "test": "jest --coverage"
   },
   "dependencies": {
@@ -53,8 +54,16 @@
     }
   },
   "lint-staged": {
-    "*.{js,jsx,ts,tsx}": [
-      "npm run lint:fix",
+    "*.tsx": [
+      "yarn lint",
+      "git add"
+    ],
+    "*.ts": [
+      "yarn lint",
+      "git add"
+    ],
+    "*.js": [
+      "yarn lint",
       "git add"
     ]
   }
