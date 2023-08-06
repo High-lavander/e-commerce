@@ -57,6 +57,14 @@
     "*.tsx": [
       "yarn lint",
       "git add"
+    ],
+    "*.ts": [
+      "yarn lint",
+      "git add"
+    ],
+    "*.js": [
+      "yarn lint",
+      "git add"
     ]
   }
 }
