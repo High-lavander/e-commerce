@@ -4,6 +4,7 @@
   "version": "0.0.0",
   "type": "commonjs",
   "scripts": {
+    "postinstall": "husky install",
     "dev": "vite",
     "build": "vite build",
     "serve": "vite preview",
