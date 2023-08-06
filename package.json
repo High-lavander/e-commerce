@@ -55,15 +55,15 @@
   },
   "lint-staged": {
     "*.tsx": [
-      "yarn lint",
+      "yarn lint:fix",
       "git add"
     ],
     "*.ts": [
-      "yarn lint",
+      "yarn lint:fix",
       "git add"
     ],
     "*.js": [
-      "yarn lint",
+      "yarn lint:fix",
       "git add"
     ]
   }
