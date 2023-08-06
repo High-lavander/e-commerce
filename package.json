@@ -8,7 +8,7 @@
     "build": "vite build",
     "serve": "vite preview",
     "lint": "eslint . --ext .tsx",
-    "lint:fix": "eslint . --fix --color",
+    "lint:fix": "eslint ./src --fix --color",
     "test": "jest --coverage"
   },
   "dependencies": {
