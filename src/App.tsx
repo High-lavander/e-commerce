@@ -1,8 +1,9 @@
-import Main from './pages/main/main';
+import Redirect from './components/Redirect/Redirect';
+
 function App() {
   return (
     <>
-      <Main />
+      <Redirect />
     </>
   );
 }
