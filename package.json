@@ -4,10 +4,12 @@
   "version": "0.0.0",
   "type": "commonjs",
   "scripts": {
+    "postinstall": "husky install",
     "dev": "vite",
     "build": "vite build",
     "serve": "vite preview",
-    "lint": "eslint . --ext .tsx",
+    "lint": "eslint ./src --color --ext .tsx  --ext .ts",
+    "lint:fix": "eslint ./src --fix --color",
     "test": "jest --coverage"
   },
   "husky": {
@@ -22,8 +24,14 @@
     ]
   },
   "dependencies": {
+    "@reduxjs/toolkit": "^1.9.5",
+    "axios": "^1.4.0",
+    "jest-environment-jsdom": "^29.6.2",
     "react": "^18.2.0",
-    "react-dom": "^18.2.0"
+    "react-axios": "^2.0.6",
+    "react-dom": "^18.2.0",
+    "react-redux": "^8.1.2",
+    "react-router-dom": "^6.14.2"
   },
   "devDependencies": {
     "@testing-library/jest-dom": "^5.17.0",
@@ -46,8 +54,28 @@
     "jest-extended": "^4.0.1",
     "lint-staged": "^13.2.3",
     "prettier": "^3.0.1",
+    "sass": "^1.64.2",
     "ts-jest": "^29.1.1",
     "typescript": "^5.0.2",
     "vite": "^4.4.5"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
+  },
+  "lint-staged": {
+    "*.tsx": [
+      "yarn lint:fix",
+      "git add"
+    ],
+    "*.ts": [
+      "yarn lint:fix",
+      "git add"
+    ],
+    "*.js": [
+      "yarn lint:fix",
+      "git add"
+    ]
   }
 }
