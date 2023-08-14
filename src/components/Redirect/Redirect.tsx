@@ -14,7 +14,8 @@ function Redirect() {
         <Route path="/" element={<Main />} />
         <Route path="/About" element={<About />} />
         <Route path="/contact" element={<Contact />} />
-        <Route path="/account" element={<Contact />} />
+        <Route path="/registration" element={<Contact />} />
+        <Route path="/authorization" element={<Contact />} />
         <Route path="*" element={<Error404 />} />
       </Routes>
     </Router>
