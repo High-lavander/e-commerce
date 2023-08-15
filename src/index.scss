@@ -1,5 +1,5 @@
 :root {
-  font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
+  font-family: Roboto, Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
   line-height: 1.5;
   font-weight: 400;
 
@@ -85,28 +85,23 @@ input::-webkit-inner-spin-button {
 
     &_text {
       padding: 8px;
-      border-radius: 16px;
       font-size: inherit;
     }
     &_email {
       padding: 8px;
-      border-radius: 16px;
       font-size: inherit;
     }
     &_password {
       padding: 8px;
-      border-radius: 16px;
       font-size: inherit;
     }
     &_date{
       padding: 8px;
-      border-radius: 16px;
       font-size: inherit;
       user-select: none;
     }
     &_number {
       padding: 8px;
-      border-radius: 16px;
       font-size: inherit;
     }
   }
