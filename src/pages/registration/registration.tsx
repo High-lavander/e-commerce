@@ -14,6 +14,17 @@ const RegistrationPage = () => {
   const street = useInput('');
   const postalCode = useInput('');
 
+  // const validateEmailCb = (element: HTMLInputElement) => {
+  //   if (element.validity.typeMismatch) {
+  //     console.log('not valid');
+  //   }
+  // };
+
+  // const handleEmail = (e: ChangeEvent<HTMLInputElement>) => {
+  //   email.onChange(e);
+  //   email.value !== 'car' ? email.setError('no car') : email.setError('isCar');
+  // };
+
   const handleSubmit = (e: FormEvent) => {
     e.preventDefault();
     const postForm = {
@@ -93,6 +104,9 @@ const RegistrationPage = () => {
             />
             <InputElement
               {...email}
+              // value={email.value}
+              // onChange={handleEmail}
+              // error={email.error}
               className="registration__input app__input_email"
               type="email"
               placeholder="Email"
