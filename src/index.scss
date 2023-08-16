@@ -17,6 +17,41 @@
   
 }
 
+//reset styles
+html {
+  scroll-behavior: smooth;
+  padding: 0;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+ul[class],
+ol[class] {
+  padding: 0;
+  list-style: none;
+}
+
+body,
+h1,
+h2,
+h3,
+h4,
+p,
+ul[class],
+ol[class],
+li {
+  margin: 0;
+}
+
+h1,h2,h3,h4,h5,h6 {
+  font-weight: 400;
+}
+//
+
 li {
   list-style: none;
 }
@@ -49,7 +84,11 @@ button {
   font-family: inherit;
   background-color: #1a1a1a;
   cursor: pointer;
-  transition: border-color 0.25s;
+  transition: border-color, opacity 0.25s;
+
+  &[disabled] {
+    opacity: 0.3;
+  }
 }
 button:hover {
   border-color: #646cff;

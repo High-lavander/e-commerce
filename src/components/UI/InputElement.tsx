@@ -1,9 +1,9 @@
-import { ChangeEvent, useRef, useState } from 'react';
+import { ChangeEvent, useRef } from 'react';
 interface IInputElementProps {
   placeholder?: string;
   className?: string;
   value: string | number;
-  type: string;
+  type: 'text' | 'number' | 'password' | 'email' | 'date';
   id?: string;
   maxLength?: number;
   minLength?: number;
@@ -13,19 +13,33 @@ interface IInputElementProps {
   disabled?: boolean;
   required?: boolean;
   onChange: (e: ChangeEvent<HTMLInputElement>) => void;
+  setError: React.Dispatch<React.SetStateAction<string>>;
 }
 
 const regex = /\S+@\S+\.\S+/;
 
 const InputElement = (props: IInputElementProps) => {
-  const [error, setError] = useState('');
-  const validates: { [key: string]: <T>(val: T) => void } = {
-    email: (val) => {
-      regex.test(val as string) ? setError('Yes') : setError(`It's not email`);
-    },
-  };
+  // const [error, setError] = useState('');
   const inputRef = useRef(null);
   const inputElement: HTMLInputElement = inputRef.current!;
+  const validates: { [key: string]: <T>(val: T) => void } = {
+    text: (val) => {
+      (val as string).length < 3 ? props.setError(`To short`) : props.setError('');
+    },
+    number: (val) => {
+      String(val).length < 4 ? props.setError(`too short`) : props.setError('');
+    },
+    password: (val) => {
+      (val as string).length >= Number(props.maxLength) ? props.setError(`Weak password`) : props.setError('');
+    },
+    email: (val) => {
+      regex.test(val as string) ? props.setError('') : props.setError(`It's not email`);
+    },
+    date: (val) => {
+      Boolean(val) === true ? props.setError('') : props.setError(`It's not date`);
+    },
+  };
+
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     props.onChange(e);
     if (validates[props.type]) {
@@ -54,8 +68,8 @@ const InputElement = (props: IInputElementProps) => {
         disabled={props.disabled}
         required={props.required}
       />
-      <span className="registration__input-placeholder">{props.placeholder}</span>
-      {error && <span className="registration__input-error">{error}</span>}
+      {/* <span className="registration__input-placeholder">{props.placeholder}</span> */}
+      {props.error && <span className="registration__input-error">{props.error}</span>}
     </label>
   );
 };

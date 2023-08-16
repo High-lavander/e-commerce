@@ -41,13 +41,24 @@ text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
   line-height: 165.4%;
     }
   }
+  &__label {
+    position: relative;
+  }
   &__input {
+    height: 61px;
     border: 1px solid #274C5B;
+    width: 100%;
     &:valid {
       border: 1px solid #274C5B;
     }
     &:invalid {
       border: 1px solid #ff0000;
+    }
+    &-error {
+      position: absolute;
+      left: 0;
+      bottom: -30px;
+      color: #ff0000;
     }
 
   }
@@ -64,6 +75,7 @@ background: #FFF;
 &__form {
   max-width: 587px;
   width: 100%;
+  row-gap: 52px;
 }
 .column {
   &__left {

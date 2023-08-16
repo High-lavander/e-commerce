@@ -1,6 +1,6 @@
 import './registration.scss';
 import useInput from '../../hooks/useInput';
-import { FormEvent, useEffect } from 'react';
+import { FormEvent, useEffect, useMemo } from 'react';
 import { getAnonymousSessionToken } from '../../api';
 import { InputElement } from '../../components';
 const RegistrationPage = () => {
@@ -25,6 +25,43 @@ const RegistrationPage = () => {
   //   email.value !== 'car' ? email.setError('no car') : email.setError('isCar');
   // };
 
+  const isDisabled = useMemo(() => {
+    const condition = !!(
+      firstName.error ||
+      lastName.error ||
+      email.error ||
+      password.error ||
+      birthDate.error ||
+      country.error ||
+      city.error ||
+      street.error ||
+      postalCode.error
+    );
+    console.log('errros arr', [
+      firstName.error,
+      lastName.error,
+      email.error,
+      password.error,
+      birthDate.error,
+      country.error,
+      city.error,
+      street.error,
+      postalCode.error,
+    ]);
+    console.log('condition', condition);
+    return condition;
+  }, [
+    firstName.error,
+    lastName.error,
+    email.error,
+    password.error,
+    birthDate.error,
+    country.error,
+    city.error,
+    street.error,
+    postalCode.error,
+  ]);
+
   const handleSubmit = (e: FormEvent) => {
     e.preventDefault();
     const postForm = {
@@ -39,6 +76,10 @@ const RegistrationPage = () => {
       postalCode: postalCode.value,
     };
 
+    const values = Object.values(postForm);
+    if (values.some((val) => val === null || val === undefined || Boolean(val) === false)) {
+      console.log('Form is not full');
+    }
     console.log('postform', postForm);
   };
 
@@ -166,7 +207,9 @@ const RegistrationPage = () => {
               min="0"
               placeholder="Postal code"
             /> */}
-            <button className="registration__button sign-in__button">SIGN UP</button>
+            <button className="registration__button sign-in__button" disabled={isDisabled}>
+              SIGN UP {isDisabled}
+            </button>
           </form>
         </div>
       </div>
