@@ -1,15 +1,23 @@
+import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
+import Logout from '../LogOut/LogOut';
 import logo from '../../assets/icons/Logo.svg';
 import accountIcon from '../../assets/icons/account.svg';
 import './Header.scss';
-import { useState } from 'react';
 
 function Header() {
   const [menuOpen, setMenuOpen] = useState(false);
+  const [ LoggedIn, setLoggedIn] = useState(false);
+
+  useEffect(() => {
+    const accessToken = localStorage.getItem('access_token');
+    setLoggedIn(accessToken !== null);
+  }, []);
 
   const toggleMenu = () => {
     setMenuOpen(!menuOpen);
   };
+
   return (
     <div className="header">
       <div className="header_logo">
@@ -33,22 +41,35 @@ function Header() {
           <li>
             <Link to="/contact">Contact</Link>
           </li>
-          <li>
-            <Link to="/registration">
-              <div className="header_sign">
-                <img src={accountIcon} alt="Account Icon" />
-                <p>Log In</p>
-              </div>
-            </Link>
-          </li>
-          <li>
-            <Link to="/authorization">
-              <div className="header_sign">
-                <img src={accountIcon} alt="Account Icon" />
-                <p>Sign Up</p>
-              </div>
-            </Link>
-          </li>
+          {!LoggedIn ? (
+            <>
+              <li>
+                <Link to="/registration">
+                  <div className="header_sign">
+                    <img src={accountIcon} alt="Account Icon" />
+                    <p>Log In</p>
+                  </div>
+                </Link>
+              </li>
+              <li>
+                <Link to="/authorization">
+                  <div className="header_sign">
+                    <img src={accountIcon} alt="Account Icon" />
+                    <p>Sign Up</p>
+                  </div>
+                </Link>
+              </li>
+            </>
+          ) : (
+            <li>
+              <button onClick={Logout}>
+                <div className="header_sign">
+                  <img src={accountIcon} alt="Account Icon" />
+                  <p>Log Out</p>
+                </div>
+              </button>
+            </li>
+          )}
         </ul>
       </nav>
     </div>
