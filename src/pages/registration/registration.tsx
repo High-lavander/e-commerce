@@ -1,7 +1,7 @@
 import './registration.scss';
 import useInput from '../../hooks/useInput';
 import { FormEvent, useEffect, useMemo, useState } from 'react';
-import { getAnonymousSessionToken } from '../../api';
+// import { getAnonymousSessionToken } from '../../api';
 import { InputElement } from '../../components';
 const RegistrationPage = () => {
   const firstName = useInput('');
@@ -77,8 +77,8 @@ const RegistrationPage = () => {
 
   useEffect(() => {
     const fetchAnonToken = async () => {
-      const response = await getAnonymousSessionToken();
-      console.log(response);
+      // const response = await getAnonymousSessionToken();
+      // console.log(response);
     };
     fetchAnonToken();
   }, []);

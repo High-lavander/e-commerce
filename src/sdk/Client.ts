@@ -1,6 +1,5 @@
 import { ctpClient } from './BuildClient';
-import { createApiBuilderFromCtpClient } from '@commercetools/platform-sdk';
-
+import { createApiBuilderFromCtpClient, CustomerDraft } from '@commercetools/platform-sdk';
 // Create apiRoot from the imported ClientBuilder and include your Project key
 const apiRoot = createApiBuilderFromCtpClient(ctpClient).withProjectKey({
   projectKey: import.meta.env.VITE_CTP_PROJECT_KEY,
@@ -12,7 +11,11 @@ const getProject = () => {
   return apiRoot.get().execute();
 };
 
+const getEndPoint = (data: CustomerDraft) => {
+  return apiRoot.customers().post({ body: data });
+};
+
 // Retrieve Project information and output the result to the log
 getProject().then(console.log).catch(console.error);
 
-export default getProject;
+export default { getProject, getEndPoint };
