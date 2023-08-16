@@ -1,6 +1,6 @@
 import './registration.scss';
 import useInput from '../../hooks/useInput';
-import { FormEvent, useEffect, useMemo } from 'react';
+import { FormEvent, useEffect, useMemo, useState } from 'react';
 import { getAnonymousSessionToken } from '../../api';
 import { InputElement } from '../../components';
 const RegistrationPage = () => {
@@ -13,17 +13,7 @@ const RegistrationPage = () => {
   const city = useInput('');
   const street = useInput('');
   const postalCode = useInput('');
-
-  // const validateEmailCb = (element: HTMLInputElement) => {
-  //   if (element.validity.typeMismatch) {
-  //     console.log('not valid');
-  //   }
-  // };
-
-  // const handleEmail = (e: ChangeEvent<HTMLInputElement>) => {
-  //   email.onChange(e);
-  //   email.value !== 'car' ? email.setError('no car') : email.setError('isCar');
-  // };
+  const [formError, setFormError] = useState('');
 
   const isDisabled = useMemo(() => {
     const condition = !!(
@@ -77,8 +67,9 @@ const RegistrationPage = () => {
     };
 
     const values = Object.values(postForm);
+    setFormError('');
     if (values.some((val) => val === null || val === undefined || Boolean(val) === false)) {
-      console.log('Form is not full');
+      setFormError('Form is not full');
     }
     console.log('postform', postForm);
   };
@@ -94,7 +85,7 @@ const RegistrationPage = () => {
   return (
     <div className="registration">
       <div className="registration__container">
-        <div className="registration__column column__left">
+        <div className="registration__column column__left registration__wrapper">
           <div className="registration__title-description">Already registered?</div>
           <p className="registration__description_welcome">
             Welcome back! Please enter your
@@ -104,31 +95,10 @@ const RegistrationPage = () => {
             Log In<span className="registration__button-icon"></span>
           </button>
         </div>
-        <div className="registration__column column__right">
+        <div className="registration__column column__right registration__wrapper">
           <div className="registration__title-description">Sign Up for an Account</div>
           <p className="registration__description_join">Join us! Create an account to access our features.</p>
           <form className="registration__form form" onSubmit={handleSubmit}>
-            {/* <label className="registration__label" htmlFor="firstName">
-              <input
-                {...firstName}
-                id="firstName"
-                className="registration__input app__input_text"
-                type="text"
-                placeholder="First name"
-              />
-              <span className="registration__input-placeholder"></span>
-            </label> */}
-
-            {/* <label className="registration__label" htmlFor="lastName">
-              <input
-                {...lastName}
-                id="lastName"
-                className="registration__input app__input_text"
-                type="text"
-                placeholder="Last name"
-              />
-              <span className="registration__input-placeholder"></span>
-            </label> */}
             <div className="form__row_double">
               <InputElement
                 id="firstName"
@@ -189,32 +159,10 @@ const RegistrationPage = () => {
               min="0"
               placeholder="Postal code"
             />
-
-            {/* <input
-              {...password}
-              className="registration__input app__input_password"
-              type="password"
-              placeholder="Password"
-            /> */}
-            {/* <input
-              {...birthDate}
-              className="registration__input app__input_date"
-              type="date"
-              placeholder="Date of birth"
-            /> */}
-            {/* <input {...country} className="registration__input app__input_text" type="text" placeholder="Country" /> */}
-            {/* <input {...city} className="registration__input app__input_text" type="text" placeholder="City" /> */}
-            {/* <input {...street} className="registration__input app__input_text" type="text" placeholder="Street" /> */}
-            {/* <input
-              {...postalCode}
-              className="registration__input app__input_number"
-              type="number"
-              min="0"
-              placeholder="Postal code"
-            /> */}
             <button className="registration__button sign-in__button" disabled={isDisabled}>
               SIGN UP {isDisabled}
             </button>
+            {formError && <div className="form__error">{formError}</div>}
           </form>
         </div>
       </div>

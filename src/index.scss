@@ -1,3 +1,4 @@
+// css variables
 :root {
   font-family: Roboto, Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
   line-height: 1.5;
@@ -14,8 +15,57 @@
   -webkit-text-size-adjust: 100%;
   --main-font-color: #274c5b;
   --active-font-color: #4c8fa9;
-  
+  --title-font-size: 4.05rem;
+  --label-font-size: 1.5rem;
+  --button-font-size: 1.25rem;
+  --text-font-size: 1.1rem;
+  --input-font-size: 1.1rem;
 }
+
+@media screen and (max-width: 1600px) {
+  :root {
+    --title-font-size: 3rem;
+  }
+}
+
+@media screen and (max-width: 1200px) {
+  :root {
+    --title-font-size: 2.5rem;
+    --label-font-size: 1.1rem;
+    --button-font-size: 1rem;
+    --text-font-size: 1rem;
+    --input-font-size: 1rem;
+  }
+}
+
+@media screen and (max-width: 767px) {
+  :root {
+    --title-font-size: 2rem;
+    --label-font-size: 1rem;
+    --button-font-size: 1rem;
+    --text-font-size: 0.8rem;
+    --input-font-size: 0.8rem;
+  }
+}
+@media screen and (max-width: 420px) {
+  :root {
+    --title-font-size: 1.4rem;
+    --label-font-size: 0.8rem;
+    --button-font-size: 0.8rem;
+    --text-font-size: 0.7rem;
+    --input-font-size: 0.7rem;
+  }
+}
+//////////
+
+// scss variables
+$desktop: 1600px;
+$notebook: 1440px;
+$tabletBP: 1280px;
+$tablet: 1200px;
+$mobileBP: 767px;
+$mobile: 420px;
+//////////
 
 //reset styles
 html {
@@ -47,10 +97,15 @@ li {
   margin: 0;
 }
 
-h1,h2,h3,h4,h5,h6 {
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
   font-weight: 400;
 }
-//
+//////////
 
 li {
   list-style: none;
@@ -84,7 +139,9 @@ button {
   font-family: inherit;
   background-color: #1a1a1a;
   cursor: pointer;
-  transition: border-color, opacity 0.25s;
+  transition:
+    border-color,
+    opacity 0.25s;
 
   &[disabled] {
     opacity: 0.3;
@@ -121,7 +178,6 @@ input::-webkit-inner-spin-button {
   min-height: 100vh;
 
   &__input {
-
     &_text {
       padding: 8px;
       font-size: inherit;
@@ -134,7 +190,7 @@ input::-webkit-inner-spin-button {
       padding: 8px;
       font-size: inherit;
     }
-    &_date{
+    &_date {
       padding: 8px;
       font-size: inherit;
       user-select: none;

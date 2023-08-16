@@ -19,15 +19,14 @@ interface IInputElementProps {
 const regex = /\S+@\S+\.\S+/;
 
 const InputElement = (props: IInputElementProps) => {
-  // const [error, setError] = useState('');
   const inputRef = useRef(null);
   const inputElement: HTMLInputElement = inputRef.current!;
   const validates: { [key: string]: <T>(val: T) => void } = {
     text: (val) => {
-      (val as string).length < 3 ? props.setError(`To short`) : props.setError('');
+      (val as string).length < 3 ? props.setError(`Too short`) : props.setError('');
     },
     number: (val) => {
-      String(val).length < 4 ? props.setError(`too short`) : props.setError('');
+      String(val).length < 4 ? props.setError(`Too short`) : props.setError('');
     },
     password: (val) => {
       (val as string).length <= Number(props.minLength) ? props.setError(`Weak password`) : props.setError('');

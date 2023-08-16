@@ -1,6 +1,14 @@
 .registration {
+  &__wrapper {
+    padding-left: 1rem;
+    padding-right: 1rem;
+  }
   &__container {
     display: flex;
+
+    @media screen and (max-width: 1280px) {
+      flex-direction: column;
+    }
   }
   &__column {
     display: flex;
@@ -9,11 +17,16 @@
     align-items: center;
     min-height: 1321px;
     flex: 1 1 50%;
+    @media screen and (max-width: 1280px) {
+      min-height: auto;
+      padding-top: 20px;
+      padding-bottom: 20px;
+    }
   }
 
   &__title-description {
     color: #274c5b;
-    font-size: 50px;
+    font-size: var(--title-font-size);
     font-style: normal;
     font-weight: 800;
     line-height: normal;
@@ -25,7 +38,7 @@
       text-align: center;
       color: #525c60;
       font-family: Open Sans;
-      font-size: 18px;
+      font-size: var(--text-font-size);
       font-style: normal;
       font-weight: 400;
       line-height: 165.4%;
@@ -35,7 +48,7 @@
       text-align: center;
       color: #525c60;
       font-family: Open Sans;
-      font-size: 18px;
+      font-size: var(--text-font-size);
       font-style: normal;
       font-weight: 400;
       line-height: 165.4%;
@@ -44,11 +57,21 @@
   &__label {
     flex: 1 1 auto;
     position: relative;
+    font-size: var(--label-font-size);
   }
   &__input {
     height: 61px;
     border: 1px solid #274c5b;
     width: 100%;
+    font-size: var(--input-font-size);
+
+    &::placeholder {
+      font-size: var(--input-font-size);
+    }
+
+    @media screen and (max-width: 1280px) {
+      height: 42px;
+    }
     &:valid {
       border: 1px solid #274c5b;
     }
@@ -58,32 +81,61 @@
     &-error {
       position: absolute;
       left: 0;
-      bottom: -30px;
+      bottom: -25px;
       color: #ff0000;
+      font-size: var(--input-font-size) !important;
+
+      @media screen and (max-width: 1200px) {
+        bottom: -20px;
+      }
+
+      @media screen and (max-width: 420px) {
+        bottom: -15px;
+      }
     }
     &-placeholder {
       position: absolute;
-      top: -40px;
+      top: -35px;
       left: 0;
-      color: #274C5B;
-      font-size: 25px;
+      color: #274c5b;
+      font-size: var(--label-font-size);
       font-style: normal;
       font-weight: 800;
       line-height: normal;
+      @media screen and (max-width: 1200px) {
+        top: -25px;
+      }
+
+      @media screen and (max-width: 420px) {
+        top: -20px;
+      }
     }
   }
   &__date {
     height: 61px;
     border: 1px solid #274c5b;
     width: 100%;
+
+    @media screen and (max-width: 1280px) {
+      height: 42px;
+    }
     &:invalid {
       border: 1px solid #ff0000;
     }
     &-error {
       position: absolute;
       left: 0;
-      bottom: -30px;
+      bottom: -25px;
       color: #ff0000;
+      font-size: var(--input-font-size);
+
+      @media screen and (max-width: 1200px) {
+        bottom: -20px;
+      }
+
+      @media screen and (max-width: 420px) {
+        bottom: -15px;
+      }
     }
   }
   &__button {
@@ -91,23 +143,61 @@
     height: 62px;
     padding-left: 39px;
     padding-right: 39px;
+    font-size: var(--button-font-size);
     text-align: center;
     border-radius: 16px;
     border: 1px solid #274c5b;
     background: #fff;
+
+    @media screen and (max-width: 1280px) {
+      width: 200px;
+      height: auto;
+      padding-left: 16px;
+      padding-right: 16px;
+    }
   }
   &__form {
     padding-top: 48px;
     max-width: 587px;
     width: 100%;
     row-gap: 52px;
-  }
-  .column {
-    &__left {
-      background-color: #e3f1e9;
+
+    @media screen and (max-width: 1200px) {
+      row-gap: 42px;
+    }
+
+    @media screen and (max-width: 420px) {
+      gap: 36px;
     }
   }
 }
+
+.column {
+  &__left {
+    position: relative;
+    background-color: #e3f1e9;
+    overflow: hidden;
+    &::after {
+      position: absolute;
+      right: -1150px;
+      content: ' ';
+      width: 1260px;
+      height: 110%;
+      background-color: #fff;
+      z-index: 1;
+      // transform: translate(86%,9%) rotate(10deg);
+      transform: rotate(10deg);
+    }
+    @media screen and (max-width: 1600px) {
+      &::after {
+        content: '';
+        z-index: -1;
+        opacity: 0;
+      }
+    }
+  }
+}
+
 .form {
   display: flex;
   flex-direction: column;
@@ -116,6 +206,10 @@
       display: flex;
       width: 100%;
     }
+  }
+  &__error {
+    font-size: var(--label-font-size);
+    color: #ff0000;
   }
 }
 .sign-in__button {
