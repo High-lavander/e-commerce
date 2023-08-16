@@ -13,6 +13,8 @@
     "test": "jest --coverage"
   },
   "dependencies": {
+    "@commercetools/importapi-sdk": "^4.6.2",
+    "@commercetools/ml-sdk": "^3.4.1",
     "@commercetools/platform-sdk": "^5.0.0",
     "@commercetools/sdk-client-v2": "^2.2.0",
     "@esbuild-plugins/node-globals-polyfill": "^0.2.3",
@@ -32,6 +34,7 @@
     "@testing-library/jest-dom": "^5.17.0",
     "@testing-library/react": "^14.0.0",
     "@types/jest": "^29.5.3",
+    "@types/node-fetch": "^2.6.4",
     "@types/react": "^18.2.15",
     "@types/react-dom": "^18.2.7",
     "@typescript-eslint/eslint-plugin": "^6.0.0",

@@ -3,6 +3,7 @@ import Footer from './components/Footer';
 import Home from './pages/home/home';
 import RegistrationPage from './pages/registration/registration';
 import { Routes, Route } from 'react-router-dom';
+
 function App() {
   return (
     <>
