@@ -30,7 +30,7 @@ const InputElement = (props: IInputElementProps) => {
       String(val).length < 4 ? props.setError(`too short`) : props.setError('');
     },
     password: (val) => {
-      (val as string).length >= Number(props.maxLength) ? props.setError(`Weak password`) : props.setError('');
+      (val as string).length <= Number(props.minLength) ? props.setError(`Weak password`) : props.setError('');
     },
     email: (val) => {
       regex.test(val as string) ? props.setError('') : props.setError(`It's not email`);
@@ -68,8 +68,9 @@ const InputElement = (props: IInputElementProps) => {
         disabled={props.disabled}
         required={props.required}
       />
-      {/* <span className="registration__input-placeholder">{props.placeholder}</span> */}
-      {props.error && <span className="registration__input-error">{props.error}</span>}
+      <span className="registration__input-placeholder">{props.placeholder}</span>
+      {props.error && props.type !== 'date' && <span className="registration__input-error">{props.error}</span>}
+      {props.type === 'date' && !Boolean(props.value) && <span className="registration__date-error">Enter date</span>}
     </label>
   );
 };

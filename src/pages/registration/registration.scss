@@ -12,44 +12,45 @@
   }
 
   &__title-description {
-    color: #274C5B;
+    color: #274c5b;
     font-size: 50px;
-font-style: normal;
-font-weight: 800;
-line-height: normal;
-text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    font-style: normal;
+    font-weight: 800;
+    line-height: normal;
+    text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
   }
-  &__description{
+  &__description {
     &_welcome {
       max-width: 326px;
       text-align: center;
-      color: #525C60;
-  font-family: Open Sans;
-  font-size: 18px;
-  font-style: normal;
-  font-weight: 400;
-  line-height: 165.4%;
+      color: #525c60;
+      font-family: Open Sans;
+      font-size: 18px;
+      font-style: normal;
+      font-weight: 400;
+      line-height: 165.4%;
     }
     &_join {
       max-width: 422px;
       text-align: center;
-      color: #525C60;
-  font-family: Open Sans;
-  font-size: 18px;
-  font-style: normal;
-  font-weight: 400;
-  line-height: 165.4%;
+      color: #525c60;
+      font-family: Open Sans;
+      font-size: 18px;
+      font-style: normal;
+      font-weight: 400;
+      line-height: 165.4%;
     }
   }
   &__label {
+    flex: 1 1 auto;
     position: relative;
   }
   &__input {
     height: 61px;
-    border: 1px solid #274C5B;
+    border: 1px solid #274c5b;
     width: 100%;
     &:valid {
-      border: 1px solid #274C5B;
+      border: 1px solid #274c5b;
     }
     &:invalid {
       border: 1px solid #ff0000;
@@ -60,32 +61,62 @@ text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
       bottom: -30px;
       color: #ff0000;
     }
-
+    &-placeholder {
+      position: absolute;
+      top: -40px;
+      left: 0;
+      color: #274C5B;
+      font-size: 25px;
+      font-style: normal;
+      font-weight: 800;
+      line-height: normal;
+    }
   }
-  &__button{
+  &__date {
+    height: 61px;
+    border: 1px solid #274c5b;
+    width: 100%;
+    &:invalid {
+      border: 1px solid #ff0000;
+    }
+    &-error {
+      position: absolute;
+      left: 0;
+      bottom: -30px;
+      color: #ff0000;
+    }
+  }
+  &__button {
     width: 250px;
-height: 62px;
+    height: 62px;
     padding-left: 39px;
     padding-right: 39px;
     text-align: center;
     border-radius: 16px;
-border: 1px solid #274C5B;
-background: #FFF;
+    border: 1px solid #274c5b;
+    background: #fff;
   }
-&__form {
-  max-width: 587px;
-  width: 100%;
-  row-gap: 52px;
-}
-.column {
-  &__left {
-    background-color: #e3f1e9;
+  &__form {
+    padding-top: 48px;
+    max-width: 587px;
+    width: 100%;
+    row-gap: 52px;
   }
-}
+  .column {
+    &__left {
+      background-color: #e3f1e9;
+    }
+  }
 }
 .form {
   display: flex;
   flex-direction: column;
+  &__row {
+    &_double {
+      display: flex;
+      width: 100%;
+    }
+  }
 }
 .sign-in__button {
   width: 100%;

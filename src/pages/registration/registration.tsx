@@ -129,20 +129,23 @@ const RegistrationPage = () => {
               />
               <span className="registration__input-placeholder"></span>
             </label> */}
-            <InputElement
-              id="firstName"
-              className="registration__input app__input_text"
-              type="text"
-              placeholder="First name"
-              {...firstName}
-            />
-            <InputElement
-              id="lastName"
-              className="registration__input app__input_text"
-              type="text"
-              placeholder="Last name"
-              {...lastName}
-            />
+            <div className="form__row_double">
+              <InputElement
+                id="firstName"
+                className="registration__input app__input_text"
+                type="text"
+                placeholder="First name"
+                {...firstName}
+              />
+              <InputElement
+                id="lastName"
+                className="registration__input app__input_text"
+                type="text"
+                placeholder="Last name"
+                {...lastName}
+              />
+            </div>
+
             <InputElement
               {...email}
               // value={email.value}
@@ -157,12 +160,14 @@ const RegistrationPage = () => {
               className="registration__input app__input_password"
               type="password"
               placeholder="Password"
+              minLength={4}
             />
             <InputElement
               {...birthDate}
-              className="registration__input app__input_date"
+              className="registration__date app__input_date"
               type="date"
               placeholder="Date of birth"
+              required={true}
             />
             <InputElement
               {...country}
