@@ -54,6 +54,7 @@ const RegistrationPage = () => {
 
   const handleSubmit = (e: FormEvent) => {
     e.preventDefault();
+    setFormError('');
     const postForm = {
       firstName: firstName.value,
       lastName: lastName.value,
@@ -105,6 +106,7 @@ const RegistrationPage = () => {
                 className="registration__input app__input_text"
                 type="text"
                 placeholder="First name"
+                validationCb="name"
                 {...firstName}
               />
               <InputElement
@@ -112,18 +114,17 @@ const RegistrationPage = () => {
                 className="registration__input app__input_text"
                 type="text"
                 placeholder="Last name"
+                validationCb="name"
                 {...lastName}
               />
             </div>
 
             <InputElement
               {...email}
-              // value={email.value}
-              // onChange={handleEmail}
-              // error={email.error}
               className="registration__input app__input_email"
               type="email"
               placeholder="Email"
+              validationCb="email"
             />
             <InputElement
               {...password}
@@ -131,6 +132,7 @@ const RegistrationPage = () => {
               type="password"
               placeholder="Password"
               minLength={4}
+              validationCb="password"
             />
             <InputElement
               {...birthDate}
@@ -138,26 +140,35 @@ const RegistrationPage = () => {
               type="date"
               placeholder="Date of birth"
               required={true}
+              validationCb="date"
             />
             <InputElement
               {...country}
               className="registration__input app__input_text"
               type="text"
               placeholder="Country"
+              validationCb="country"
             />
-            <InputElement {...city} className="registration__input app__input_text" type="text" placeholder="City" />
+            <InputElement
+              {...city}
+              className="registration__input app__input_text"
+              type="text"
+              placeholder="City"
+              validationCb="city"
+            />
             <InputElement
               {...street}
               className="registration__input app__input_text"
               type="text"
               placeholder="Street"
+              validationCb="street"
             />
             <InputElement
               {...postalCode}
               className="registration__input app__input_number"
-              type="number"
-              min="0"
+              type="text"
               placeholder="Postal code"
+              validationCb="postalCode"
             />
             <button className="registration__button sign-in__button" disabled={isDisabled}>
               SIGN UP {isDisabled}

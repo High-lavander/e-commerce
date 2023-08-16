@@ -15,7 +15,8 @@
   -webkit-text-size-adjust: 100%;
   --main-font-color: #274c5b;
   --active-font-color: #4c8fa9;
-  --title-font-size: 4.05rem;
+  --title-font-size: 3.15rem;
+  --subtitle-font-size: 2rem;
   --label-font-size: 1.5rem;
   --button-font-size: 1.25rem;
   --text-font-size: 1.1rem;
@@ -24,13 +25,15 @@
 
 @media screen and (max-width: 1600px) {
   :root {
-    --title-font-size: 3rem;
+    --title-font-size: 2.8rem;
+    --subtitle-font-size: 1.8rem;
   }
 }
 
 @media screen and (max-width: 1200px) {
   :root {
     --title-font-size: 2.5rem;
+    --subtitle-font-size: 1.6rem;
     --label-font-size: 1.1rem;
     --button-font-size: 1rem;
     --text-font-size: 1rem;
@@ -41,6 +44,7 @@
 @media screen and (max-width: 767px) {
   :root {
     --title-font-size: 2rem;
+    --subtitle-font-size: 1.2rem;
     --label-font-size: 1rem;
     --button-font-size: 1rem;
     --text-font-size: 0.8rem;
@@ -50,6 +54,7 @@
 @media screen and (max-width: 420px) {
   :root {
     --title-font-size: 1.4rem;
+    --subtitle-font-size: 1rem;
     --label-font-size: 0.8rem;
     --button-font-size: 0.8rem;
     --text-font-size: 0.7rem;

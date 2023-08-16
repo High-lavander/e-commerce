@@ -4,6 +4,7 @@ interface IInputElementProps {
   className?: string;
   value: string | number;
   type: 'text' | 'number' | 'password' | 'email' | 'date';
+  validationCb: 'name' | 'password' | 'email' | 'date' | 'street' | 'city' | 'postalCode' | 'country';
   id?: string;
   maxLength?: number;
   minLength?: number;
@@ -17,32 +18,88 @@ interface IInputElementProps {
 }
 
 const regex = /\S+@\S+\.\S+/;
+const excludeSpecialChar = /[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]+/;
+const excludeSpecialCharAndNumbers = /[0-9]|[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]+/;
+const USPostalCode = /\d{5}([ \-]\d{4})?/;
 
 const InputElement = (props: IInputElementProps) => {
   const inputRef = useRef(null);
   const inputElement: HTMLInputElement = inputRef.current!;
   const validates: { [key: string]: <T>(val: T) => void } = {
-    text: (val) => {
-      (val as string).length < 3 ? props.setError(`Too short`) : props.setError('');
+    name: (val) => {
+      props.setError('');
+      if (excludeSpecialChar.test(val as string)) {
+        props.setError('must not have special characters');
+      }
+      if ((val as string).length < 2) {
+        props.setError(`at least 2 characters`);
+      }
     },
-    number: (val) => {
-      String(val).length < 4 ? props.setError(`Too short`) : props.setError('');
+    postalCode: (val) => {
+      props.setError('');
+      if (!USPostalCode.test(val as string)) {
+        props.setError(`it's not US postal code`);
+      }
     },
     password: (val) => {
-      (val as string).length <= Number(props.minLength) ? props.setError(`Weak password`) : props.setError('');
+      props.setError('');
+      if ((val as string).length < 8) {
+        props.setError('minimum 8 characters');
+      }
+      if (!(val as string).split('').some((char) => char.toUpperCase() === char)) {
+        props.setError(' at least 1 uppercase letter');
+      }
+      if (!(val as string).split('').some((char) => char.toLowerCase() === char)) {
+        props.setError(' at least 1 lowercase letter');
+      }
     },
     email: (val) => {
-      regex.test(val as string) ? props.setError('') : props.setError(`It's not email`);
+      props.setError('');
+      regex.test(val as string) ? props.setError('') : props.setError(`it's not email`);
     },
     date: (val) => {
-      Boolean(val) === true ? props.setError('') : props.setError(`It's not date`);
+      props.setError('');
+      const year = new Date(val as string).getFullYear();
+      const currentYear = new Date().getFullYear();
+      console.log({ year, currentYear });
+      console.log('currentYear - year', currentYear - year < 13);
+      if (Boolean(val) === true) {
+        props.setError(`no date`);
+      }
+      if (currentYear - year < 13) {
+        props.setError('must be 13 years old or older');
+      }
+    },
+    street: (val) => {
+      props.setError('');
+      if ((val as string).length < 1) {
+        props.setError('at least 1 character');
+      }
+    },
+    city: (val) => {
+      props.setError('');
+      if (excludeSpecialCharAndNumbers.test(val as string)) {
+        props.setError('must not have special characters or numbers');
+      }
+      if ((val as string).length < 1) {
+        props.setError(`at least 1 character`);
+      }
+    },
+    country: (val) => {
+      props.setError('');
+      if (excludeSpecialCharAndNumbers.test(val as string)) {
+        props.setError('must not have special characters or numbers');
+      }
+      if ((val as string).length < 1) {
+        props.setError(`at least 1 character`);
+      }
     },
   };
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     props.onChange(e);
-    if (validates[props.type]) {
-      validates[props.type](inputElement?.value);
+    if (validates[props.validationCb]) {
+      validates[props.validationCb](inputElement?.value);
     }
     console.log('e', e);
     console.log('props.value', props.value);
@@ -66,9 +123,10 @@ const InputElement = (props: IInputElementProps) => {
         min={props.min}
         disabled={props.disabled}
         required={props.required}
+        style={{ borderColor: props.error ? 'red' : 'black' }}
       />
       <span className="registration__input-placeholder">{props.placeholder}</span>
-      {props.error && props.type !== 'date' && <span className="registration__input-error">{props.error}</span>}
+      {props.error && <span className="registration__input-error">{props.error}</span>}
       {props.type === 'date' && !Boolean(props.value) && <span className="registration__date-error">Enter date</span>}
     </label>
   );

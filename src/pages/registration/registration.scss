@@ -155,6 +155,13 @@
       padding-left: 16px;
       padding-right: 16px;
     }
+
+    &-icon {
+      content: url('/registration/button-arrow.svg');
+      padding-left: 10px;
+      padding-bottom: 4px;
+      vertical-align: middle;
+    }
   }
   &__form {
     padding-top: 48px;
@@ -182,10 +189,9 @@
       right: -1150px;
       content: ' ';
       width: 1260px;
-      height: 110%;
+      height: 120%;
       background-color: #fff;
       z-index: 1;
-      // transform: translate(86%,9%) rotate(10deg);
       transform: rotate(10deg);
     }
     @media screen and (max-width: 1600px) {
@@ -208,7 +214,7 @@
     }
   }
   &__error {
-    font-size: var(--label-font-size);
+    font-size: var(--subtitle-font-size);
     color: #ff0000;
   }
 }
