@@ -1,5 +1,6 @@
-import { ctpClient } from './BuildClient';
+import { ctpClient, withPasswordFlowClient } from './BuildClient';
 import { createApiBuilderFromCtpClient, CustomerDraft } from '@commercetools/platform-sdk';
+
 // Create apiRoot from the imported ClientBuilder and include your Project key
 const apiRoot = createApiBuilderFromCtpClient(ctpClient).withProjectKey({
   projectKey: import.meta.env.VITE_CTP_PROJECT_KEY,
@@ -14,11 +15,39 @@ const apiRoot = createApiBuilderFromCtpClient(ctpClient).withProjectKey({
 //     .then((response) => response)
 //     .catch(console.error);
 // };
-const getCustomers = () => {
+const queryCustomers = () => {
   return apiRoot.customers().get().execute();
 };
+
+const queryCustomerById = (customerID: string) => {
+  return apiRoot.customers().withId({ ID: customerID }).get().execute();
+};
+
 const createCustomer = (data: CustomerDraft) => {
   return apiRoot.customers().post({ body: data }).execute();
+};
+
+const loginCustomer = (email: string, password: string) => {
+  const withPasswordFlow = withPasswordFlowClient(email, password);
+  console.log('withPasswordFlow', withPasswordFlow);
+
+  return apiRoot.login().post({ body: { email, password } }).execute();
+};
+
+const authCustomerViaEmail = (email: string) => {
+  // apiRoot.me().login().post();
+  // apiRoot.me().signup().post()
+  return apiRoot.customers().withEmailToken({ emailToken: email }).get().execute();
+};
+const passwordToken = (email: string) => {
+  return apiRoot.customers().passwordToken().post({ body: { email } }).execute();
+};
+const emailToken = (id: string) => {
+  return apiRoot
+    .customers()
+    .emailToken()
+    .post({ body: { id, ttlMinutes: 43200 } })
+    .execute();
 };
 
 //Response
@@ -77,4 +106,12 @@ const createCustomer = (data: CustomerDraft) => {
 
 // getProject().then().catch(console.error);
 
-export default { getCustomers, createCustomer };
+export default {
+  queryCustomers,
+  createCustomer,
+  loginCustomer,
+  authCustomerViaEmail,
+  queryCustomerById,
+  passwordToken,
+  emailToken,
+};

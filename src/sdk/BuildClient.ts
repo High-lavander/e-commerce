@@ -42,6 +42,7 @@ import {
   Client,
   type AuthMiddlewareOptions,
   type HttpMiddlewareOptions,
+  TokenCache,
 } from '@commercetools/sdk-client-v2';
 
 // import { createApiBuilderFromCtpClient, ApiRoot } from '@commercetools/platform-sdk';
@@ -67,12 +68,48 @@ const httpMiddlewareOptions: HttpMiddlewareOptions = {
   fetch,
 };
 
+type PasswordAuthMiddlewareOptions = {
+  host: string;
+  projectKey: string;
+  credentials: {
+    clientId: string;
+    clientSecret: string;
+    user: {
+      username: string;
+      password: string;
+    };
+  };
+  scopes?: Array<string>;
+  tokenCache?: TokenCache;
+  oauthUri?: string;
+  fetch?: unknown;
+};
+
+export const withPasswordFlowClient = (email: string, password: string) => {
+  const options: PasswordAuthMiddlewareOptions = {
+    host: `https://auth.${import.meta.env.VITE_CTP_API_REGION}.commercetools.com`,
+    projectKey: projectKey,
+    credentials: {
+      clientId: import.meta.env.VITE_CTP_CLIENT_ID,
+      clientSecret: import.meta.env.VITE_CTP_CLIENT_SECRET,
+      user: {
+        username: email,
+        password,
+      },
+    },
+    scopes,
+    fetch,
+  };
+
+  const clientWithPassswordFlow = new ClientBuilder().withPasswordFlow(options).build();
+  return clientWithPassswordFlow;
+};
+
 // Export the ClientBuilder
 export const ctpClient: Client = new ClientBuilder()
   .withProjectKey(projectKey)
   .withClientCredentialsFlow(authMiddlewareOptions)
   .withHttpMiddleware(httpMiddlewareOptions)
-  .withLoggerMiddleware()
   .build();
 
 // export const getApiRoot: () => ApiRoot = () => {

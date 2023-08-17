@@ -6,6 +6,9 @@ import { useNavigate } from 'react-router-dom';
 import { InputElement } from '../../components';
 import Client from '../../sdk/Client';
 import { Loader } from '../../components/Loader';
+// import { useSelector } from 'react-redux';
+// import { RootState } from '../../store';
+// import { useActions } from '../../hooks/useAction';
 const RegistrationPage = () => {
   const navigate = useNavigate();
   const firstName = useInput('');
@@ -21,6 +24,8 @@ const RegistrationPage = () => {
   const [fetchDataMessage, setFetchDataMessage] = useState('');
   const [fetchErrorMessage, setErrorDataMessage] = useState('');
   const [isLoading, setIsLoading] = useState(false);
+  // const { fetchCustomer } = useActions();
+  // const { customer, status } = useSelector((state: RootState) => state.customer);
 
   const isDisabled = useMemo(() => {
     const condition = !!(
@@ -62,6 +67,15 @@ const RegistrationPage = () => {
     e.preventDefault();
     setFormError('');
     setErrorDataMessage('');
+    const address = [
+      {
+        key: '0',
+        country: 'RU',
+        city: 'Makhachkala',
+        streetName: 'Yaragskogo',
+        postalCode: '333333',
+      },
+    ];
     const postForm = {
       firstName: firstName.value,
       lastName: lastName.value,
@@ -72,14 +86,15 @@ const RegistrationPage = () => {
       city: city.value,
       street: street.value,
       postalCode: postalCode.value,
+      addresses: address,
       defaultShippingAddress: 0,
       shippingAddresses: [],
       defaultBillingAddress: 0,
-      billingAddresses: [],
+      billingAddresses: [0],
     };
 
     const values = Object.values(postForm);
-    if (values.some((val) => val === null || val === undefined || Boolean(val) === false)) {
+    if (values.some((val) => val === null || val === undefined || (Boolean(val) === false && val !== 0))) {
       setFormError('Form is not full');
       return;
     }
@@ -90,14 +105,27 @@ const RegistrationPage = () => {
         console.log('response', response);
         const body = await response;
         console.log('body', body);
+        // const passwordToken = await Client.passwordToken(postForm.email);
+        // console.log('passwordToken', passwordToken);
+
         setIsLoading(false);
+        const auth = await Client.loginCustomer(postForm.email, postForm.password);
+        console.log('auth', auth);
+        const client = await Client.queryCustomerById(body.body.customer.id);
+        console.log('client', client);
+        const authCustomerViaEmail = await Client.authCustomerViaEmail(body.body.customer.id);
+        console.log('authCustomerViaEmail', authCustomerViaEmail);
+        localStorage.setItem('auth', JSON.stringify(auth));
+        localStorage.setItem('client', JSON.stringify(client));
+        localStorage.setItem('emailToken', JSON.stringify(authCustomerViaEmail));
+        // fetchCustomer({body.body.customer.id})
         setFetchDataMessage('Successful,redirecting to home page...');
         setTimeout(() => navigate('/'), 2000);
         return response;
       } catch (e) {
         console.log('Catch e', e);
         setIsLoading(false);
-        setErrorDataMessage('Error' || (e as Error).message);
+        setErrorDataMessage('Error' && (e as Error).message);
       }
     };
     createNewCustomer();
