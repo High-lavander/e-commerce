@@ -1,9 +1,13 @@
 import './registration.scss';
 import useInput from '../../hooks/useInput';
 import { FormEvent, useEffect, useMemo, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 // import { getAnonymousSessionToken } from '../../api';
 import { InputElement } from '../../components';
+import Client from '../../sdk/Client';
+import { Loader } from '../../components/Loader';
 const RegistrationPage = () => {
+  const navigate = useNavigate();
   const firstName = useInput('');
   const lastName = useInput('');
   const email = useInput('');
@@ -14,6 +18,9 @@ const RegistrationPage = () => {
   const street = useInput('');
   const postalCode = useInput('');
   const [formError, setFormError] = useState('');
+  const [fetchDataMessage, setFetchDataMessage] = useState('');
+  const [fetchErrorMessage, setErrorDataMessage] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
 
   const isDisabled = useMemo(() => {
     const condition = !!(
@@ -51,10 +58,10 @@ const RegistrationPage = () => {
     street.error,
     postalCode.error,
   ]);
-
   const handleSubmit = (e: FormEvent) => {
     e.preventDefault();
     setFormError('');
+    setErrorDataMessage('');
     const postForm = {
       firstName: firstName.value,
       lastName: lastName.value,
@@ -65,13 +72,35 @@ const RegistrationPage = () => {
       city: city.value,
       street: street.value,
       postalCode: postalCode.value,
+      defaultShippingAddress: 0,
+      shippingAddresses: [],
+      defaultBillingAddress: 0,
+      billingAddresses: [],
     };
 
     const values = Object.values(postForm);
-    setFormError('');
     if (values.some((val) => val === null || val === undefined || Boolean(val) === false)) {
       setFormError('Form is not full');
+      return;
     }
+    const createNewCustomer = async () => {
+      try {
+        setIsLoading(true);
+        const response = Client.createCustomer(postForm);
+        console.log('response', response);
+        const body = await response;
+        console.log('body', body);
+        setIsLoading(false);
+        setFetchDataMessage('Successful,redirecting to home page...');
+        setTimeout(() => navigate('/'), 2000);
+        return response;
+      } catch (e) {
+        console.log('Catch e', e);
+        setIsLoading(false);
+        setErrorDataMessage('Error' || (e as Error).message);
+      }
+    };
+    createNewCustomer();
     console.log('postform', postForm);
   };
 
@@ -175,6 +204,13 @@ const RegistrationPage = () => {
             </button>
             {formError && <div className="form__error">{formError}</div>}
           </form>
+          {fetchDataMessage && <div className="registration__message_success">{fetchDataMessage}</div>}
+          {fetchErrorMessage && <div className="registration__message_error">{fetchErrorMessage}</div>}
+          {isLoading && (
+            <div className="registration__loader">
+              <Loader />
+            </div>
+          )}
         </div>
       </div>
     </div>

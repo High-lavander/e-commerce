@@ -177,6 +177,18 @@
       gap: 36px;
     }
   }
+  &__message {
+    &_success {
+      color: #13a489;
+      font-weight: 700;
+      font-size: var(--subtitle-font-size);
+    }
+    &_error {
+      color: #ff0000;
+      font-weight: 700;
+      font-size: var(--subtitle-font-size);
+    }
+  }
 }
 
 .column {

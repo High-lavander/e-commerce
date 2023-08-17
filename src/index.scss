@@ -1,3 +1,4 @@
+@import url('./loader.scss');
 // css variables
 :root {
   font-family: Roboto, Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
@@ -210,3 +211,5 @@ input::-webkit-inner-spin-button {
   flex: 1 1 auto;
   min-height: 100%;
 }
+
+

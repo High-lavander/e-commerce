@@ -63,7 +63,7 @@ const InputElement = (props: IInputElementProps) => {
       const currentYear = new Date().getFullYear();
       console.log({ year, currentYear });
       console.log('currentYear - year', currentYear - year < 13);
-      if (Boolean(val) === true) {
+      if (Boolean(val) !== true) {
         props.setError(`no date`);
       }
       if (currentYear - year < 13) {
