@@ -1,15 +1,7 @@
 // import fetch from 'node-fetch';
-import {
-  ClientBuilder,
-  Client,
-  AuthMiddlewareOptions,
-  HttpMiddlewareOptions,
-} from '@commercetools/sdk-client-v2';
+import { ClientBuilder, Client, AuthMiddlewareOptions, HttpMiddlewareOptions } from '@commercetools/sdk-client-v2';
 
-import {
-  createApiBuilderFromCtpClient,
-  ApiRoot,
-} from '@commercetools/platform-sdk';
+import { createApiBuilderFromCtpClient, ApiRoot } from '@commercetools/platform-sdk';
 
 export const projectKey = 'rs-school-e-commerce-app';
 const scopes = ['manage_project:rs-school-e-commerce-app manage_api_clients:rs-school-e-commerce-app'];

@@ -1,4 +1,8 @@
+import { Routes, Route } from 'react-router-dom';
+import LoginPage from './pages/authorization/authorization';
+
 import Main from './pages/main/main';
+
 
 import React, { useState, useEffect } from 'react';
 import { getApiRoot, projectKey } from '../src/API/ClientBuilder';
@@ -30,9 +34,15 @@ function App() {
 
   return (
     <>
-      <Main />
-      <div>Project Details</div>
-      {JSON.stringify(projectDetails, undefined, 2)}
+      <div className="app">
+        {/* <Home className="main" /> */}
+        <main className="main">
+          <Routes>
+            <Route path="/" element={<Main />}></Route>
+            <Route path="/login" element={<LoginPage />}></Route>
+          </Routes>
+        </main>
+      </div>
     </>
   );
 }
