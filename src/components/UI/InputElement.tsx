@@ -2,7 +2,8 @@ import { ChangeEvent, useRef } from 'react';
 interface IInputElementProps {
   placeholder?: string;
   className?: string;
-  value: string | number;
+  value?: string | number;
+  checked?: boolean;
   type: 'text' | 'number' | 'password' | 'email' | 'date' | 'checkbox';
   validationCb?: 'name' | 'password' | 'email' | 'date' | 'street' | 'city' | 'postalCode' | 'country';
   id?: string;
@@ -14,6 +15,7 @@ interface IInputElementProps {
   disabled?: boolean;
   required?: boolean;
   onChange: (e: ChangeEvent<HTMLInputElement>) => void;
+  outerCb?: <T>(arg: T) => void;
   setError: React.Dispatch<React.SetStateAction<string>>;
 }
 
@@ -98,6 +100,10 @@ const InputElement = (props: IInputElementProps) => {
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     props.onChange(e);
+    if (props.outerCb) {
+      props.outerCb<boolean>(e.target.checked);
+      console.log('props', props);
+    }
     if (props.validationCb && validates?.[props.validationCb]) {
       validates[props.validationCb](inputElement?.value);
     }
@@ -116,6 +122,7 @@ const InputElement = (props: IInputElementProps) => {
         type={props.type}
         placeholder={props.placeholder}
         value={props.value}
+        checked={props.checked}
         onChange={handleChange}
         maxLength={props.maxLength}
         minLength={props.minLength}

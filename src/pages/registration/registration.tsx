@@ -1,5 +1,6 @@
 import './registration.scss';
 import useInput from '../../hooks/useInput';
+import useCheckbox from '../../hooks/useCheckbox';
 import { FormEvent, useEffect, useMemo, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 // import { getAnonymousSessionToken } from '../../api';
@@ -21,14 +22,43 @@ const RegistrationPage = () => {
   const street = useInput('');
   const postalCode = useInput('');
   const billingAddress = useInput('');
-  const setDefaultAddress = useInput('');
-  const setAsBillingAddress = useInput('');
+  const setDefaultAddress = useCheckbox(false);
+  const setAsBillingAddress = useCheckbox(false);
   const [formError, setFormError] = useState('');
   const [fetchDataMessage, setFetchDataMessage] = useState('');
   const [fetchErrorMessage, setErrorDataMessage] = useState('');
   const [isLoading, setIsLoading] = useState(false);
+  const billing = billingAddress.value.split(' ');
+  const address = [
+    {
+      key: '0',
+      // country: 'RU',
+      country: country.value,
+      // city: 'Makhachkala',
+      city: city.value,
+      streetName: street.value,
+      // street: street.value,
+      // postalCode: '333333',
+      postalCode: postalCode.value,
+    },
+    {
+      key: '1',
+      country: billing[0],
+      city: billing[1],
+      streetName: billing[2],
+      postalCode: billing[3],
+    },
+  ];
   // const { fetchCustomer } = useActions();
   // const { customer, status } = useSelector((state: RootState) => state.customer);
+
+  const setAsBillingAddressChange = <T,>(checked: T) => {
+    if (checked) {
+      billingAddress.setValue(`${country.value} ${city.value} ${street.value} ${postalCode.value}`);
+    } else {
+      billingAddress.setValue('');
+    }
+  };
 
   const isDisabled = useMemo(() => {
     const condition = !!(
@@ -70,26 +100,7 @@ const RegistrationPage = () => {
     e.preventDefault();
     setFormError('');
     setErrorDataMessage('');
-    const address = [
-      {
-        key: '0',
-        // country: 'RU',
-        country: country.value,
-        // city: 'Makhachkala',
-        city: city.value,
-        streetName: street.value,
-        // street: street.value,
-        // postalCode: '333333',
-        postalCode: postalCode.value,
-      },
-      {
-        key: '1',
-        country: 'RU',
-        city: 'Makhachkala',
-        streetName: 'Yaragskogo',
-        postalCode: '333333',
-      },
-    ];
+
     const postForm = {
       firstName: firstName.value,
       lastName: lastName.value,
@@ -97,10 +108,10 @@ const RegistrationPage = () => {
       password: password.value,
       birthDate: birthDate.value,
       addresses: address,
-      defaultShippingAddress: Boolean(setDefaultAddress) ? 0 : 1,
+      ...{ defaultShippingAddress: Boolean(setDefaultAddress.checked) ? 0 : undefined },
       shippingAddresses: [0],
-      defaultBillingAddress: 0,
-      billingAddresses: [Boolean(setAsBillingAddress) ? 0 : 1],
+      defaultBillingAddress: 1,
+      ...{ billingAddresses: Boolean(setAsBillingAddress.checked) ? [0] : undefined },
     };
 
     const values = Object.values(postForm);
@@ -245,6 +256,7 @@ const RegistrationPage = () => {
             />
             <InputElement
               {...setAsBillingAddress}
+              outerCb={setAsBillingAddressChange}
               className="registration__checkbox app__input_checkbox"
               type="checkbox"
               placeholder="Set address as billing address"
@@ -254,7 +266,6 @@ const RegistrationPage = () => {
               className="registration__input app__input_text"
               type="text"
               placeholder="Billing address"
-              validationCb="city"
             />
 
             <button className="registration__button sign-in__button" disabled={isDisabled}>

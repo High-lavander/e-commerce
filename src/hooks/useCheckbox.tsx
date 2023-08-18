@@ -1,20 +1,17 @@
 import { ChangeEvent, useState } from 'react';
 
-const useInput = (initialValue: string) => {
-  const [value, setValue] = useState(initialValue);
+export default function useInput(initialValue: boolean = false) {
+  const [checked, setChecked] = useState(initialValue);
   const [error, setError] = useState('');
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
-    setValue(e.target.value);
+    setChecked(e.target.checked);
   };
 
   return {
-    value,
+    checked,
     error,
     onChange: handleChange,
-    setValue,
     setError,
   };
-};
-
-export default useInput;
+}
