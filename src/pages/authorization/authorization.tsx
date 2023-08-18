@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 
-
 const AuthorizationPage = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
