@@ -20,6 +20,9 @@ const RegistrationPage = () => {
   const city = useInput('');
   const street = useInput('');
   const postalCode = useInput('');
+  const billingAddress = useInput('');
+  const setDefaultAddress = useInput('');
+  const setAsBillingAddress = useInput('');
   const [formError, setFormError] = useState('');
   const [fetchDataMessage, setFetchDataMessage] = useState('');
   const [fetchErrorMessage, setErrorDataMessage] = useState('');
@@ -75,6 +78,13 @@ const RegistrationPage = () => {
         streetName: 'Yaragskogo',
         postalCode: '333333',
       },
+      {
+        key: '1',
+        country: 'RU',
+        city: 'Makhachkala',
+        streetName: 'Yaragskogo',
+        postalCode: '333333',
+      },
     ];
     const postForm = {
       firstName: firstName.value,
@@ -87,10 +97,10 @@ const RegistrationPage = () => {
       street: street.value,
       postalCode: postalCode.value,
       addresses: address,
-      defaultShippingAddress: 0,
-      shippingAddresses: [],
+      defaultShippingAddress: Boolean(setDefaultAddress) ? 0 : 1,
+      shippingAddresses: [0],
       defaultBillingAddress: 0,
-      billingAddresses: [0],
+      billingAddresses: [Boolean(setAsBillingAddress) ? 0 : 1],
     };
 
     const values = Object.values(postForm);
@@ -227,6 +237,26 @@ const RegistrationPage = () => {
               placeholder="Postal code"
               validationCb="postalCode"
             />
+            <InputElement
+              {...setDefaultAddress}
+              className="registration__checkbox app__input_checkbox"
+              type="checkbox"
+              placeholder="Set address as default"
+            />
+            <InputElement
+              {...setAsBillingAddress}
+              className="registration__checkbox app__input_checkbox"
+              type="checkbox"
+              placeholder="Set address as billing address"
+            />
+            <InputElement
+              {...billingAddress}
+              className="registration__input app__input_text"
+              type="text"
+              placeholder="Billing address"
+              validationCb="city"
+            />
+
             <button className="registration__button sign-in__button" disabled={isDisabled}>
               SIGN UP {isDisabled}
             </button>

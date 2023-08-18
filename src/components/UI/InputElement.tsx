@@ -3,8 +3,8 @@ interface IInputElementProps {
   placeholder?: string;
   className?: string;
   value: string | number;
-  type: 'text' | 'number' | 'password' | 'email' | 'date';
-  validationCb: 'name' | 'password' | 'email' | 'date' | 'street' | 'city' | 'postalCode' | 'country';
+  type: 'text' | 'number' | 'password' | 'email' | 'date' | 'checkbox';
+  validationCb?: 'name' | 'password' | 'email' | 'date' | 'street' | 'city' | 'postalCode' | 'country';
   id?: string;
   maxLength?: number;
   minLength?: number;
@@ -98,7 +98,7 @@ const InputElement = (props: IInputElementProps) => {
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     props.onChange(e);
-    if (validates[props.validationCb]) {
+    if (props.validationCb && validates?.[props.validationCb]) {
       validates[props.validationCb](inputElement?.value);
     }
     console.log('e', e);
@@ -125,7 +125,12 @@ const InputElement = (props: IInputElementProps) => {
         required={props.required}
         style={{ borderColor: props.error ? 'red' : 'black' }}
       />
-      <span className="registration__input-placeholder">{props.placeholder}</span>
+      <span
+        className="registration__input-placeholder"
+        style={{ paddingLeft: props.type === 'checkbox' ? '50px' : '0' }}
+      >
+        {props.placeholder}
+      </span>
       {props.error && <span className="registration__input-error">{props.error}</span>}
       {props.type === 'date' && !Boolean(props.value) && <span className="registration__date-error">Enter date</span>}
     </label>
