@@ -39,16 +39,24 @@ function Header() {
         </div>
         <ul className={`menu ${menuOpen ? 'open' : ''}`}>
           <li>
-            <Link to="/" onClick={closeMenu}>Home</Link>
+            <Link to="/" onClick={closeMenu}>
+              Home
+            </Link>
           </li>
           <li>
-            <Link to="/about" onClick={closeMenu}>About Team</Link>
+            <Link to="/about" onClick={closeMenu}>
+              About Team
+            </Link>
           </li>
           <li>
-            <Link to="/shop" onClick={closeMenu}>Shop</Link>
+            <Link to="/shop" onClick={closeMenu}>
+              Shop
+            </Link>
           </li>
           <li>
-            <Link to="/contact" onClick={closeMenu}>Contact</Link>
+            <Link to="/contact" onClick={closeMenu}>
+              Contact
+            </Link>
           </li>
           {!LoggedIn ? (
             <>
