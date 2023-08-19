@@ -52,10 +52,22 @@ export const createCustomer = (formData: CustomerDraft) => async (dispatch: AppD
   }
 };
 
-export const loginCustomer = createAsyncThunk(
-  'customer/loginCustomer',
-  async (query: { email: string; password: string }) => await Client.loginCustomer(query.email, query.password)
-);
+export const loginCustomer = (email: string, password: string) => async (dispatch: AppDispatch) => {
+  try {
+    dispatch(customerSlice.actions.customerFetching());
+    const response = await Client.loginCustomer(email, password);
+    dispatch(customerSlice.actions.customerFetchingSuccess(response.body));
+    return response;
+  } catch (e) {
+    dispatch(customerSlice.actions.customerFetchingError((e as Error).message));
+    return e;
+  }
+};
+
+// export const loginCustomer = createAsyncThunk(
+//   'customer/loginCustomer',
+//   async (query: { email: string; password: string }) => await Client.loginCustomer(query.email, query.password)
+// );
 
 export const customerSlice = createSlice(
   {

@@ -202,7 +202,7 @@ const RegistrationPage = () => {
             Welcome back! Please enter your
             <br /> credentials to access your account.
           </p>
-          <button className="registration__button">
+          <button className="registration__button" onClick={() => navigate('/login')}>
             Log In<span className="registration__button-icon"></span>
           </button>
         </div>
