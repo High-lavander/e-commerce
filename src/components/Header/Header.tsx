@@ -79,7 +79,7 @@ function Header() {
             </>
           ) : (
             <li>
-              <button onClick={Logout}>
+              <button onClick={() => <Logout />}>
                 <div className="header_sign">
                   <img src={accountIcon} alt="Account Icon" />
                   <p>Log Out</p>
