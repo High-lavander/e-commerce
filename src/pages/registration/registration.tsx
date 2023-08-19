@@ -9,8 +9,9 @@ import Client from '../../sdk/Client';
 import { Loader } from '../../components/Loader';
 // import { useSelector } from 'react-redux';
 import { useAppSelector, useAppDispatch } from '../../store/hooks';
+import { createCustomer } from '../../store/customer';
 // import { RootState, store } from '../../store';
-import { useActions } from '../../hooks/useAction';
+// import { useActions } from '../../hooks/useAction';
 const RegistrationPage = () => {
   const navigate = useNavigate();
   const firstName = useInput('');
@@ -30,7 +31,7 @@ const RegistrationPage = () => {
   const [fetchErrorMessage, setErrorDataMessage] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const billing = billingAddress.value.split(' ');
-  const { createCustomer } = useActions();
+  // const { createCustomer } = useActions();
   const dispatch = useAppDispatch();
   const { customer, isCustomerLoading } = useAppSelector((state) => state.customer);
 

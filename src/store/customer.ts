@@ -45,8 +45,10 @@ export const createCustomer = (formData: CustomerDraft) => async (dispatch: AppD
     dispatch(customerSlice.actions.customerFetching());
     const response = await Client.createCustomer(formData);
     dispatch(customerSlice.actions.customerFetchingSuccess(response.body));
+    return response;
   } catch (e) {
     dispatch(customerSlice.actions.customerFetchingError((e as Error).message));
+    return e;
   }
 };
 
@@ -118,5 +120,5 @@ export const customerSlice = createSlice(
   //   },
   // },
 );
-export const { setCustomer } = customerSlice.actions;
+export const { setCustomer, customerFetching, customerFetchingSuccess, customerFetchingError } = customerSlice.actions;
 export default customerSlice.reducer;
