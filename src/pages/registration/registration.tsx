@@ -8,8 +8,9 @@ import { InputElement } from '../../components';
 import Client from '../../sdk/Client';
 import { Loader } from '../../components/Loader';
 // import { useSelector } from 'react-redux';
-// import { RootState } from '../../store';
-// import { useActions } from '../../hooks/useAction';
+import { useAppSelector, useAppDispatch } from '../../store/hooks';
+// import { RootState, store } from '../../store';
+import { useActions } from '../../hooks/useAction';
 const RegistrationPage = () => {
   const navigate = useNavigate();
   const firstName = useInput('');
@@ -29,6 +30,10 @@ const RegistrationPage = () => {
   const [fetchErrorMessage, setErrorDataMessage] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const billing = billingAddress.value.split(' ');
+  const { createCustomer } = useActions();
+  const dispatch = useAppDispatch();
+  const { customer, isCustomerLoading } = useAppSelector((state) => state.customer);
+
   const address = [
     {
       key: '0',
@@ -41,16 +46,25 @@ const RegistrationPage = () => {
       // postalCode: '333333',
       postalCode: postalCode.value,
     },
-    {
-      key: '1',
-      country: billing[0],
-      city: billing[1],
-      streetName: billing[2],
-      postalCode: billing[3],
-    },
+    // {
+    //   key: '1',
+    //   country: billing[0],
+    //   city: billing[1],
+    //   streetName: billing[2],
+    //   postalCode: billing[3],
+    // },
   ];
-  // const { fetchCustomer } = useActions();
-  // const { customer, status } = useSelector((state: RootState) => state.customer);
+  const billingIndAdresses = {
+    key: '1',
+    country: billing[0],
+    city: billing[1],
+    streetName: billing[2],
+    postalCode: billing[3],
+  };
+
+  if (billingAddress.value) {
+    address[1] = billingIndAdresses;
+  }
 
   const setAsBillingAddressChange = <T,>(checked: T) => {
     if (checked) {
@@ -110,19 +124,38 @@ const RegistrationPage = () => {
       addresses: address,
       ...{ defaultShippingAddress: Boolean(setDefaultAddress.checked) ? 0 : undefined },
       shippingAddresses: [0],
-      defaultBillingAddress: 1,
+      ...{ defaultBillingAddress: billingAddress.value ? 1 : undefined },
       ...{ billingAddresses: Boolean(setAsBillingAddress.checked) ? [0] : undefined },
     };
 
-    const values = Object.values(postForm);
-    if (values.some((val) => val === null || val === undefined || (Boolean(val) === false && val !== 0))) {
+    // const values = Object.values(postForm);
+    // if (values.some((val) => val === null || val === undefined || (Boolean(val) === false && val !== 0))) {
+    //   setFormError('Form is not full');
+    //   return;
+    // }
+    if (
+      !(
+        postForm.firstName &&
+        postForm.lastName &&
+        postForm.email &&
+        postForm.password &&
+        postForm.birthDate &&
+        postForm.addresses[0].city &&
+        postForm.addresses[0].country &&
+        postForm.addresses[0].postalCode &&
+        postForm.addresses[0].streetName
+      )
+    ) {
       setFormError('Form is not full');
       return;
     }
     const createNewCustomer = async () => {
       try {
         setIsLoading(true);
-        const response = Client.createCustomer(postForm);
+        // const response = Client.createCustomer(postForm);
+        // const response = store.dispatch(createCustomer(postForm));
+        const response = dispatch(createCustomer(postForm));
+        console.log('customer,isCustomerLoading', customer, isCustomerLoading);
         console.log('response', response);
         const body = await response;
         console.log('body', body);
@@ -132,13 +165,11 @@ const RegistrationPage = () => {
         setIsLoading(false);
         const auth = await Client.loginCustomer(postForm.email, postForm.password);
         console.log('auth', auth);
-        const client = await Client.queryCustomerById(body.body.customer.id);
-        console.log('client', client);
-        const authCustomerViaEmail = await Client.authCustomerViaEmail(body.body.customer.id);
-        console.log('authCustomerViaEmail', authCustomerViaEmail);
+        // const client = await Client.queryCustomerById(body.body.customer.id);
+        // console.log('client', client);
+        // localStorage.setItem('client', JSON.stringify(client));
+
         localStorage.setItem('auth', JSON.stringify(auth));
-        localStorage.setItem('client', JSON.stringify(client));
-        localStorage.setItem('emailToken', JSON.stringify(authCustomerViaEmail));
         // fetchCustomer({body.body.customer.id})
         setFetchDataMessage('Successful,redirecting to home page...');
         setTimeout(() => navigate('/'), 2000);
