@@ -1,4 +1,3 @@
-
 import './Error404.scss';
 import svg404 from '../../assets/404.svg';
 import arrow404 from '../../assets/icons/Aerrow.svg';

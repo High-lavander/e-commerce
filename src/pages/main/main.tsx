@@ -1,5 +1,6 @@
 import './main.scss';
 import Arrow from '../../assets/icons/Aerrow.svg';
+
 function Main() {
   return (
     <section className="banner">

@@ -2,7 +2,6 @@ import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { disableBodyScroll, enableBodyScroll } from 'body-scroll-lock';
 import Logout from '../LogOut/LogOut';
-
 import logo from '../../assets/icons/Logo.svg';
 import accountIcon from '../../assets/icons/account.svg';
 import './Header.scss';
@@ -29,13 +28,6 @@ function Header() {
     enableBodyScroll(document.body);
   };
 
-  const activeClassName = 'navigation__item_active';
-  const navigationLinks = [
-    {
-      to: '/registration',
-      name: 'Registration',
-    },
-  ];
   return (
     <div className="header">
       <div className="header_logo">
@@ -78,7 +70,7 @@ function Header() {
                 </Link>
               </li>
               <li>
-                <Link to="/authorization" onClick={closeMenu}>
+                <Link to="/login" onClick={closeMenu}>
                   <div className="header_sign">
                     <img src={accountIcon} alt="Account Icon" />
                     <p>Sign Up</p>
@@ -96,17 +88,6 @@ function Header() {
               </button>
             </li>
           )}
-          <li>
-            <ul className="navigation__list">
-              {navigationLinks.map((link) => (
-                <li key={link.to} className="navigation__item">
-                  <NavLink to={link.to} className={({ isActive }) => (isActive ? activeClassName : undefined)}>
-                    {link.name}
-                  </NavLink>
-                </li>
-              ))}
-            </ul>
-          </li>
         </ul>
       </nav>
     </div>
