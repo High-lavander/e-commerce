@@ -1,6 +1,5 @@
 $primary: #274C5B;
 
-
 .header_sign {
   display: flex;
   border-radius: 33px;
@@ -165,5 +164,47 @@ a {
   .menu {
     width: 100%;
     height: 100%;
+  }
+}
+
+a img {
+  background: #7EB693;
+  border-radius: 49px;
+  width: 24px;
+  padding: 11px 13px;
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.header_logo {
+  display: flex;
+
+  img {
+    margin-right: 5px;
+  }
+
+  h3 {
+    color: $primary;
+  }
+}
+
+.menu {
+  display: flex;
+  list-style: none;
+  align-items: center;
+
+  li {
+    margin-left: 25px;
+
+    a {
+      color: $primary;
+      text-decoration: none;
+      font-size: 20px;
+      font-weight: 700;
+    }
   }
 }
