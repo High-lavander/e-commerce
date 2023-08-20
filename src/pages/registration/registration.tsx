@@ -2,7 +2,7 @@ import './registration.scss';
 import useInput from '../../hooks/useInput';
 import useCheckbox from '../../hooks/useCheckbox';
 import { FormEvent, useEffect, useMemo, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { Navigate, useNavigate } from 'react-router-dom';
 // import { getAnonymousSessionToken } from '../../api';
 import { InputElement } from '../../components';
 import Client from '../../sdk/Client';
@@ -10,8 +10,6 @@ import { Loader } from '../../components/Loader';
 // import { useSelector } from 'react-redux';
 import { useAppSelector, useAppDispatch } from '../../store/hooks';
 import { createCustomer } from '../../store/customer';
-// import { RootState, store } from '../../store';
-// import { useActions } from '../../hooks/useAction';
 const RegistrationPage = () => {
   const navigate = useNavigate();
   const firstName = useInput('');
@@ -31,9 +29,7 @@ const RegistrationPage = () => {
   const [fetchErrorMessage, setErrorDataMessage] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const billing = billingAddress.value.split(' ');
-  // const { createCustomer } = useActions();
   const dispatch = useAppDispatch();
-  const { customer, isCustomerLoading } = useAppSelector((state) => state.customer);
 
   const address = [
     {
@@ -87,18 +83,6 @@ const RegistrationPage = () => {
       street.error ||
       postalCode.error
     );
-    console.log('errros arr', [
-      firstName.error,
-      lastName.error,
-      email.error,
-      password.error,
-      birthDate.error,
-      country.error,
-      city.error,
-      street.error,
-      postalCode.error,
-    ]);
-    console.log('condition', condition);
     return condition;
   }, [
     firstName.error,
@@ -129,69 +113,8 @@ const RegistrationPage = () => {
       ...{ billingAddresses: Boolean(setAsBillingAddress.checked) ? [0] : undefined },
     };
 
-    // const values = Object.values(postForm);
-    // if (values.some((val) => val === null || val === undefined || (Boolean(val) === false && val !== 0))) {
-    //   setFormError('Form is not full');
-    //   return;
-    // }
-    if (
-      !(
-        postForm.firstName &&
-        postForm.lastName &&
-        postForm.email &&
-        postForm.password &&
-        postForm.birthDate &&
-        postForm.addresses[0].city &&
-        postForm.addresses[0].country &&
-        postForm.addresses[0].postalCode &&
-        postForm.addresses[0].streetName
-      )
-    ) {
-      setFormError('Form is not full');
-      return;
-    }
-    const createNewCustomer = async () => {
-      try {
-        setIsLoading(true);
-        // const response = Client.createCustomer(postForm);
-        // const response = store.dispatch(createCustomer(postForm));
-        const response = dispatch(createCustomer(postForm));
-        console.log('customer,isCustomerLoading', customer, isCustomerLoading);
-        console.log('response', response);
-        const body = await response;
-        console.log('body', body);
-        // const passwordToken = await Client.passwordToken(postForm.email);
-        // console.log('passwordToken', passwordToken);
-
-        setIsLoading(false);
-        const auth = await Client.loginCustomer(postForm.email, postForm.password);
-        console.log('auth', auth);
-        // const client = await Client.queryCustomerById(body.body.customer.id);
-        // console.log('client', client);
-        // localStorage.setItem('client', JSON.stringify(client));
-
-        localStorage.setItem('auth', JSON.stringify(auth));
-        // fetchCustomer({body.body.customer.id})
-        setFetchDataMessage('Successful,redirecting to home page...');
-        setTimeout(() => navigate('/'), 2000);
-        return response;
-      } catch (e) {
-        console.log('Catch e', e);
-        setIsLoading(false);
-        setErrorDataMessage('Error' && (e as Error).message);
-      }
-    };
-    createNewCustomer();
-    console.log('postform', postForm);
+    dispatch(createCustomer(postForm));
   };
-
-  useEffect(() => {
-    const fetchAnonToken = async () => {
-      // const response = await getAnonymousSessionToken();
-      // console.log(response);
-    };
-    fetchAnonToken();
-  }, []);
 
   return (
     <div className="registration">
