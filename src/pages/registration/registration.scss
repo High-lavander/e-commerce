@@ -52,7 +52,8 @@
   }
 
   &__label {
-    flex: 1 1 auto;
+    display: flex;
+    flex-direction: column;
     font-size: var(--label-font-size);
   }
 
@@ -73,7 +74,6 @@
 
     @media screen and (max-width: 1280px) {
       height: 42px;
-      width: 90%;
     }
 
     &:valid {
@@ -103,6 +103,7 @@
       font-style: normal;
       font-weight: 800;
       line-height: normal;
+      margin-bottom: 8px;
 
       @media screen and (max-width: 1200px) {
         top: -25px;
@@ -136,11 +137,7 @@
 
     @media screen and (max-width: 1280px) {
       height: 42px;
-      width: 90%;
-    }
 
-    @media screen and (max-width: 700px) {
-      width: 90%;
     }
 
     &:invalid {
@@ -193,9 +190,7 @@
     width: 100%;
     row-gap: 10px;
 
-    @media screen and (max-width: 1200px) {}
 
-    @media screen and (max-width: 420px) {}
   }
 
   &__message {
@@ -217,23 +212,12 @@
   &__left {
     background-color: #e3f1e9;
     overflow: hidden;
+    clip-path: polygon(0 0, 100% 0, 87% 100%, 0% 100%);
 
-    &::after {
-      content: ' ';
-      width: 1260px;
-      height: 120%;
-      background-color: #fff;
-      z-index: 1;
-      transform: rotate(10deg);
+    @media screen and (max-width: 1279px) {
+      clip-path: none;
     }
 
-    @media screen and (max-width: 1600px) {
-      &::after {
-        content: '';
-        z-index: -1;
-        opacity: 0;
-      }
-    }
   }
 }
 
@@ -286,4 +270,9 @@
 .country_selector {
   position: relative;
 
+}
+
+.checkbox_label {
+  justify-content: flex-end;
+  flex-direction: row-reverse;
 }

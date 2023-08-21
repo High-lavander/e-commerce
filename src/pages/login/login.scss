@@ -3,6 +3,7 @@
     padding-left: 1rem;
     padding-right: 1rem;
   }
+
   &__container {
     display: flex;
 
@@ -10,6 +11,7 @@
       flex-direction: column;
     }
   }
+
   &__column {
     display: flex;
     flex-direction: column;
@@ -17,6 +19,7 @@
     align-items: center;
     min-height: 1321px;
     flex: 1 1 50%;
+
     @media screen and (max-width: 1280px) {
       min-height: auto;
       padding-top: 20px;
@@ -32,7 +35,9 @@
     line-height: normal;
     text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
   }
+
   &__description {
+
     &_welcome,
     &_join {
       max-width: 422px;
@@ -45,10 +50,12 @@
       line-height: 165.4%;
     }
   }
+
   &__label {
     flex: 1 1 auto;
     font-size: var(--label-font-size);
   }
+
   &__input {
     height: 61px;
     border: 1px solid #274c5b;
@@ -62,12 +69,15 @@
     @media screen and (max-width: 1280px) {
       height: 42px;
     }
+
     &:valid {
       border: 1px solid #274c5b;
     }
+
     &:invalid {
       border: 1px solid #ff0000;
     }
+
     &-error {
       color: #ff0000;
       font-size: var(--input-font-size) !important;
@@ -80,6 +90,7 @@
         bottom: -15px;
       }
     }
+
     &-placeholder {
       top: -35px;
       left: 0;
@@ -88,6 +99,7 @@
       font-style: normal;
       font-weight: 800;
       line-height: normal;
+
       @media screen and (max-width: 1200px) {
         top: -25px;
       }
@@ -97,18 +109,22 @@
       }
     }
   }
+
   &__checkbox {
     width: 40px;
     height: 40px;
+
     @media screen and (max-width: 1280px) {
       width: 25px;
       height: 25px;
     }
+
     @media screen and (max-width: 767px) {
       width: 20px;
       height: 20px;
     }
   }
+
   &__date {
     height: 61px;
     border: 1px solid #274c5b;
@@ -117,9 +133,11 @@
     @media screen and (max-width: 1280px) {
       height: 42px;
     }
+
     &:invalid {
       border: 1px solid #ff0000;
     }
+
     &-error {
       color: #ff0000;
       font-size: var(--input-font-size);
@@ -133,6 +151,7 @@
       }
     }
   }
+
   &__button {
     width: 250px;
     height: 62px;
@@ -158,11 +177,12 @@
       vertical-align: middle;
     }
   }
+
   &__form {
     padding-top: 48px;
     max-width: 587px;
     width: 100%;
-    row-gap: 52px;
+    row-gap: 10px;
 
     @media screen and (max-width: 1200px) {
       row-gap: 42px;
@@ -172,12 +192,14 @@
       gap: 36px;
     }
   }
+
   &__message {
     &_success {
       color: #13a489;
       font-weight: 700;
       font-size: var(--subtitle-font-size);
     }
+
     &_error {
       color: #ff0000;
       font-weight: 700;
@@ -190,20 +212,10 @@
   &__left {
     background-color: #e3f1e9;
     overflow: hidden;
-    &::after {
-      content: ' ';
-      width: 1260px;
-      height: 120%;
-      background-color: #fff;
-      z-index: 1;
-      transform: rotate(10deg);
-    }
-    @media screen and (max-width: 1600px) {
-      &::after {
-        content: '';
-        z-index: -1;
-        opacity: 0;
-      }
+    clip-path: polygon(0 0, 100% 0, 87% 100%, 0% 100%);
+
+    @media screen and (max-width: 1279px) {
+      clip-path: none;
     }
   }
 }
@@ -211,20 +223,20 @@
 .form {
   display: flex;
   flex-direction: column;
+
   &__row {
     &_double {
       display: flex;
       width: 100%;
-      @media screen and (max-width: 700px) {
-        width: 94.5%;
-      }
     }
   }
+
   &__error {
     font-size: var(--subtitle-font-size);
     color: #ff0000;
   }
 }
+
 .sign-in__button {
   width: 100%;
 }

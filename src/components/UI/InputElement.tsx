@@ -17,6 +17,7 @@ interface IInputElementProps {
   onChange: (e: ChangeEvent<HTMLInputElement>) => void;
   outerCb?: <T>(arg: T) => void;
   setError: React.Dispatch<React.SetStateAction<string>>;
+  labelClassname?: string;
 }
 
 const regex = /\S+@\S+\.\S+/;
@@ -114,7 +115,13 @@ const InputElement = (props: IInputElementProps) => {
     }
   };
   return (
-    <label className="registration__label" htmlFor={props.id}>
+    <label className={`registration__label ${props.labelClassname ? props.labelClassname : ""}`} htmlFor={props.id}>
+      <span
+        className="registration__input-placeholder"
+        style={{ paddingLeft: props.type === 'checkbox' ? '50px' : '0' }}
+      >
+        {props.placeholder}
+      </span>
       <input
         ref={inputRef}
         name={props.id}
@@ -132,12 +139,7 @@ const InputElement = (props: IInputElementProps) => {
         required={props.required}
         style={{ borderColor: props.error ? 'red' : 'black' }}
       />
-      <span
-        className="registration__input-placeholder"
-        style={{ paddingLeft: props.type === 'checkbox' ? '50px' : '0' }}
-      >
-        {props.placeholder}
-      </span>
+
       {props.error && <span className="registration__input-error">{props.error}</span>}
       {props.type === 'date' && !Boolean(props.value) && <span className="registration__date-error">Enter date</span>}
     </label>
