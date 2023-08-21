@@ -1,19 +1,18 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { disableBodyScroll, enableBodyScroll } from 'body-scroll-lock';
-import Logout from '../LogOut/LogOut';
 import logo from '../../assets/icons/Logo.svg';
 import accountIcon from '../../assets/icons/account.svg';
 import './Header.scss';
+import { useAppSelector } from '../../store/hooks';
+import { useDispatch } from 'react-redux';
+import { setCustomer } from '../../store/customer';
 
 function Header() {
   const [menuOpen, setMenuOpen] = useState(false);
-  const [LoggedIn, setLoggedIn] = useState(false);
 
-  useEffect(() => {
-    const accessToken = localStorage.getItem('access_token');
-    setLoggedIn(accessToken !== null);
-  }, []);
+  const loggedIn = useAppSelector((state) => Boolean(state.customer.customer));
+  const dispatch = useDispatch();
 
   const toggleMenu = () => {
     setMenuOpen(!menuOpen);
@@ -26,6 +25,10 @@ function Header() {
   const closeMenu = () => {
     setMenuOpen(false);
     enableBodyScroll(document.body);
+  };
+
+  const onLogoutClick = () => {
+    dispatch(setCustomer(null));
   };
 
   return (
@@ -59,7 +62,7 @@ function Header() {
               Contact
             </Link>
           </li>
-          {!LoggedIn ? (
+          {!loggedIn ? (
             <>
               <li>
                 <Link to="/registration" onClick={closeMenu}>
@@ -80,9 +83,8 @@ function Header() {
             </>
           ) : (
             <li>
-              <button onClick={() => <Logout />}>
+              <button onClick={onLogoutClick}>
                 <div className="header_sign">
-                  <img src={accountIcon} alt="Account Icon" />
                   <p>Log Out</p>
                 </div>
               </button>

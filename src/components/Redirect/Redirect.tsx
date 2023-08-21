@@ -1,27 +1,12 @@
-import { Route, Routes } from 'react-router-dom';
-import Main from '../../pages/main/main';
-import About from '../../pages/About/About';
-import Contact from '../../pages/Contact/Contact';
-import Error404 from '../../pages/Error404/Error404';
-import Header from '../Header/Header';
-import RegistrationPage from '../../pages/registration/registration';
-import LoginPage from '../../pages/login/login';
+import { Navigate } from 'react-router-dom';
+import { FC, PropsWithChildren } from 'react';
 
-function Redirect() {
-  return (
-    <>
-      <Header />
-      <Routes>
-        <Route path="/" element={<Main />} />
-        <Route path="/About" element={<About />} />
-        <Route path="/contact" element={<Contact />} />
-        <Route path="/" element={<Main />}></Route>
-        <Route path="/registration" element={<RegistrationPage />}></Route>
-        <Route path="/login" element={<LoginPage />}></Route>
-        <Route path="*" element={<Error404 />} />
-      </Routes>
-    </>
-  );
-}
+const RedirectToMainLoggged: FC<PropsWithChildren> = ({ children }) => {
+  const logged = true;
+  if (logged) {
+    return <Navigate to={'/'} />;
+  }
+  return children;
+};
 
-export default Redirect;
+export default RedirectToMainLoggged;

@@ -33,16 +33,7 @@
     text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
   }
   &__description {
-    &_welcome {
-      max-width: 326px;
-      text-align: center;
-      color: #525c60;
-      font-family: Open Sans;
-      font-size: var(--text-font-size);
-      font-style: normal;
-      font-weight: 400;
-      line-height: 165.4%;
-    }
+    &_welcome,
     &_join {
       max-width: 422px;
       text-align: center;
@@ -56,7 +47,6 @@
   }
   &__label {
     flex: 1 1 auto;
-    position: relative;
     font-size: var(--label-font-size);
   }
   &__input {
@@ -79,9 +69,6 @@
       border: 1px solid #ff0000;
     }
     &-error {
-      position: absolute;
-      left: 0;
-      bottom: -25px;
       color: #ff0000;
       font-size: var(--input-font-size) !important;
 
@@ -94,7 +81,6 @@
       }
     }
     &-placeholder {
-      position: absolute;
       top: -35px;
       left: 0;
       color: #274c5b;
@@ -110,16 +96,11 @@
         top: -20px;
       }
     }
-
   }
   &__checkbox {
-    position: absolute;
-    left: 0px;
-    top: -38px;
     width: 40px;
     height: 40px;
     @media screen and (max-width: 1280px) {
-      top: -28px;
       width: 25px;
       height: 25px;
     }
@@ -140,9 +121,6 @@
       border: 1px solid #ff0000;
     }
     &-error {
-      position: absolute;
-      left: 0;
-      bottom: -25px;
       color: #ff0000;
       font-size: var(--input-font-size);
 
@@ -210,12 +188,9 @@
 
 .column {
   &__left {
-    position: relative;
     background-color: #e3f1e9;
     overflow: hidden;
     &::after {
-      position: absolute;
-      right: -1150px;
       content: ' ';
       width: 1260px;
       height: 120%;
@@ -240,6 +215,9 @@
     &_double {
       display: flex;
       width: 100%;
+      @media screen and (max-width: 700px) {
+        width: 94.5%;
+      }
     }
   }
   &__error {

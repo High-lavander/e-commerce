@@ -6,6 +6,10 @@ $primary: #274C5B;
   border: 1px solid #E0E0E0;
   width: 159px;
   height: 66px;
+  background: white;
+  p{
+    color:#7EB693;
+  }
 }
 
 a {
@@ -132,7 +136,9 @@ a {
   }
 
   .menu {
-    display: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     position: absolute;
     top: -15px;
     right: 0;
@@ -143,8 +149,8 @@ a {
     width: 50%;
     height: 100%;
     z-index: 1;
-    transform: translateZ(-100%);
-    transition: transform 0.3s ease, opacity 0.3s ease;
+    transform: translateX(1000px);
+    transition: 0.75s ease-in;
 
     li {
       margin-top: 30px;
@@ -153,12 +159,8 @@ a {
   }
 
   .menu.open {
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    transform: translateX(0px);
   }
-
-
 }
 
 @media screen and (max-width: 430px) {
