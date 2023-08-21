@@ -6,16 +6,35 @@ $primary: #274C5B;
   border: 1px solid #E0E0E0;
   width: 159px;
   height: 66px;
+  background: white;
+  align-items: center;
+  gap: 15px;
+  padding-left: 5px;
+
+  p {
+    color: #7EB693;
+  }
+}
+
+.header_sign_circle {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  background: #7EB693;
+}
+
+.header_logout-btn {
+  justify-content: center;
+  padding: 0px;
 }
 
 a {
 
   img {
-    background: #7EB693;
-    border-radius: 49px;
     width: 24px;
-    padding: 13px 15px;
-    margin: 5px 15px 6px 5px;
 
     &:hover {
       background: $primary;
@@ -132,7 +151,9 @@ a {
   }
 
   .menu {
-    display: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     position: absolute;
     top: -15px;
     right: 0;
@@ -143,8 +164,8 @@ a {
     width: 50%;
     height: 100%;
     z-index: 1;
-    transform: translateZ(-100%);
-    transition: transform 0.3s ease, opacity 0.3s ease;
+    transform: translateX(100%);
+    transition: 0.75s ease-in;
 
     li {
       margin-top: 30px;
@@ -153,12 +174,8 @@ a {
   }
 
   .menu.open {
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    transform: translateX(0px);
   }
-
-
 }
 
 @media screen and (max-width: 430px) {
