@@ -5,7 +5,7 @@ import { AppDispatch } from '.';
 const initialState = {
   customer: null,
   status: 'idle',
-  error: '',
+  customerError: '',
   isCustomerLoading: false,
 };
 
@@ -44,12 +44,27 @@ export const createCustomer = (formData: CustomerDraft) => async (dispatch: AppD
   try {
     dispatch(customerSlice.actions.customerFetching());
     const response = await Client.createCustomer(formData);
+    console.log('response in redux', response);
+    if (response.statusCode == 400) {
+      throw Error('Cutomer Registrstion error');
+    }
     dispatch(customerSlice.actions.customerFetchingSuccess(response.body));
     return response;
   } catch (e) {
     dispatch(customerSlice.actions.customerFetchingError((e as Error).message));
-    return e;
   }
+
+  // dispatch(customerSlice.actions.customerFetching());
+  // const response = Client.createCustomer(formData)
+  //   .then((body) => {
+  //     console.log('body in redux', body);
+  //     dispatch(customerSlice.actions.customerFetchingSuccess(body));
+  //   })
+  //   .catch((error) => {
+  //     dispatch(customerSlice.actions.customerFetchingError(error.message));
+  //   });
+
+  // return response;
 };
 
 export const loginCustomer = (email: string, password: string) => async (dispatch: AppDispatch) => {
@@ -79,15 +94,16 @@ export const customerSlice = createSlice(
       },
       customerFetching(state) {
         state.isCustomerLoading = true;
+        state.customerError = '';
       },
       customerFetchingSuccess(state, action) {
         state.isCustomerLoading = false;
-        state.error = '';
+        state.customerError = '';
         state.customer = action.payload;
       },
       customerFetchingError(state, action) {
         state.isCustomerLoading = false;
-        state.error = action.payload;
+        state.customerError = action.payload;
       },
     },
     // extraReducers: (builder) => {
