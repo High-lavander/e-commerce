@@ -62,6 +62,11 @@
     width: 100%;
     font-size: var(--input-font-size);
 
+    &.country_selector {
+      position: relative;
+
+    }
+
     &::placeholder {
       font-size: var(--input-font-size);
     }
@@ -275,4 +280,10 @@
       background-color: rgba($color: #000000, $alpha: 0.1);
     }
   }
+}
+
+
+.country_selector {
+  position: relative;
+
 }

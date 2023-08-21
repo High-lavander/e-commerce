@@ -125,11 +125,7 @@ const RegistrationPage = () => {
       setFormError('Form is not full');
       return;
     }
-    const createNewCustomer = async () => {
-      setIsLoading(true);
-      await dispatch(createCustomer(postForm));
-    };
-    createNewCustomer();
+    createCustomer(postForm)(dispatch, navigate);
   };
 
   useEffect(() => {
@@ -203,7 +199,7 @@ const RegistrationPage = () => {
               required={true}
               validationCb="date"
             />
-            <div className="registration__input-wrapper">
+            <div className="registration__input-wrapper country_selector">
               <InputElement
                 {...country}
                 className="registration__input app__input_text"

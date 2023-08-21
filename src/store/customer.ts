@@ -1,152 +1,138 @@
-import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
+import { createSlice } from '@reduxjs/toolkit';
 import { CustomerDraft } from '@commercetools/platform-sdk';
-import Client from '../sdk/Client';
 import { AppDispatch } from '.';
-const initialState = {
-  customer: null,
-  status: 'idle',
-  customerError: '',
-  isCustomerLoading: false,
-};
+import { NavigateFunction } from 'react-router';
 
-// export const fetchCustomer = (id: string) => async (dispatch: AppDispatch) => {
-//   try {
-//     dispatch(customerSlice.actions.customerFetching());
-//     const response = await Client.queryCustomerById(id);
-//     dispatch(customerSlice.actions.customerFetchingSuccess(response.body));
-//   } catch (e) {
-//     dispatch(customerSlice.actions.customerFetchingError((e as Error).message));
-//   }
-// };
-
-export const fetchCustomer = createAsyncThunk(
-  'customer/fetchCustomer',
-  async (id: string) => await Client.queryCustomerById(id)
-);
-
-// export const createCustomer = createAsyncThunk(
-//   'customer/createCustomer',
-//   async (query: { data: CustomerDraft }) => await Client.createCustomer(query.data)
-// );
-
-// export const createCustomer = createAsyncThunk(
-//   'customer/createCustomer',
-//   // Declare the type your function argument here:
-//   async (data: CustomerDraft) => {
-//     // const response = await fetch(`https://reqres.in/api/users/${userId}`)
-//     const response = await Client.createCustomer(data);
-//     // Inferred return type: Promise<MyData>
-//     return response;
-//   }
-// );
-
-export const createCustomer = (formData: CustomerDraft) => async (dispatch: AppDispatch) => {
+const initialState = () => {
   try {
-    dispatch(customerSlice.actions.customerFetching());
-    const response = await Client.createCustomer(formData);
-    console.log('response in redux', response);
-    if (response.statusCode == 400) {
-      throw Error('Cutomer Registrstion error');
-    }
-    dispatch(customerSlice.actions.customerFetchingSuccess(response.body));
-    return response;
-  } catch (e) {
-    dispatch(customerSlice.actions.customerFetchingError((e as Error).message));
-  }
-
-  // dispatch(customerSlice.actions.customerFetching());
-  // const response = Client.createCustomer(formData)
-  //   .then((body) => {
-  //     console.log('body in redux', body);
-  //     dispatch(customerSlice.actions.customerFetchingSuccess(body));
-  //   })
-  //   .catch((error) => {
-  //     dispatch(customerSlice.actions.customerFetchingError(error.message));
-  //   });
-
-  // return response;
-};
-
-export const loginCustomer = (email: string, password: string) => async (dispatch: AppDispatch) => {
-  try {
-    dispatch(customerSlice.actions.customerFetching());
-    const response = await Client.loginCustomer(email, password);
-    dispatch(customerSlice.actions.customerFetchingSuccess(response.body));
-    return response;
-  } catch (e) {
-    dispatch(customerSlice.actions.customerFetchingError((e as Error).message));
-    return e;
+    const customerString = localStorage.getItem('customer') || '';
+    const customer = JSON.parse(customerString);
+    return {
+      customer,
+      status: 'idle',
+      customerError: '',
+      isCustomerLoading: false,
+    };
+  } catch {
+    return {
+      customer: null,
+      status: 'idle',
+      customerError: '',
+      isCustomerLoading: false,
+    };
   }
 };
 
-// export const loginCustomer = createAsyncThunk(
-//   'customer/loginCustomer',
-//   async (query: { email: string; password: string }) => await Client.loginCustomer(query.email, query.password)
-// );
+interface ICustomer {
+  email: string;
+  firstName: string;
+  id: string;
+  isEmailVerified: boolean;
+  lastName: string;
+  password: string;
+  version: number;
+  createdAt: string;
+  lastModifiedAt: string;
+  authenticationMode: string;
+}
 
-export const customerSlice = createSlice(
-  {
-    name: 'customer',
-    initialState,
-    reducers: {
-      setCustomer: (state, action) => {
-        state.customer = action.payload;
-      },
-      customerFetching(state) {
-        state.isCustomerLoading = true;
-        state.customerError = '';
-      },
-      customerFetchingSuccess(state, action) {
-        state.isCustomerLoading = false;
-        state.customerError = '';
-        state.customer = action.payload;
-      },
-      customerFetchingError(state, action) {
-        state.isCustomerLoading = false;
-        state.customerError = action.payload;
-      },
+const getToken = () => {
+  return fetch(`https://auth.${import.meta.env.VITE_CTP_API_REGION}.commercetools.com/oauth/token`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/x-www-form-urlencoded',
+      Authorization: 'Basic ' + btoa(`${import.meta.env.VITE_CTP_CLIENT_ID}:${import.meta.env.VITE_CTP_CLIENT_SECRET}`),
     },
-    // extraReducers: (builder) => {
-    //   builder
-    //     .addCase(fetchCustomer.pending, (state) => {
-    //       state.status = 'loading';
-    //     })
-    //     .addCase(fetchCustomer.fulfilled, (state, action) => {
-    //       state.status = 'idle';
-    //       state.customer = action.payload;
-    //     })
-    //     .addCase(fetchCustomer.rejected, (state) => {
-    //       state.status = 'failed';
-    //     })
-    //     .addCase(createCustomer.pending, (state) => {
-    //       state.status = 'loading';
-    //       state.isCustomerLoading = true;
-    //     })
-    //     .addCase(createCustomer.fulfilled, (state, action) => {
-    //       state.status = 'idle';
-    //       state.isCustomerLoading = false;
-    //       state.customer = action.payload;
-    //     })
-    //     .addCase(createCustomer.rejected, (state, action) => {
-    //       state.status = 'failed';
-    //       state.error = action.payload as string;
-    //       state.isCustomerLoading = false;
-    //     });
-  }
-  // extraReducers: {
-  //   [createCustomer.fulfilled.type]: (state, action) => {
-  //     state.isCustomerLoading = false;
-  //     state.error = '';
-  //     state.customer = action.payload;
-  //   },
-  //   [createCustomer.pending.type]: (state) => {
-  //     state.isCustomerLoading = true;
-  //   },
-  //   [createCustomer.rejected.type]: (state, action) => {
-  //     state.isCustomerLoading = false;
-  //     state.error = action.payload;
-  //   },
-  // },
-);
+    body: `grant_type=client_credentials&scope=manage_project:${import.meta.env.VITE_CTP_PROJECT_KEY}`,
+  }).then((res) => res.json());
+};
+
+export const createCustomer =
+  (formData: CustomerDraft) => async (dispatch: AppDispatch, navigate: NavigateFunction) => {
+    dispatch(customerSlice.actions.customerFetching());
+    const tokenObject = await getToken();
+    const response: TCustomerResponse = await fetch(
+      `https://api.${import.meta.env.VITE_CTP_API_REGION}.commercetools.com/${
+        import.meta.env.VITE_CTP_PROJECT_KEY
+      }/customers`,
+      {
+        method: 'POST',
+        headers: {
+          Authorization: `Bearer ${tokenObject.access_token}`,
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(formData),
+      }
+    ).then((res) => res.json());
+    console.log('response in redux', response);
+    if ('customer' in response) {
+      localStorage.setItem('customer', JSON.stringify(response.customer));
+      dispatch(customerSlice.actions.customerFetchingSuccess(response.customer));
+      navigate('/');
+    } else {
+      dispatch(customerSlice.actions.customerFetchingError(response.message));
+    }
+  };
+
+type TCustomerResponse = ICustomerResponseError | { customer: ICustomer };
+
+interface ICustomerResponseError {
+  errors: {
+    code: string;
+    message: string;
+  }[];
+  message: string;
+  statusCode: number;
+}
+
+export const loginCustomer =
+  (email: string, password: string) => async (dispatch: AppDispatch, navigate: NavigateFunction) => {
+    dispatch(customerSlice.actions.customerFetching());
+    const tokenObject = await getToken();
+    const response: TCustomerResponse = await fetch(
+      `https://api.${import.meta.env.VITE_CTP_API_REGION}.commercetools.com/${
+        import.meta.env.VITE_CTP_PROJECT_KEY
+      }/login`,
+      {
+        method: 'POST',
+        headers: {
+          Authorization: `Bearer ${tokenObject.access_token}`,
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ email, password }),
+      }
+    ).then((res) => res.json());
+    if ('customer' in response) {
+      localStorage.setItem('customer', JSON.stringify(response.customer));
+      dispatch(customerSlice.actions.customerFetchingSuccess(response.customer));
+      navigate('/');
+    } else {
+      dispatch(customerSlice.actions.customerFetchingError(response.message));
+    }
+  };
+
+export const customerSlice = createSlice({
+  name: 'customer',
+  initialState,
+  reducers: {
+    setCustomer: (state, action) => {
+      state.customer = action.payload;
+    },
+    customerFetching(state) {
+      state.isCustomerLoading = true;
+      state.customerError = '';
+    },
+    customerFetchingSuccess(state, action) {
+      state.isCustomerLoading = false;
+      state.customerError = '';
+      state.customer = action.payload;
+    },
+    customerFetchingError(state, action) {
+      state.isCustomerLoading = false;
+      state.customerError = action.payload;
+    },
+  },
+});
+
 export const { setCustomer, customerFetching, customerFetchingSuccess, customerFetchingError } = customerSlice.actions;
 export default customerSlice.reducer;

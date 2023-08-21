@@ -28,6 +28,7 @@ function Header() {
   };
 
   const onLogoutClick = () => {
+    localStorage.removeItem('customer');
     dispatch(setCustomer(null));
   };
 
@@ -65,7 +66,7 @@ function Header() {
           {!loggedIn ? (
             <>
               <li>
-                <Link to="/registration" onClick={closeMenu}>
+                <Link to="/login" onClick={closeMenu}>
                   <div className="header_sign">
                     <div className="header_sign_circle">
                       <img src={accountIcon} alt="Account Icon" />
@@ -75,7 +76,7 @@ function Header() {
                 </Link>
               </li>
               <li>
-                <Link to="/login" onClick={closeMenu}>
+                <Link to="/registration" onClick={closeMenu}>
                   <div className="header_sign">
                     <div className="header_sign_circle">
                       <img src={accountIcon} alt="Account Icon" />
