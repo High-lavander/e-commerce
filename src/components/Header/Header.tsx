@@ -67,7 +67,9 @@ function Header() {
               <li>
                 <Link to="/registration" onClick={closeMenu}>
                   <div className="header_sign">
-                    <img src={accountIcon} alt="Account Icon" />
+                    <div className="header_sign_circle">
+                      <img src={accountIcon} alt="Account Icon" />
+                    </div>
                     <p>Log In</p>
                   </div>
                 </Link>
@@ -75,7 +77,9 @@ function Header() {
               <li>
                 <Link to="/login" onClick={closeMenu}>
                   <div className="header_sign">
-                    <img src={accountIcon} alt="Account Icon" />
+                    <div className="header_sign_circle">
+                      <img src={accountIcon} alt="Account Icon" />
+                    </div>
                     <p>Sign Up</p>
                   </div>
                 </Link>
@@ -83,10 +87,8 @@ function Header() {
             </>
           ) : (
             <li>
-              <button onClick={onLogoutClick}>
-                <div className="header_sign">
-                  <p>Log Out</p>
-                </div>
+              <button className="header_logout-btn header_sign" onClick={onLogoutClick}>
+                <p>Log Out</p>
               </button>
             </li>
           )}

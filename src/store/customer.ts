@@ -3,7 +3,7 @@ import { CustomerDraft } from '@commercetools/platform-sdk';
 import Client from '../sdk/Client';
 import { AppDispatch } from '.';
 const initialState = {
-  customer: {},
+  customer: null,
   status: 'idle',
   error: '',
   isCustomerLoading: false,

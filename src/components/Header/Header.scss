@@ -7,19 +7,34 @@ $primary: #274C5B;
   width: 159px;
   height: 66px;
   background: white;
-  p{
-    color:#7EB693;
+  align-items: center;
+  gap: 15px;
+  padding-left: 5px;
+
+  p {
+    color: #7EB693;
   }
+}
+
+.header_sign_circle {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  background: #7EB693;
+}
+
+.header_logout-btn {
+  justify-content: center;
+  padding: 0px;
 }
 
 a {
 
   img {
-    background: #7EB693;
-    border-radius: 49px;
     width: 24px;
-    padding: 13px 15px;
-    margin: 5px 15px 6px 5px;
 
     &:hover {
       background: $primary;
@@ -149,7 +164,7 @@ a {
     width: 50%;
     height: 100%;
     z-index: 1;
-    transform: translateX(1000px);
+    transform: translateX(100%);
     transition: 0.75s ease-in;
 
     li {
