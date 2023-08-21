@@ -248,14 +248,14 @@ const RegistrationPage = () => {
               validationCb="postalCode"
             />
             <InputElement
-              labelClassname='checkbox_label'
+              labelClassname="checkbox_label"
               {...setDefaultAddress}
               className="registration__checkbox  app__input_checkbox"
               type="checkbox"
               placeholder="Set address as default"
             />
             <InputElement
-              labelClassname='checkbox_label'
+              labelClassname="checkbox_label"
               {...setAsBillingAddress}
               outerCb={setAsBillingAddressChange}
               className="registration__checkbox app__input_checkbox"

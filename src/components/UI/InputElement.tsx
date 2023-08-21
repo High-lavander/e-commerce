@@ -115,7 +115,7 @@ const InputElement = (props: IInputElementProps) => {
     }
   };
   return (
-    <label className={`registration__label ${props.labelClassname ? props.labelClassname : ""}`} htmlFor={props.id}>
+    <label className={`registration__label ${props.labelClassname ? props.labelClassname : ''}`} htmlFor={props.id}>
       <span
         className="registration__input-placeholder"
         style={{ paddingLeft: props.type === 'checkbox' ? '50px' : '0' }}
