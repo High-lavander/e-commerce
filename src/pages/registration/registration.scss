@@ -3,6 +3,7 @@
     padding-left: 1rem;
     padding-right: 1rem;
   }
+
   &__container {
     display: flex;
 
@@ -10,6 +11,7 @@
       flex-direction: column;
     }
   }
+
   &__column {
     display: flex;
     flex-direction: column;
@@ -17,6 +19,7 @@
     align-items: center;
     min-height: 1321px;
     flex: 1 1 50%;
+
     @media screen and (max-width: 1280px) {
       min-height: auto;
       padding-top: 20px;
@@ -32,17 +35,10 @@
     line-height: normal;
     text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
   }
+
   &__description {
-    &_welcome {
-      max-width: 326px;
-      text-align: center;
-      color: #525c60;
-      font-family: Open Sans;
-      font-size: var(--text-font-size);
-      font-style: normal;
-      font-weight: 400;
-      line-height: 165.4%;
-    }
+
+    &_welcome,
     &_join {
       max-width: 422px;
       text-align: center;
@@ -54,12 +50,12 @@
       line-height: 165.4%;
     }
   }
+
   &__label {
     flex: 1 1 auto;
-    position: relative;
-    display: block;
     font-size: var(--label-font-size);
   }
+
   &__input {
     height: 61px;
     border: 1px solid #274c5b;
@@ -72,17 +68,18 @@
 
     @media screen and (max-width: 1280px) {
       height: 42px;
+      width: 90%;
     }
+
     &:valid {
       border: 1px solid #274c5b;
     }
+
     &:invalid {
       border: 1px solid #ff0000;
     }
+
     &-error {
-      position: absolute;
-      left: 0;
-      bottom: -25px;
       color: #ff0000;
       font-size: var(--input-font-size) !important;
 
@@ -94,15 +91,14 @@
         bottom: -15px;
       }
     }
+
     &-placeholder {
-      position: absolute;
-      top: -35px;
-      left: 0;
       color: #274c5b;
       font-size: var(--label-font-size);
       font-style: normal;
       font-weight: 800;
       line-height: normal;
+
       @media screen and (max-width: 1200px) {
         top: -25px;
       }
@@ -111,27 +107,23 @@
         top: -20px;
       }
     }
-    &-wrapper {
-      position: relative;
-    }
-
   }
+
   &__checkbox {
-    position: absolute;
-    left: 0px;
-    top: -38px;
     width: 40px;
     height: 40px;
+
     @media screen and (max-width: 1280px) {
-      top: -28px;
       width: 25px;
       height: 25px;
     }
+
     @media screen and (max-width: 767px) {
       width: 20px;
       height: 20px;
     }
   }
+
   &__date {
     height: 61px;
     border: 1px solid #274c5b;
@@ -139,14 +131,18 @@
 
     @media screen and (max-width: 1280px) {
       height: 42px;
+      width: 90%;
     }
+
+    @media screen and (max-width: 700px) {
+      width: 90%;
+    }
+
     &:invalid {
       border: 1px solid #ff0000;
     }
+
     &-error {
-      position: absolute;
-      left: 0;
-      bottom: -25px;
       color: #ff0000;
       font-size: var(--input-font-size);
 
@@ -159,6 +155,7 @@
       }
     }
   }
+
   &__button {
     width: 250px;
     height: 62px;
@@ -184,26 +181,25 @@
       vertical-align: middle;
     }
   }
+
   &__form {
     padding-top: 48px;
     max-width: 587px;
     width: 100%;
-    row-gap: 52px;
+    row-gap: 10px;
 
-    @media screen and (max-width: 1200px) {
-      row-gap: 42px;
-    }
+    @media screen and (max-width: 1200px) {}
 
-    @media screen and (max-width: 420px) {
-      gap: 36px;
-    }
+    @media screen and (max-width: 420px) {}
   }
+
   &__message {
     &_success {
       color: #13a489;
       font-weight: 700;
       font-size: var(--subtitle-font-size);
     }
+
     &_error {
       color: #ff0000;
       font-weight: 700;
@@ -214,12 +210,10 @@
 
 .column {
   &__left {
-    position: relative;
     background-color: #e3f1e9;
     overflow: hidden;
+
     &::after {
-      position: absolute;
-      right: -1150px;
       content: ' ';
       width: 1260px;
       height: 120%;
@@ -227,6 +221,7 @@
       z-index: 1;
       transform: rotate(10deg);
     }
+
     @media screen and (max-width: 1600px) {
       &::after {
         content: '';
@@ -240,17 +235,20 @@
 .form {
   display: flex;
   flex-direction: column;
+
   &__row {
     &_double {
       display: flex;
       width: 100%;
     }
   }
+
   &__error {
     font-size: var(--subtitle-font-size);
     color: #ff0000;
   }
 }
+
 .sign-in__button {
   width: 100%;
 }
@@ -267,12 +265,14 @@
   max-height: 300px;
   overflow: auto;
   z-index: 3;
+
   &__item {
     margin-bottom: 10px;
     cursor: pointer;
     transition: background-color 0.2s;
+
     &:hover {
       background-color: rgba($color: #000000, $alpha: 0.1);
+    }
   }
-}
 }
