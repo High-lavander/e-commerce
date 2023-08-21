@@ -5,13 +5,14 @@ import { FormEvent, useEffect, useMemo, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 // import { getAnonymousSessionToken } from '../../api';
 import { InputElement } from '../../components';
-import Client from '../../sdk/Client';
+// import Client from '../../sdk/Client';
 import { Loader } from '../../components/Loader';
 // import { useSelector } from 'react-redux';
 import { useAppSelector, useAppDispatch } from '../../store/hooks';
 import { createCustomer } from '../../store/customer';
 // import { RootState, store } from '../../store';
 // import { useActions } from '../../hooks/useAction';
+import countries from '../../db/countries';
 const RegistrationPage = () => {
   const navigate = useNavigate();
   const firstName = useInput('');
@@ -26,6 +27,7 @@ const RegistrationPage = () => {
   const billingAddress = useInput('');
   const setDefaultAddress = useCheckbox(false);
   const setAsBillingAddress = useCheckbox(false);
+  const [selectedCity, setSelectedCountry] = useState('');
   const [formError, setFormError] = useState('');
   const [fetchDataMessage, setFetchDataMessage] = useState('');
   const [fetchErrorMessage, setErrorDataMessage] = useState('');
@@ -34,12 +36,19 @@ const RegistrationPage = () => {
   // const { createCustomer } = useActions();
   const dispatch = useAppDispatch();
   const { customer, isCustomerLoading } = useAppSelector((state) => state.customer);
+  const filtered = useMemo(() => {
+    return countries.filter((c) => c.name.includes(country.value));
+  }, [country.value]);
 
+  const handleSelectCountry = (countryCode: string) => {
+    setSelectedCountry(countryCode);
+    country.setValue(countryCode);
+  };
   const address = [
     {
       key: '0',
       // country: 'RU',
-      country: country.value,
+      country: selectedCity,
       // city: 'Makhachkala',
       city: city.value,
       streetName: street.value,
@@ -164,13 +173,13 @@ const RegistrationPage = () => {
         // console.log('passwordToken', passwordToken);
 
         setIsLoading(false);
-        const auth = await Client.loginCustomer(postForm.email, postForm.password);
-        console.log('auth', auth);
+        // const auth = await Client.loginCustomer(postForm.email, postForm.password);
+        // console.log('auth', auth);
         // const client = await Client.queryCustomerById(body.body.customer.id);
         // console.log('client', client);
         // localStorage.setItem('client', JSON.stringify(client));
 
-        localStorage.setItem('auth', JSON.stringify(auth));
+        // localStorage.setItem('auth', JSON.stringify(auth));
         // fetchCustomer({body.body.customer.id})
         setFetchDataMessage('Successful,redirecting to home page...');
         setTimeout(() => navigate('/'), 2000);
@@ -252,13 +261,33 @@ const RegistrationPage = () => {
               required={true}
               validationCb="date"
             />
-            <InputElement
-              {...country}
-              className="registration__input app__input_text"
-              type="text"
-              placeholder="Country"
-              validationCb="country"
-            />
+            <div className="registration__input-wrapper">
+              <InputElement
+                {...country}
+                className="registration__input app__input_text"
+                type="text"
+                placeholder="Country"
+                validationCb="country"
+              />
+
+              {country.value && filtered[0] && (
+                <ul className="registration__list countries-list">
+                  {filtered.map((country) => {
+                    return (
+                      <li
+                        className="countries-list__item"
+                        value={country.code}
+                        key={country.code}
+                        onClick={() => handleSelectCountry(country.code)}
+                      >
+                        {country.name}
+                      </li>
+                    );
+                  })}
+                </ul>
+              )}
+            </div>
+
             <InputElement
               {...city}
               className="registration__input app__input_text"
