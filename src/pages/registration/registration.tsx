@@ -3,15 +3,10 @@ import useInput from '../../hooks/useInput';
 import useCheckbox from '../../hooks/useCheckbox';
 import { FormEvent, useEffect, useMemo, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-// import { getAnonymousSessionToken } from '../../api';
 import { InputElement } from '../../components';
-// import Client from '../../sdk/Client';
 import { Loader } from '../../components/Loader';
-// import { useSelector } from 'react-redux';
 import { useAppSelector, useAppDispatch } from '../../store/hooks';
 import { createCustomer } from '../../store/customer';
-// import { RootState, store } from '../../store';
-// import { useActions } from '../../hooks/useAction';
 import countries from '../../db/countries';
 const RegistrationPage = () => {
   const navigate = useNavigate();
@@ -33,36 +28,24 @@ const RegistrationPage = () => {
   const [fetchErrorMessage, setErrorDataMessage] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const billing = billingAddress.value.split(' ');
-  // const { createCustomer } = useActions();
   const dispatch = useAppDispatch();
-  const { customer, isCustomerLoading } = useAppSelector((state) => state.customer);
+  const { customer, customerError } = useAppSelector((state) => state.customer);
   const filtered = useMemo(() => {
-    return countries.filter((c) => c.name.includes(country.value));
+    return countries.filter((c) => c.name.toLocaleLowerCase().includes(country.value.toLocaleLowerCase()));
   }, [country.value]);
 
-  const handleSelectCountry = (countryCode: string) => {
+  const handleSelectCountry = (countryCode: string, countryName: string) => {
+    country.setValue(`(${countryCode}) ${countryName}`);
     setSelectedCountry(countryCode);
-    country.setValue(countryCode);
   };
   const address = [
     {
       key: '0',
-      // country: 'RU',
       country: selectedCity,
-      // city: 'Makhachkala',
       city: city.value,
       streetName: street.value,
-      // street: street.value,
-      // postalCode: '333333',
       postalCode: postalCode.value,
     },
-    // {
-    //   key: '1',
-    //   country: billing[0],
-    //   city: billing[1],
-    //   streetName: billing[2],
-    //   postalCode: billing[3],
-    // },
   ];
   const billingIndAdresses = {
     key: '1',
@@ -96,18 +79,6 @@ const RegistrationPage = () => {
       street.error ||
       postalCode.error
     );
-    console.log('errros arr', [
-      firstName.error,
-      lastName.error,
-      email.error,
-      password.error,
-      birthDate.error,
-      country.error,
-      city.error,
-      street.error,
-      postalCode.error,
-    ]);
-    console.log('condition', condition);
     return condition;
   }, [
     firstName.error,
@@ -138,11 +109,6 @@ const RegistrationPage = () => {
       ...{ billingAddresses: Boolean(setAsBillingAddress.checked) ? [0] : undefined },
     };
 
-    // const values = Object.values(postForm);
-    // if (values.some((val) => val === null || val === undefined || (Boolean(val) === false && val !== 0))) {
-    //   setFormError('Form is not full');
-    //   return;
-    // }
     if (
       !(
         postForm.firstName &&
@@ -160,47 +126,23 @@ const RegistrationPage = () => {
       return;
     }
     const createNewCustomer = async () => {
-      try {
-        setIsLoading(true);
-        // const response = Client.createCustomer(postForm);
-        // const response = store.dispatch(createCustomer(postForm));
-        const response = dispatch(createCustomer(postForm));
-        console.log('customer,isCustomerLoading', customer, isCustomerLoading);
-        console.log('response', response);
-        const body = await response;
-        console.log('body', body);
-        // const passwordToken = await Client.passwordToken(postForm.email);
-        // console.log('passwordToken', passwordToken);
-
-        setIsLoading(false);
-        // const auth = await Client.loginCustomer(postForm.email, postForm.password);
-        // console.log('auth', auth);
-        // const client = await Client.queryCustomerById(body.body.customer.id);
-        // console.log('client', client);
-        // localStorage.setItem('client', JSON.stringify(client));
-
-        // localStorage.setItem('auth', JSON.stringify(auth));
-        // fetchCustomer({body.body.customer.id})
-        setFetchDataMessage('Successful,redirecting to home page...');
-        setTimeout(() => navigate('/'), 2000);
-        return response;
-      } catch (e) {
-        console.log('Catch e', e);
-        setIsLoading(false);
-        setErrorDataMessage('Error' && (e as Error).message);
-      }
+      setIsLoading(true);
+      await dispatch(createCustomer(postForm));
     };
     createNewCustomer();
-    console.log('postform', postForm);
   };
 
   useEffect(() => {
-    const fetchAnonToken = async () => {
-      // const response = await getAnonymousSessionToken();
-      // console.log(response);
-    };
-    fetchAnonToken();
-  }, []);
+    if (customer) {
+      setTimeout(() => navigate('/'), 2500);
+      setFetchDataMessage('Successful,redirecting to home page...');
+      setIsLoading(false);
+    }
+    if (customerError) {
+      setErrorDataMessage('Error' && customerError);
+      setIsLoading(false);
+    }
+  }, [customer, customerError]);
 
   return (
     <div className="registration">
@@ -278,7 +220,7 @@ const RegistrationPage = () => {
                         className="countries-list__item"
                         value={country.code}
                         key={country.code}
-                        onClick={() => handleSelectCountry(country.code)}
+                        onClick={() => handleSelectCountry(country.code, country.name)}
                       >
                         {country.name}
                       </li>
