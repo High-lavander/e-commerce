@@ -64,7 +64,6 @@ export const createCustomer =
         body: JSON.stringify(formData),
       }
     ).then((res) => res.json());
-    console.log('response in redux', response);
     if ('customer' in response) {
       localStorage.setItem('customer', JSON.stringify(response.customer));
       dispatch(customerSlice.actions.customerFetchingSuccess(response.customer));

@@ -64,8 +64,6 @@ const InputElement = (props: IInputElementProps) => {
       props.setError('');
       const year = new Date(val as string).getFullYear();
       const currentYear = new Date().getFullYear();
-      console.log({ year, currentYear });
-      console.log('currentYear - year', currentYear - year < 13);
       if (Boolean(val) !== true) {
         props.setError(`no date`);
       }
@@ -103,22 +101,16 @@ const InputElement = (props: IInputElementProps) => {
     props.onChange(e);
     if (props.outerCb) {
       props.outerCb<boolean>(e.target.checked);
-      console.log('props', props);
     }
     if (props.validationCb && validates?.[props.validationCb]) {
       validates[props.validationCb](inputElement?.value);
-    }
-    console.log('e', e);
-    console.log('props.value', props.value);
-    if (inputElement?.value) {
-      console.log('inputRef.current', inputElement.value);
     }
   };
   return (
     <label className={`registration__label ${props.labelClassname ? props.labelClassname : ''}`} htmlFor={props.id}>
       <span
         className="registration__input-placeholder"
-        style={{ paddingLeft: props.type === 'checkbox' ? '50px' : '0' }}
+        style={{ paddingLeft: props.type === 'checkbox' ? '10px' : '0' }}
       >
         {props.placeholder}
       </span>

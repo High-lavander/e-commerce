@@ -1,8 +1,4 @@
 .registration {
-  &__wrapper {
-    padding-left: 1rem;
-    padding-right: 1rem;
-  }
 
   &__container {
     display: flex;
@@ -19,6 +15,7 @@
     align-items: center;
     min-height: 1321px;
     flex: 1 1 50%;
+    
 
     @media screen and (max-width: 1280px) {
       min-height: auto;
@@ -55,6 +52,7 @@
     display: flex;
     flex-direction: column;
     font-size: var(--label-font-size);
+    width: 100%;
   }
 
   &__input {
@@ -105,13 +103,6 @@
       line-height: normal;
       margin-bottom: 8px;
 
-      @media screen and (max-width: 1200px) {
-        top: -25px;
-      }
-
-      @media screen and (max-width: 420px) {
-        top: -20px;
-      }
     }
   }
 
@@ -137,7 +128,6 @@
 
     @media screen and (max-width: 1280px) {
       height: 42px;
-
     }
 
     &:invalid {
@@ -147,14 +137,6 @@
     &-error {
       color: #ff0000;
       font-size: var(--input-font-size);
-
-      @media screen and (max-width: 1200px) {
-        bottom: -20px;
-      }
-
-      @media screen and (max-width: 420px) {
-        bottom: -15px;
-      }
     }
   }
 
@@ -190,7 +172,6 @@
     width: 100%;
     row-gap: 10px;
 
-
   }
 
   &__message {
@@ -224,10 +205,14 @@
 .form {
   display: flex;
   flex-direction: column;
+  width: 90%;
+  margin-right: 16px;
 
   &__row {
     &_double {
-      display: flex;
+      display: grid;
+      grid-gap: 15px;
+      grid-template-columns: 1fr 1fr;
       width: 100%;
     }
   }
@@ -239,7 +224,7 @@
 }
 
 .sign-in__button {
-  width: 100%;
+  width: 103%;
 }
 
 
@@ -275,4 +260,7 @@
 .checkbox_label {
   justify-content: flex-end;
   flex-direction: row-reverse;
+}
+.checkbox_label span{
+  padding-top: 5px;
 }
