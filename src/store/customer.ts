@@ -1,5 +1,4 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { CustomerDraft } from '@commercetools/platform-sdk';
 import { AppDispatch } from '.';
 import { NavigateFunction } from 'react-router';
 
@@ -37,23 +36,22 @@ interface ICustomer {
 }
 
 const getToken = () => {
-  return fetch(`https://auth.${import.meta.env.VITE_CTP_API_REGION}.commercetools.com/oauth/token`, {
+  return fetch(`https://auth.${process.env.VITE_CTP_API_REGION}.commercetools.com/oauth/token`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/x-www-form-urlencoded',
-      Authorization: 'Basic ' + btoa(`${import.meta.env.VITE_CTP_CLIENT_ID}:${import.meta.env.VITE_CTP_CLIENT_SECRET}`),
+      Authorization: 'Basic ' + btoa(`${process.env.VITE_CTP_CLIENT_ID}:${process.env.VITE_CTP_CLIENT_SECRET}`),
     },
-    body: `grant_type=client_credentials&scope=manage_project:${import.meta.env.VITE_CTP_PROJECT_KEY}`,
+    body: `grant_type=client_credentials&scope=manage_project:${process.env.VITE_CTP_PROJECT_KEY}`,
   }).then((res) => res.json());
 };
 
 export const createCustomer =
-  (formData: CustomerDraft) => async (dispatch: AppDispatch, navigate: NavigateFunction) => {
+  (formData: string) => async (dispatch: AppDispatch, navigate: NavigateFunction) => {
     dispatch(customerSlice.actions.customerFetching());
     const tokenObject = await getToken();
     const response: TCustomerResponse = await fetch(
-      `https://api.${import.meta.env.VITE_CTP_API_REGION}.commercetools.com/${
-        import.meta.env.VITE_CTP_PROJECT_KEY
+      `https://api.${process.env.VITE_CTP_API_REGION}.commercetools.com/${process.env.VITE_CTP_PROJECT_KEY
       }/customers`,
       {
         method: 'POST',
@@ -89,8 +87,7 @@ export const loginCustomer =
     dispatch(customerSlice.actions.customerFetching());
     const tokenObject = await getToken();
     const response: TCustomerResponse = await fetch(
-      `https://api.${import.meta.env.VITE_CTP_API_REGION}.commercetools.com/${
-        import.meta.env.VITE_CTP_PROJECT_KEY
+      `https://api.${process.env.VITE_CTP_API_REGION}.commercetools.com/${process.env.VITE_CTP_PROJECT_KEY
       }/login`,
       {
         method: 'POST',

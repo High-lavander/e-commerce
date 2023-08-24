@@ -39,10 +39,10 @@ function Header() {
         <h3>Organic</h3>
       </div>
       <nav>
-        <div className={`header_burger-btn ${menuOpen ? 'open' : ''}`} onClick={toggleMenu}>
+        <div data-testid="burger_btn" className={`header_burger-btn ${menuOpen ? 'open' : ''}`} onClick={toggleMenu}>
           <span></span>
         </div>
-        <ul className={`menu ${menuOpen ? 'open' : ''}`}>
+        <ul data-testid="menu" className={`menu ${menuOpen ? 'open' : ''}`}>
           <li>
             <Link to="/" onClick={closeMenu}>
               Home

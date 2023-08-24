@@ -1,8 +1,10 @@
-import { render, fireEvent } from '@testing-library/react';
+import { render, fireEvent } from '../test_utils';
 import Header from '../components/Header/Header';
 
 test('renders Header component', () => {
-  const { getByText, getByTestId } = render(<Header />);
+  const { getByText, getByTestId } = render(
+    <Header />
+  );
 
   const logoElement = getByText('Organic');
   expect(logoElement).toBeInTheDocument();
@@ -13,7 +15,7 @@ test('renders Header component', () => {
   const logInLink = getByText('Log In');
   expect(logInLink).toBeInTheDocument();
 
-  const burgerButton = getByTestId('burger-button');
+  const burgerButton = getByTestId('burger_btn');
   fireEvent.click(burgerButton);
 
   const menu = getByTestId('menu');
