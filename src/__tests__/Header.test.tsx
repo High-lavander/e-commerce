@@ -2,9 +2,7 @@ import { render, fireEvent } from '../test_utils';
 import Header from '../components/Header/Header';
 
 test('renders Header component', () => {
-  const { getByText, getByTestId } = render(
-    <Header />
-  );
+  const { getByText, getByTestId } = render(<Header />);
 
   const logoElement = getByText('Organic');
   expect(logoElement).toBeInTheDocument();

@@ -108,7 +108,7 @@ const RegistrationPage = () => {
       ...{ defaultBillingAddress: billingAddress.value ? 1 : undefined },
       ...{ billingAddresses: Boolean(setAsBillingAddress.checked) ? [0] : undefined },
     };
-
+    const postFormData = JSON.stringify(postForm);
     if (
       !(
         postForm.firstName &&
@@ -125,7 +125,7 @@ const RegistrationPage = () => {
       setFormError('Form is not full');
       return;
     }
-    createCustomer(postForm)(dispatch, navigate);
+    createCustomer(postFormData)(dispatch, navigate);
   };
 
   useEffect(() => {

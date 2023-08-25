@@ -46,30 +46,28 @@ const getToken = () => {
   }).then((res) => res.json());
 };
 
-export const createCustomer =
-  (formData: string) => async (dispatch: AppDispatch, navigate: NavigateFunction) => {
-    dispatch(customerSlice.actions.customerFetching());
-    const tokenObject = await getToken();
-    const response: TCustomerResponse = await fetch(
-      `https://api.${process.env.VITE_CTP_API_REGION}.commercetools.com/${process.env.VITE_CTP_PROJECT_KEY
-      }/customers`,
-      {
-        method: 'POST',
-        headers: {
-          Authorization: `Bearer ${tokenObject.access_token}`,
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(formData),
-      }
-    ).then((res) => res.json());
-    if ('customer' in response) {
-      localStorage.setItem('customer', JSON.stringify(response.customer));
-      dispatch(customerSlice.actions.customerFetchingSuccess(response.customer));
-      navigate('/');
-    } else {
-      dispatch(customerSlice.actions.customerFetchingError(response.message));
+export const createCustomer = (formData: string) => async (dispatch: AppDispatch, navigate: NavigateFunction) => {
+  dispatch(customerSlice.actions.customerFetching());
+  const tokenObject = await getToken();
+  const response: TCustomerResponse = await fetch(
+    `https://api.${process.env.VITE_CTP_API_REGION}.commercetools.com/${process.env.VITE_CTP_PROJECT_KEY}/customers`,
+    {
+      method: 'POST',
+      headers: {
+        Authorization: `Bearer ${tokenObject.access_token}`,
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(formData),
     }
-  };
+  ).then((res) => res.json());
+  if ('customer' in response) {
+    localStorage.setItem('customer', JSON.stringify(response.customer));
+    dispatch(customerSlice.actions.customerFetchingSuccess(response.customer));
+    navigate('/');
+  } else {
+    dispatch(customerSlice.actions.customerFetchingError(response.message));
+  }
+};
 
 type TCustomerResponse = ICustomerResponseError | { customer: ICustomer };
 
@@ -87,8 +85,7 @@ export const loginCustomer =
     dispatch(customerSlice.actions.customerFetching());
     const tokenObject = await getToken();
     const response: TCustomerResponse = await fetch(
-      `https://api.${process.env.VITE_CTP_API_REGION}.commercetools.com/${process.env.VITE_CTP_PROJECT_KEY
-      }/login`,
+      `https://api.${process.env.VITE_CTP_API_REGION}.commercetools.com/${process.env.VITE_CTP_PROJECT_KEY}/login`,
       {
         method: 'POST',
         headers: {

@@ -1,7 +1,6 @@
 import { configureStore, ThunkAction, Action, combineReducers } from '@reduxjs/toolkit';
 import customerReducer from './customer';
 
-
 const rootReducer = combineReducers({
   customer: customerReducer,
 });

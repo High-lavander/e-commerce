@@ -37,15 +37,15 @@ const LoginPage = () => {
     <div className="login">
       <div className="login__container">
         <div className="login__column column__left login__wrapper">
-          <div className="login__title-description">Not registred?</div>
-          <p className="login__description_welcome"></p>
+          <div className="login__title-description">Don&quot;t Have an Account Yet?</div>
+          <p className="login__description_welcome">Join us! Create an account to access our features. </p>
           <button className="login__button" onClick={() => navigate('/registration')}>
             Register<span className="login__button-icon"></span>
           </button>
         </div>
         <div className="login__column column__right login__wrapper">
-          <div className="login__title-description">Sign Up for an Account</div>
-          <p className="login__description_join">Join us! Create an account to access our features.</p>
+          <div className="login__title-description">Log In to you Account</div>
+          <p className="login__description_join">Please enter your information to log in to your account.</p>
           <form className="login__form form" onSubmit={handleSubmit}>
             <InputElement
               {...email}
