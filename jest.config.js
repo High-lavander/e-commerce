@@ -1,11 +1,11 @@
 module.exports = {
-  preset: 'ts-jest',
-  testEnvironment: 'jsdom',
   testEnvironment: 'jest-environment-jsdom',
   transform: {
     '^.+\\.tsx?$': 'ts-jest',
+    '^.+\\.svg$': '<rootDir>/src/svgTransformer.js',
+    '^.+\\.scss$': '<rootDir>/src/svgTransformer.js'
   },
-  testRegex: '(/__tests__/.*|(\\.|/)(test|spec))\\.tsx?$',
-  moduleFileExtensions: ['ts', 'tsx', 'js', 'jsx', 'json', 'node'],
-  transformIgnorePatterns: ['/node_modules/', '\\.pnp\\.[^\\/]+$', '\\.svg$'],
+  extensionsToTreatAsEsm: ['.jsx, .tsx'],
+
+  transformIgnorePatterns: ['/node_modules/', '\\.pnp\\.[^\\/]+$'],
 };

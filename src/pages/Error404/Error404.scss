@@ -1,0 +1,66 @@
+.notfound {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    padding-right: 16rem;
+    background: url('../../assets/background404.svg') 50% / cover no-repeat;
+    height: 100vh;
+}
+
+.notfound_404 {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 36px;
+
+    h1 {
+        color: #274C5B;
+        margin: 0;
+    }
+
+    p {
+        color: #525C60;
+        margin: 0;
+        font-size: 1rem;
+    }
+
+}
+
+img.notfound_404-svg {
+    width: 90%;
+}
+
+.notfound_button {
+    display: flex;
+    padding: 28px 49px 28px 46px;
+    border-radius: 16px;
+    background: #274C5B;
+
+    a {
+        margin-right: 10px;
+        text-decoration: none;
+        color: #FFF;
+    }
+}
+
+@media screen and (max-width: 1400px) {
+    .notfound {
+        padding-right: 5rem;
+
+    }
+}
+
+@media screen and (max-width: 800px) {
+    .notfound {
+        justify-content: center;
+        background: none;
+        background-color: #B2C4C4;
+        padding: 0;
+    }
+}
+
+@media screen and (max-width: 500px) {
+    .notfound {
+        text-align: center;
+    }
+}
