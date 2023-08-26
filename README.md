@@ -69,7 +69,7 @@ or
   - [Redux Toolkit](https://redux-toolkit.js.org/)
   - [TypeScript](https://www.typescriptlang.org/)
   - [Jest](https://jestjs.io/)
-  - [Figma-template](https://www.figma.com/file/SKwG2RDjz3fWi9dq74I8zo/Organick?type=design&mode=design&t=RSxjBUIeGltu9Ide-0)
+  - [Figma-template](https://www.figma.com/file/NUeC7Qa7fpPnH72pfpXziR/Organick?type=design&node-id=1-430&mode=design&t=4fvU8FmhCpeshm4c-0)
   - [Imagination](https://en.wikipedia.org/wiki/Imagination)
 
 
