@@ -1,0 +1,12 @@
+.user-profile {
+  &__inner {
+    display: flex;
+  }
+  &__aside {
+    flex: 2 1 auto;
+    background-color: #E3F1E9;;
+  }
+  &__edit{
+    flex:  12 1 auto;
+  }
+}
