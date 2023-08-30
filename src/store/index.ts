@@ -1,8 +1,12 @@
 import { configureStore, ThunkAction, Action, combineReducers } from '@reduxjs/toolkit';
 import customerReducer from './customer';
+import customersReducer from './customers';
+import userProfileReducer from './userProfile';
 
 const rootReducer = combineReducers({
   customer: customerReducer,
+  customers: customersReducer,
+  userProfile: userProfileReducer,
 });
 export const setupStore = () =>
   configureStore({

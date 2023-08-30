@@ -34,7 +34,7 @@ const InputElement = (props: IInputElementProps) => {
       if (excludeSpecialChar.test(val as string)) {
         props.setError('must not have special characters');
       }
-      if ((val as string).length < 2) {
+      if (val && (val as string).length < 2) {
         props.setError(`at least 2 characters`);
       }
     },
@@ -46,13 +46,13 @@ const InputElement = (props: IInputElementProps) => {
     },
     password: (val) => {
       props.setError('');
-      if ((val as string).length < 8) {
+      if (val && (val as string).length < 8) {
         props.setError('minimum 8 characters');
       }
-      if (!(val as string).split('').some((char) => char.toUpperCase() === char)) {
+      if (!(val as string)?.split('').some((char) => char.toUpperCase() === char)) {
         props.setError(' at least 1 uppercase letter');
       }
-      if (!(val as string).split('').some((char) => char.toLowerCase() === char)) {
+      if (!(val as string)?.split('').some((char) => char.toLowerCase() === char)) {
         props.setError(' at least 1 lowercase letter');
       }
     },
@@ -73,7 +73,7 @@ const InputElement = (props: IInputElementProps) => {
     },
     street: (val) => {
       props.setError('');
-      if ((val as string).length < 1) {
+      if (val && (val as string).length < 1) {
         props.setError('at least 1 character');
       }
     },
@@ -82,7 +82,7 @@ const InputElement = (props: IInputElementProps) => {
       if (excludeSpecialCharAndNumbers.test(val as string)) {
         props.setError('must not have special characters or numbers');
       }
-      if ((val as string).length < 1) {
+      if (val && (val as string).length < 1) {
         props.setError(`at least 1 character`);
       }
     },
@@ -91,7 +91,7 @@ const InputElement = (props: IInputElementProps) => {
       if (excludeSpecialCharAndNumbers.test(val as string)) {
         props.setError('must not have special characters or numbers');
       }
-      if ((val as string).length < 1) {
+      if (val && (val as string).length < 1) {
         props.setError(`at least 1 character`);
       }
     },

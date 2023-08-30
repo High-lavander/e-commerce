@@ -3,12 +3,12 @@
     display: flex;
   }
   &__aside {
-    flex: 2 1 auto;
+    flex: 2 1 20%;
     // background-color: #E3F1E9;;
   }
   &__edit{
     display: flex;
-    flex:  18 1 auto;
+    flex:  18 1 80%;
     justify-content: center;
   }
   &__edit-inner {
@@ -61,4 +61,9 @@
     width: 70px;
     height: 90px;
   }
+}
+.default-address {
+  padding: 20px;
+  background-color: rgba($color: #a0a0a0, $alpha: 0.3);
+  border-radius: 16px;
 }

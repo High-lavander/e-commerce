@@ -110,27 +110,47 @@ input::-webkit-inner-spin-button {
     &_text {
       padding: 8px;
       font-size: inherit;
+      &:disabled {
+        user-select: none;
+        pointer-events: none;
+      }
     }
 
     &_email {
       padding: 8px;
       font-size: inherit;
+      &:disabled {
+        user-select: none;
+        pointer-events: none;
+      }
     }
 
     &_password {
       padding: 8px;
       font-size: inherit;
+      &:disabled {
+        user-select: none;
+        pointer-events: none;
+      }
     }
 
     &_date {
       padding: 8px;
       font-size: inherit;
       user-select: none;
+      &:disabled {
+        user-select: none;
+        pointer-events: none;
+      }
     }
 
     &_number {
       padding: 8px;
       font-size: inherit;
+      &:disabled {
+        user-select: none;
+        pointer-events: none;
+      }
     }
   }
 }
