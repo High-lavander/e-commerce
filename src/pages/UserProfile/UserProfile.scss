@@ -16,6 +16,65 @@
   }
   &__title {
     font-size: 3.13rem;
+    margin-bottom: 60px;
+  }
+
+ 
+  &__info-block {
+    position: relative;
+    padding: 36px 16px 16px;
+  }
+  &__message {
+    &_success {
+      position: absolute;
+      top: 0;
+      left: 16px;
+      height: 30px;
+      width: 80%;
+      overflow-y: auto;
+      color: #20ff80;
+    }
+    &_error {
+      position: absolute;
+      top: 0;
+      left: 16px;
+      height: 30px;
+      width: 80%;
+      overflow-y: auto;
+      color: #ff0000;
+
+    }
+  }
+  &__edit-switch {
+    position: absolute;
+    right: 0;
+    top: 0;
+    height: 30px;
+    width: 20px;
+    padding: 12px;
+    font-size: 14px;
+    background-color: transparent;
+    background-image: url('../../assets/user/edit-pencil.svg');
+    background-size: contain;
+    background-repeat: no-repeat;
+    outline: none;
+    border: none;
+    &:focus {
+      outline: none;
+      box-shadow: none;
+    }
+  }
+  &__list {
+    display: flex;
+    flex-direction: column;
+    row-gap: 20px;
+  }
+  &__list-item {
+    padding: 8px;
+    background-color: rgba($color: #E3F1E9, $alpha: 1.0);
+  }
+  &__item-key {
+    font-weight: 800;
   }
   &__input {
     margin-bottom: 1rem;

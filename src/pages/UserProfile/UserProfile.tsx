@@ -6,9 +6,10 @@ import geolocation from '../../assets/user/geolocation.svg';
 import lock from '../../assets/user/lock.svg';
 import { useEffect, useState } from 'react';
 import AddressComponent from '../../components/AddressComponent';
-import { getCustomerById } from '../../store/userProfile';
+import { getCustomerById, updateCustomer } from '../../store/userProfile';
 import { useDispatch } from 'react-redux';
 import { useAppSelector } from '../../store/hooks';
+import { Loader } from '../../components/Loader';
 // import { useState } from 'react';
 //a42bf47e-75a6-4b92-b237-5f2a16be09d9
 
@@ -179,57 +180,159 @@ interface IGeneralsBlockProps {
 }
 const GeneralsBlock = (props: IGeneralsBlockProps) => {
   const generals = props.generals as IGenerals;
-  const firstName = useInput(generals.firstName);
-  const lastName = useInput(generals.lastName);
-  const email = useInput(generals.email);
-  const birthDate = useInput(generals.dateOfBirth);
-  const phone = useInput(generals.customerNumber);
+  const firstName = useInput(generals ? generals.firstName : '');
+  const lastName = useInput(generals ? generals.lastName : '');
+  const email = useInput(generals ? generals.email : '');
+  const birthDate = useInput(generals ? generals.dateOfBirth : '');
+  const phone = useInput(generals ? generals.customerNumber : '');
+  const [fetchDataMessage, setFetchDataMessage] = useState('');
+  const [fetchErrorMessage, setErrorDataMessage] = useState('');
+  const [isEditMode, setIsEditMode] = useState(false);
+  const dispatch = useDispatch();
+  const { userProfileMessage, userProfileError, isUserProfileLoading } = useAppSelector((state) => state.userProfile);
+
+  const handleEditMode = () => {
+    setIsEditMode(!isEditMode);
+  };
+
+  const saveChanges = (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+    event.preventDefault();
+    setErrorDataMessage('');
+    const postForm = {
+      version: dataJson2.version,
+      actions: [
+        ...(firstName.value ? [{ action: 'setFirstName', firstName: firstName.value }] : []),
+        ...(lastName.value
+          ? [
+              {
+                action: 'setLastName',
+                lastName: lastName.value,
+              },
+            ]
+          : []),
+        ...(email.value
+          ? [
+              {
+                action: 'changeEmail',
+                email: email.value,
+              },
+            ]
+          : []),
+        ...(birthDate.value
+          ? [
+              {
+                action: 'setDateOfBirth',
+                dateOfBirth: birthDate.value,
+              },
+            ]
+          : []),
+        ...(phone.value
+          ? [
+              {
+                action: 'setCustomerNumber',
+                customerNumber: phone.value,
+              },
+            ]
+          : []),
+      ],
+    };
+    console.log('postForm', postForm);
+    const postFormJson = JSON.stringify(postForm);
+    console.log('postFormJson', postFormJson);
+    updateCustomer(dataJson2.id, postFormJson)(dispatch);
+  };
+
+  useEffect(() => {
+    if (userProfileMessage) {
+      setFetchDataMessage(userProfileMessage);
+      setIsEditMode(false);
+      setTimeout(() => {
+        setFetchDataMessage('');
+      }, 2500);
+    }
+    if (userProfileError) {
+      setErrorDataMessage(userProfileError);
+    }
+  }, [userProfileMessage, userProfileError]);
   console.log('props', props);
   return (
     <div className="user-profile__edit-inner">
       <h1 className="user-profile__title">Welcome to your account on the app!</h1>
-      <form className="user-profile__info-block">
-        <div className="user-profile__input_double">
-          <InputElement
-            className="user-profile__input app__input_text"
-            type="text"
-            placeholder="First name"
-            validationCb="name"
-            {...firstName}
-          />
-          <InputElement
-            className="user-profile__input app__input_text"
-            type="text"
-            placeholder="Last name"
-            validationCb="name"
-            {...lastName}
-          />
-        </div>
-        <InputElement
-          className="user-profile__input app__input_email"
-          type="email"
-          placeholder="Email"
-          validationCb="email"
-          {...email}
-        />
-        <div className="user-profile__input_double">
-          <InputElement
-            className="user-profile__input app__input_date"
-            type="date"
-            placeholder="Date of birth"
-            validationCb="date"
-            {...birthDate}
-          />
-          <InputElement
-            className="user-profile__input app__input_number"
-            type="text"
-            placeholder="Phone number"
-            validationCb="name"
-            {...phone}
-          />
-        </div>
-        <button className="user-profile__button">Save changes</button>
-      </form>
+      <section className="user-profile__info-block">
+        <button className="user-profile__edit-switch" onClick={handleEditMode}></button>
+        {isUserProfileLoading && <Loader />}
+        {fetchDataMessage && <div className="user-profile__message_success">{fetchDataMessage}</div>}
+        {fetchErrorMessage && <div className="user-profile__message_error">{fetchErrorMessage}</div>}
+        {isEditMode ? (
+          <form className="user-profile__info-edit edit-block">
+            <div className="user-profile__input_double">
+              <InputElement
+                className="user-profile__input app__input_text"
+                type="text"
+                placeholder="First name"
+                validationCb="name"
+                {...firstName}
+              />
+              <InputElement
+                className="user-profile__input app__input_text"
+                type="text"
+                placeholder="Last name"
+                validationCb="name"
+                {...lastName}
+              />
+            </div>
+            <InputElement
+              className="user-profile__input app__input_email"
+              type="email"
+              placeholder="Email"
+              validationCb="email"
+              {...email}
+            />
+            <div className="user-profile__input_double">
+              <InputElement
+                className="user-profile__input app__input_date"
+                type="date"
+                placeholder="Date of birth"
+                validationCb="date"
+                {...birthDate}
+              />
+              <InputElement
+                className="user-profile__input app__input_number"
+                type="text"
+                placeholder="Phone number"
+                validationCb="name"
+                {...phone}
+              />
+            </div>
+            <button className="user-profile__button" onClick={(e) => saveChanges(e)}>
+              Save changes
+            </button>
+          </form>
+        ) : (
+          <ul className="user-profile__list">
+            <li className="user-profile__list-item">
+              <span className="user-profile__item-key">First name: </span>
+              {generals.firstName}
+            </li>
+            <li className="user-profile__list-item">
+              <span className="user-profile__item-key">Last name: </span>
+              {generals.lastName}
+            </li>
+            <li className="user-profile__list-item">
+              <span className="user-profile__item-key">Email: </span>
+              {generals.email}
+            </li>
+            <li className="user-profile__list-item">
+              <span className="user-profile__item-key">Date of birth: </span>
+              {generals.dateOfBirth}
+            </li>
+            <li className="user-profile__list-item">
+              <span className="user-profile__item-key">Phone: </span>
+              {generals.customerNumber}
+            </li>
+          </ul>
+        )}
+      </section>
     </div>
   );
 };
@@ -327,11 +430,11 @@ const PasswordBlock = (props: IPasswordBlockProps) => {
   );
 };
 const UserProfile = () => {
+  const { userProfile } = useAppSelector((state) => state.userProfile);
   const [currentBlock, setCurrentBlock] = useState('generals');
   const dispatch = useDispatch();
-  const { userProfile, userProfileError } = useAppSelector((store) => store.userProfile);
   // const [defaultAddress, setDefaultAddress] = useState<IAddress | null>();
-  const [generalsBlockData, setGeneralsBlockData] = useState({});
+  const [generalsBlockData, setGeneralsBlockData] = useState<IQueryCustomer>();
   const [addressesBlockData, setAddressesBlockData] = useState<IAddress[]>([]);
   const [passwordBlockData, setPasswordBlockData] = useState('');
 
@@ -345,13 +448,16 @@ const UserProfile = () => {
     //   setDefaultAddress(userProfile);
     // };
     // fetchUserProfile();
-    getCustomerById('a42bf47e-75a6-4b92-b237-5f2a16be09d9')(dispatch);
+    getCustomerById('7f171bc2-27a5-4a44-9421-a5494e7f195c')(dispatch);
     // setDefaultAddress(null);
-    setGeneralsBlockData(dataJson2);
-    setAddressesBlockData(dataJson2.addresses);
-    setPasswordBlockData(dataJson2.password);
-    console.log(userProfile, userProfileError);
-    console.log('useEffect', addressesBlockData);
+    console.log('userProfile', userProfile);
+    if (userProfile) {
+      setGeneralsBlockData(userProfile);
+      setAddressesBlockData(userProfile.addresses);
+      setPasswordBlockData(userProfile.password);
+    }
+
+    console.log('useEffect', addressesBlockData, generalsBlockData);
     console.log(dataJson);
   }, []);
   return (
@@ -384,17 +490,17 @@ const UserProfile = () => {
           </div>
         </div>
         <div className="user-profile__edit">
-          {currentBlock === 'generals' && <GeneralsBlock generals={generalsBlockData} />}
-          {currentBlock === 'addresses' && (
+          {userProfile && currentBlock === 'generals' && <GeneralsBlock generals={userProfile} />}
+          {userProfile && currentBlock === 'addresses' && (
             <AddressesBlock
-              addresses={dataJson2.addresses}
-              billingAddressIds={dataJson2.billingAddressIds}
-              shippingAddressIds={dataJson2.shippingAddressIds}
-              defaultShippingAddressId={dataJson2.defaultShippingAddressId}
-              defaultBillingAddressId={dataJson2.defaultBillingAddressId}
+              addresses={userProfile.addresses}
+              billingAddressIds={userProfile.billingAddressIds}
+              shippingAddressIds={userProfile.shippingAddressIds}
+              defaultShippingAddressId={userProfile.defaultShippingAddressId}
+              defaultBillingAddressId={userProfile.defaultBillingAddressId}
             />
           )}
-          {currentBlock === 'password' && <PasswordBlock password={passwordBlockData} />}
+          {userProfile && currentBlock === 'password' && <PasswordBlock password={passwordBlockData} />}
         </div>
       </div>
     </div>
