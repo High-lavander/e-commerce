@@ -18,7 +18,7 @@ interface IAddress {
 
 interface IQueryCustomer {
   id: string;
-  vesrion: number;
+  version: number;
   versionModifiedAt: string;
   lastMessageSequenceNumber: number;
   createdAt: string;
@@ -31,18 +31,20 @@ interface IQueryCustomer {
     clientId: string;
     isPlatformClient: boolean;
   };
-  customerNumber: string;
+  customerNumber?: string;
   email: string;
   firstName: string;
   lastName: string;
-  title: string;
-  dateOfBirth: string;
+  title?: string;
+  dateOfBirth?: string;
   password: string;
   addresses: IAddress[];
-  shippingAddressIds: [];
-  billingAddressIds: [];
+  defaultShippingAddressId?: string;
+  shippingAddressIds: string[];
+  defaultBillingAddressId?: string;
+  billingAddressIds: string[];
   isEmailVerified: boolean;
-  key: string;
+  key?: string;
   stores: [];
   authenticationMode: string;
 }

@@ -12,7 +12,40 @@ import { useAppSelector } from '../../store/hooks';
 // import { useState } from 'react';
 //a42bf47e-75a6-4b92-b237-5f2a16be09d9
 
-const dataJson = {
+interface IQueryCustomer {
+  id: string;
+  version: number;
+  versionModifiedAt: string;
+  lastMessageSequenceNumber: number;
+  createdAt: string;
+  lastModifiedAt: string;
+  lastModifiedBy: {
+    clientId: string;
+    isPlatformClient: boolean;
+  };
+  createdBy: {
+    clientId: string;
+    isPlatformClient: boolean;
+  };
+  customerNumber?: string;
+  email: string;
+  firstName: string;
+  lastName: string;
+  title?: string;
+  dateOfBirth?: string;
+  password: string;
+  addresses: IAddress[];
+  defaultShippingAddressId?: string;
+  shippingAddressIds: string[];
+  defaultBillingAddressId?: string;
+  billingAddressIds: string[];
+  isEmailVerified: boolean;
+  key?: string;
+  stores: [];
+  authenticationMode: string;
+}
+
+const dataJson: IQueryCustomer = {
   id: 'a42bf47e-75a6-4b92-b237-5f2a16be09d9',
   version: 1,
   versionModifiedAt: '2023-08-05T11:50:11.241Z',
@@ -68,6 +101,52 @@ const dataJson = {
   billingAddressIds: [],
   isEmailVerified: true,
   key: 'janeDoe',
+  stores: [],
+  authenticationMode: 'Password',
+};
+
+const dataJson2: IQueryCustomer = {
+  id: '7f171bc2-27a5-4a44-9421-a5494e7f195c',
+  version: 1,
+  versionModifiedAt: '2023-08-18T21:03:33.581Z',
+  lastMessageSequenceNumber: 1,
+  createdAt: '2023-08-18T21:03:33.581Z',
+  lastModifiedAt: '2023-08-18T21:03:33.581Z',
+  lastModifiedBy: {
+    clientId: 'svS0pMBqBgsAvo4YHURZIY5j',
+    isPlatformClient: false,
+  },
+  createdBy: {
+    clientId: 'svS0pMBqBgsAvo4YHURZIY5j',
+    isPlatformClient: false,
+  },
+  email: 'fort26@rambler.ru',
+  firstName: 'aazz',
+  lastName: 'zxcc',
+  password: '****jcs=',
+  addresses: [
+    {
+      id: 'zaVHXNOd',
+      streetName: 'ииии',
+      postalCode: '45432',
+      city: 'cece',
+      country: 'RU',
+      key: '0',
+    },
+    {
+      id: 'Cg34IoQX',
+      streetName: 'ииии',
+      postalCode: '45432',
+      city: 'cece',
+      country: 'RU',
+      key: '1',
+    },
+  ],
+  defaultShippingAddressId: 'zaVHXNOd',
+  defaultBillingAddressId: 'Cg34IoQX',
+  shippingAddressIds: ['zaVHXNOd'],
+  billingAddressIds: ['Cg34IoQX', 'zaVHXNOd'],
+  isEmailVerified: false,
   stores: [],
   authenticationMode: 'Password',
 };
@@ -161,7 +240,7 @@ interface IAddress {
   title?: string;
   firstName?: string;
   lastName?: string;
-  streetName?: string;
+  streetName: string;
   streetNumber?: string;
   postalCode: string;
   city: string;
@@ -171,41 +250,43 @@ interface IAddress {
   email?: string;
 }
 interface IAddressesBlockProps {
-  addresses: IAddress[] | unknown;
-  shippingAddressIds: number[];
-  billingAddressIds: number[];
+  addresses: IAddress[];
+  shippingAddressIds: string[];
+  billingAddressIds: string[];
+  defaultShippingAddressId?: string;
+  defaultBillingAddressId?: string;
 }
 const AddressesBlock = (props: IAddressesBlockProps) => {
   const [homeAddress, setHomeAddress] = useState<IAddress | object>({});
   const [billingAddress, setBillingAddress] = useState<IAddress | object>({});
-  const [defaultAddress, setDefaultAddress] = useState<IAddress | object>({});
+  const [defaultAddress, setDefaultAddress] = useState<IAddress>();
   const [newAddress, setNewAddress] = useState<IAddress | object>({});
   const adressesData = [
     { id: 'home-address', title: 'Home address', data: homeAddress, setCb: setHomeAddress },
     { id: 'billing-address', title: 'Billing address', data: billingAddress, setCb: setBillingAddress },
     { id: 'new-address', title: 'New address', data: newAddress, setCb: setNewAddress },
   ];
+  const defaultAddressData = props.addresses.find((address) => address.id === props.defaultShippingAddressId);
   const saveAddresses = () => {
-    console.log('adressesData', adressesData);
-    console.log('props', props);
-    setDefaultAddress({});
+    console.log('adressesData', adressesData, defaultAddress);
+    console.log('props AddressesBlock', props);
+    setDefaultAddress;
   };
 
   return (
     <div className="user-profile__edit-inner">
       <h1 className="user-profile__title">Address management</h1>
-      <AddressComponent title="Default address" isDefault={true} data={defaultAddress} />
-      {adressesData.map((address) => {
-        return (
-          <AddressComponent
-            formId={address.id}
-            title={address.title}
-            key={address.id}
-            data={address.data}
-            setCb={address.setCb}
-          />
-        );
-      })}
+      {defaultAddressData ? (
+        <AddressComponent title="Default address" isDefault={true} data={defaultAddressData} />
+      ) : (
+        <div className="user-profile__default-address">Default address not set</div>
+      )}
+      {props.addresses &&
+        props.addresses.map((address, index) => {
+          return (
+            <AddressComponent title={`Address ${index + 1}`} formId={address.id} key={address.id} data={address} />
+          );
+        })}
       <button className="user-profile__button" onClick={saveAddresses}>
         Save changes
       </button>
@@ -266,11 +347,12 @@ const UserProfile = () => {
     // fetchUserProfile();
     getCustomerById('a42bf47e-75a6-4b92-b237-5f2a16be09d9')(dispatch);
     // setDefaultAddress(null);
-    setGeneralsBlockData(dataJson);
-    setAddressesBlockData(dataJson.addresses);
-    setPasswordBlockData(dataJson.password);
+    setGeneralsBlockData(dataJson2);
+    setAddressesBlockData(dataJson2.addresses);
+    setPasswordBlockData(dataJson2.password);
     console.log(userProfile, userProfileError);
-    console.log('useEffect');
+    console.log('useEffect', addressesBlockData);
+    console.log(dataJson);
   }, []);
   return (
     <div className="user-profile">
@@ -305,9 +387,11 @@ const UserProfile = () => {
           {currentBlock === 'generals' && <GeneralsBlock generals={generalsBlockData} />}
           {currentBlock === 'addresses' && (
             <AddressesBlock
-              addresses={addressesBlockData}
-              billingAddressIds={dataJson.billingAddressIds}
-              shippingAddressIds={dataJson.shippingAddressIds}
+              addresses={dataJson2.addresses}
+              billingAddressIds={dataJson2.billingAddressIds}
+              shippingAddressIds={dataJson2.shippingAddressIds}
+              defaultShippingAddressId={dataJson2.defaultShippingAddressId}
+              defaultBillingAddressId={dataJson2.defaultBillingAddressId}
             />
           )}
           {currentBlock === 'password' && <PasswordBlock password={passwordBlockData} />}

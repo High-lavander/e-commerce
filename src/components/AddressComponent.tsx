@@ -2,18 +2,36 @@ import useInput from '../hooks/useInput';
 import { useEffect, useMemo, useState } from 'react';
 import { InputElement } from '../components';
 import countries from '../db/countries';
+interface IAddress {
+  key?: string;
+  id?: string;
+  title?: string;
+  firstName?: string;
+  lastName?: string;
+  streetName: string;
+  streetNumber?: string;
+  postalCode: string;
+  city: string;
+  country: string;
+  phone?: string;
+  mobile?: string;
+  email?: string;
+}
+
 interface IAddressComponent {
   title?: string;
   formId?: string;
-  data?: object;
+  data?: IAddress;
   isDefault?: boolean;
+  isDisabled?: boolean;
   setCb?: (arg: object) => void;
 }
 const AddressComponent = (props: IAddressComponent) => {
-  const country = useInput('');
-  const city = useInput('');
-  const street = useInput('');
-  const postalCode = useInput('');
+  const country = useInput(props.data ? props.data.country : '');
+  const city = useInput(props.data ? props.data.city : '');
+  const street = useInput(props.data ? props.data.streetName : '');
+  const postalCode = useInput(props.data ? props.data.postalCode : '');
+  const isEditable: boolean = Boolean(props.setCb);
   const [selectedCity, setSelectedCountry] = useState('');
   const filtered = useMemo(() => {
     return countries.filter((c) => c.name.toLocaleLowerCase().includes(country.value.toLocaleLowerCase()));
@@ -52,7 +70,7 @@ const AddressComponent = (props: IAddressComponent) => {
             disabled={props.isDefault}
           />
 
-          {country.value && filtered[0] && (
+          {isEditable && country.value && filtered[0] && (
             <ul className="user-profile__list countries-list">
               {filtered.map((country) => {
                 return (
@@ -76,7 +94,7 @@ const AddressComponent = (props: IAddressComponent) => {
           type="text"
           placeholder="City"
           validationCb="city"
-          disabled={props.isDefault}
+          disabled={props.isDefault || !isEditable}
         />
         <InputElement
           {...street}
@@ -84,7 +102,7 @@ const AddressComponent = (props: IAddressComponent) => {
           type="text"
           placeholder="Street"
           validationCb="street"
-          disabled={props.isDefault}
+          disabled={props.isDefault || !isEditable}
         />
         <InputElement
           {...postalCode}
@@ -92,7 +110,7 @@ const AddressComponent = (props: IAddressComponent) => {
           type="text"
           placeholder="Postal code"
           validationCb="postalCode"
-          disabled={props.isDefault}
+          disabled={props.isDefault || !isEditable}
         />
       </form>
     </div>

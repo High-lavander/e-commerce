@@ -37,6 +37,12 @@
     border: 1px solid #274c5b;
     background: #fff;
   }
+  &__default-address {
+    text-align: center;
+    font-size: 32px;
+    background-color: #E3F1E9;
+    border-radius: 16px;
+  }
 }
 
 .settings {
@@ -45,7 +51,7 @@
     flex-direction: column;
     align-items: center;
     padding: 40px 80px;
-    background-color: #E3F1E9;;
+    background-color: #E3F1E9;
     // border: 3px solid #E3F1E9;
     cursor: pointer;
     transition: background-color linear 0.25s;
