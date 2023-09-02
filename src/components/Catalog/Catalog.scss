@@ -1,0 +1,18 @@
+.catalog_banner{
+    background: url('../../assets/background_shop.png') 50% / cover no-repeat #E3F1E9;
+    height: 50vh;
+    h1{
+        display: flex;
+        color: #274C5B;
+    align-items: center;
+    justify-content: center;
+    padding-top: 100px;
+    }
+}
+
+.catalog_products{
+    display: grid;
+    grid-template-rows: 1fr 1fr 1fr 1fr;
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+    grid-gap: 3vw;
+}
