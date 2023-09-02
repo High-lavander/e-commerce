@@ -124,9 +124,8 @@ const GeneralsBlock = (props: IGeneralsBlockProps) => {
   const email = useInput(generals ? generals.email : '');
   const birthDate = useInput(generals ? generals.dateOfBirth : '');
   const phone = useInput(generals ? generals.customerNumber : '');
-  const [fetchDataMessage, setFetchDataMessage] = useState('');
-  const [fetchErrorMessage, setErrorDataMessage] = useState('');
   const [isEditMode, setIsEditMode] = useState(false);
+  const [formMessage, setFormMessage] = useState<string | undefined>();
   const dispatch = useDispatch();
   const { userProfileMessage, userProfileError, isUserProfileLoading, userProfile } = useAppSelector(
     (state) => state.userProfile
@@ -138,7 +137,11 @@ const GeneralsBlock = (props: IGeneralsBlockProps) => {
 
   const saveChanges = (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
     event.preventDefault();
-    setErrorDataMessage('');
+    setFormMessage(undefined);
+    if (!firstName.value || !lastName.value || !email.value || !birthDate.value) {
+      setFormMessage('Fields First name, Last Name, Email and Date of birth must be filled');
+      return;
+    }
     const postForm = {
       version: userProfile?.version,
       actions: [
@@ -179,28 +182,20 @@ const GeneralsBlock = (props: IGeneralsBlockProps) => {
     };
     const postFormJson = JSON.stringify(postForm);
     updateCustomer(dataJson2.id, postFormJson)(dispatch);
+    setFormMessage(undefined);
+    setIsEditMode(false);
   };
 
-  useEffect(() => {
-    if (userProfileMessage) {
-      setFetchDataMessage(userProfileMessage);
-      setIsEditMode(false);
-      setTimeout(() => {
-        setFetchDataMessage('');
-      }, 2500);
-    }
-    if (userProfileError) {
-      setErrorDataMessage(userProfileError);
-    }
-  }, [userProfileMessage, userProfileError]);
   return (
     <div className="user-profile__edit-inner">
       <h1 className="user-profile__title">Welcome to your account on the app!</h1>
       <section className="user-profile__info-block">
         <button className="user-profile__edit-switch" onClick={handleEditMode}></button>
         {isUserProfileLoading && <Loader />}
-        {fetchDataMessage && <div className="user-profile__message_success">{fetchDataMessage}</div>}
-        {fetchErrorMessage && <div className="user-profile__message_error">{fetchErrorMessage}</div>}
+        {formMessage && <FetchMessagesComponent errorMessage={formMessage} />}
+        <FetchMessagesComponent successMessage={userProfileMessage} errorMessage={userProfileError} />
+        {/* {fetchDataMessage && <div className="user-profile__message_success">{fetchDataMessage}</div>}
+        {fetchErrorMessage && <div className="user-profile__message_error">{fetchErrorMessage}</div>} */}
         {isEditMode ? (
           <form className="user-profile__info-edit edit-block">
             <div className="user-profile__input_double">

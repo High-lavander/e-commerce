@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 
 interface IFetchMessages {
-  successMessage: string | undefined;
+  successMessage?: string | undefined;
   errorMessage: string | undefined;
 }
 
