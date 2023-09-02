@@ -53,12 +53,11 @@ interface ICustomerResponseError {
   errors: {
     code: string;
     message: string;
+    detailedErrorMessage: string;
   }[];
   message: string;
   statusCode: number;
 }
-
-type TQueryCustomerResponse = ICustomerResponseError | { customer: IQueryCustomer };
 
 interface IUserProfileReducer {
   userProfile: IQueryCustomer | null;
@@ -108,7 +107,7 @@ export const getCustomerById = (id: string) => async (dispatch: AppDispatch) => 
 export const updateCustomer = (id: string, formData: string) => async (dispatch: AppDispatch) => {
   dispatch(userProfileSlice.actions.userProfileFetching());
   const tokenObject = await getToken();
-  const response: TQueryCustomerResponse = await fetch(
+  fetch(
     `https://api.${process.env.VITE_CTP_API_REGION}.commercetools.com/${process.env.VITE_CTP_PROJECT_KEY}/customers/${id}`,
     {
       method: 'POST',
@@ -118,12 +117,21 @@ export const updateCustomer = (id: string, formData: string) => async (dispatch:
       },
       body: formData,
     }
-  ).then((res) => res.json());
-  if ('customer' in response) {
-    dispatch(userProfileSlice.actions.userProfileUpdateSuccess(response.customer));
-  } else {
-    dispatch(userProfileSlice.actions.userProfileFetchingError(response.message));
-  }
+  )
+    .then((res) => {
+      return res.json();
+    })
+    .then((data) => {
+      if ('errors' in (data as ICustomerResponseError)) {
+        dispatch(
+          userProfileSlice.actions.userProfileFetchingError(data.errors?.[0].detailedErrorMessage || data.message)
+        );
+        return;
+      }
+      dispatch(userProfileSlice.actions.userProfileFetchingSuccess(data));
+      dispatch(userProfileSlice.actions.userProfileFetchMessage('Successfully updated'));
+    })
+    .catch((e) => dispatch(userProfileSlice.actions.userProfileFetchingError(e)));
 };
 export const userProfileSlice = createSlice({
   name: 'userProfile',
@@ -142,19 +150,22 @@ export const userProfileSlice = createSlice({
       state.userProfileError = '';
       state.userProfile = action.payload;
     },
-    userProfileUpdateSuccess(state, action) {
-      state.isUserProfileLoading = false;
-      state.userProfileError = '';
-      state.userProfile = action.payload;
-      state.userProfileMessage = 'Success';
-    },
     userProfileFetchingError(state, action) {
       state.isUserProfileLoading = false;
+      state.userProfileMessage = '';
       state.userProfileError = action.payload;
+    },
+    userProfileFetchMessage(state, action) {
+      state.userProfileMessage = action.payload;
     },
   },
 });
 
-export const { setUserProfile, userProfileFetching, userProfileFetchingSuccess, userProfileFetchingError } =
-  userProfileSlice.actions;
+export const {
+  setUserProfile,
+  userProfileFetching,
+  userProfileFetchingSuccess,
+  userProfileFetchingError,
+  userProfileFetchMessage,
+} = userProfileSlice.actions;
 export default userProfileSlice.reducer;

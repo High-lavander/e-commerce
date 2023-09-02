@@ -10,8 +10,7 @@ import { getCustomerById, updateCustomer } from '../../store/userProfile';
 import { useDispatch } from 'react-redux';
 import { useAppSelector } from '../../store/hooks';
 import { Loader } from '../../components/Loader';
-// import { useState } from 'react';
-//a42bf47e-75a6-4b92-b237-5f2a16be09d9
+import { FetchMessagesComponent } from '../../components/FetchMessagesComponent';
 
 interface IQueryCustomer {
   id: string;
@@ -45,66 +44,6 @@ interface IQueryCustomer {
   stores: [];
   authenticationMode: string;
 }
-
-const dataJson: IQueryCustomer = {
-  id: 'a42bf47e-75a6-4b92-b237-5f2a16be09d9',
-  version: 1,
-  versionModifiedAt: '2023-08-05T11:50:11.241Z',
-  lastMessageSequenceNumber: 1,
-  createdAt: '2023-08-05T11:50:11.241Z',
-  lastModifiedAt: '2023-08-05T11:50:11.241Z',
-  lastModifiedBy: {
-    clientId: 'hvI2XZLbWCzD8ky8lv0D_f_S',
-    isPlatformClient: false,
-  },
-  createdBy: {
-    clientId: 'hvI2XZLbWCzD8ky8lv0D_f_S',
-    isPlatformClient: false,
-  },
-  customerNumber: '1',
-  email: 'jane.doe@example.com',
-  firstName: 'Jane',
-  lastName: 'Doe',
-  title: 'Mrs',
-  dateOfBirth: '1974-09-20',
-  password: '****7Ck=',
-  addresses: [
-    {
-      id: 'tqsvzzix',
-      title: 'Mrs.',
-      firstName: 'Jane',
-      lastName: 'Doe',
-      streetName: 'First Street',
-      streetNumber: '12',
-      postalCode: '12345',
-      city: 'Example City',
-      country: 'NL',
-      phone: '+312345678',
-      mobile: '+312345679',
-      email: 'jane.doe@example.com',
-    },
-    {
-      id: 'sAzGJpI6',
-      title: 'Head of factory',
-      firstName: 'Jane',
-      lastName: 'Doe',
-      streetName: 'Third Street',
-      streetNumber: '34',
-      postalCode: '12345',
-      city: 'Example City',
-      country: 'NL',
-      phone: '+3112345678',
-      mobile: '+3112345679',
-      email: 'jane.doe@example.com',
-    },
-  ],
-  shippingAddressIds: [],
-  billingAddressIds: [],
-  isEmailVerified: true,
-  key: 'janeDoe',
-  stores: [],
-  authenticationMode: 'Password',
-};
 
 const dataJson2: IQueryCustomer = {
   id: '7f171bc2-27a5-4a44-9421-a5494e7f195c',
@@ -189,7 +128,9 @@ const GeneralsBlock = (props: IGeneralsBlockProps) => {
   const [fetchErrorMessage, setErrorDataMessage] = useState('');
   const [isEditMode, setIsEditMode] = useState(false);
   const dispatch = useDispatch();
-  const { userProfileMessage, userProfileError, isUserProfileLoading } = useAppSelector((state) => state.userProfile);
+  const { userProfileMessage, userProfileError, isUserProfileLoading, userProfile } = useAppSelector(
+    (state) => state.userProfile
+  );
 
   const handleEditMode = () => {
     setIsEditMode(!isEditMode);
@@ -199,7 +140,7 @@ const GeneralsBlock = (props: IGeneralsBlockProps) => {
     event.preventDefault();
     setErrorDataMessage('');
     const postForm = {
-      version: dataJson2.version,
+      version: userProfile?.version,
       actions: [
         ...(firstName.value ? [{ action: 'setFirstName', firstName: firstName.value }] : []),
         ...(lastName.value
@@ -236,9 +177,7 @@ const GeneralsBlock = (props: IGeneralsBlockProps) => {
           : []),
       ],
     };
-    console.log('postForm', postForm);
     const postFormJson = JSON.stringify(postForm);
-    console.log('postFormJson', postFormJson);
     updateCustomer(dataJson2.id, postFormJson)(dispatch);
   };
 
@@ -254,7 +193,6 @@ const GeneralsBlock = (props: IGeneralsBlockProps) => {
       setErrorDataMessage(userProfileError);
     }
   }, [userProfileMessage, userProfileError]);
-  console.log('props', props);
   return (
     <div className="user-profile__edit-inner">
       <h1 className="user-profile__title">Welcome to your account on the app!</h1>
@@ -360,39 +298,84 @@ interface IAddressesBlockProps {
   defaultBillingAddressId?: string;
 }
 const AddressesBlock = (props: IAddressesBlockProps) => {
-  const [homeAddress, setHomeAddress] = useState<IAddress | object>({});
-  const [billingAddress, setBillingAddress] = useState<IAddress | object>({});
-  const [defaultAddress, setDefaultAddress] = useState<IAddress>();
-  const [newAddress, setNewAddress] = useState<IAddress | object>({});
-  const adressesData = [
-    { id: 'home-address', title: 'Home address', data: homeAddress, setCb: setHomeAddress },
-    { id: 'billing-address', title: 'Billing address', data: billingAddress, setCb: setBillingAddress },
-    { id: 'new-address', title: 'New address', data: newAddress, setCb: setNewAddress },
-  ];
-  const defaultAddressData = props.addresses.find((address) => address.id === props.defaultShippingAddressId);
-  const saveAddresses = () => {
-    console.log('adressesData', adressesData, defaultAddress);
-    console.log('props AddressesBlock', props);
-    setDefaultAddress;
+  const dispatch = useDispatch();
+  const { userProfile, isUserProfileLoading, userProfileError, userProfileMessage } = useAppSelector(
+    (state) => state.userProfile
+  );
+  const [updateAddresses, setUpdateAddresses] = useState<IAddress[]>(props.addresses);
+  const [isEditMode, setIsEditMode] = useState(props?.addresses?.map(() => false) || []);
+  const defaultAddressData = props?.addresses.find((address) => address.id === props.defaultShippingAddressId);
+
+  const handleUpdateAddressesCb = (address: IAddress) => {
+    setUpdateAddresses(updateAddresses.map((addr) => (addr.id === address.id ? { ...addr, ...address } : { ...addr })));
+  };
+
+  const saveAddresses = (addr: IAddress, index: number) => {
+    const address = updateAddresses.find((address) => address.id === addr.id);
+    setIsEditMode(isEditMode.map((_, indx) => (indx === index ? false : false)));
+
+    let postForm = {};
+    if (address) {
+      postForm = {
+        version: userProfile?.version,
+        actions: [
+          {
+            action: 'changeAddress',
+            addressId: address.id,
+            address: {
+              ...(address.city && { city: address.city }),
+              ...(address.country && { country: address.country }),
+              ...(address.postalCode && { postalCode: address.postalCode }),
+              ...(address.streetName && { streetName: address.streetName }),
+            },
+          },
+        ],
+      };
+    }
+
+    const postFormJson = JSON.stringify(postForm);
+    updateCustomer(dataJson2.id, postFormJson)(dispatch);
+  };
+
+  const handleEditMode = (index: number) => {
+    setIsEditMode(isEditMode.map((val, indx) => (indx === index ? !val : val)));
   };
 
   return (
     <div className="user-profile__edit-inner">
+      {<div className="user-profile__fetch-messages"></div>}
+      <FetchMessagesComponent successMessage={userProfileMessage} errorMessage={userProfileError} />
       <h1 className="user-profile__title">Address management</h1>
       {defaultAddressData ? (
-        <AddressComponent title="Default address" isDefault={true} data={defaultAddressData} />
+        <div className="user-profile__default-address">
+          <AddressComponent title="Default address" isDefault={true} data={defaultAddressData} />
+        </div>
       ) : (
         <div className="user-profile__default-address">Default address not set</div>
       )}
-      {props.addresses &&
-        props.addresses.map((address, index) => {
-          return (
-            <AddressComponent title={`Address ${index + 1}`} formId={address.id} key={address.id} data={address} />
-          );
-        })}
-      <button className="user-profile__button" onClick={saveAddresses}>
-        Save changes
-      </button>
+      <ul className="user-profile__addresses-list">
+        {props.addresses &&
+          props.addresses.map((address, index) => {
+            return (
+              <li className="user-profile__addresses-item" key={address.id}>
+                <button className="user-profile__edit-switch" onClick={() => handleEditMode(index)}></button>
+                <AddressComponent
+                  title={`Address ${index + 1}`}
+                  formId={address.id}
+                  data={address}
+                  setCb={handleUpdateAddressesCb}
+                  isEditableMode={isEditMode[index]}
+                />
+                {isUserProfileLoading && <Loader />}
+                {isEditMode[index] && (
+                  <button className="user-profile__button" onClick={() => saveAddresses(address, index)}>
+                    Save changes
+                  </button>
+                )}
+              </li>
+            );
+          })}
+      </ul>
     </div>
   );
 };
@@ -433,9 +416,6 @@ const UserProfile = () => {
   const { userProfile } = useAppSelector((state) => state.userProfile);
   const [currentBlock, setCurrentBlock] = useState('generals');
   const dispatch = useDispatch();
-  // const [defaultAddress, setDefaultAddress] = useState<IAddress | null>();
-  const [generalsBlockData, setGeneralsBlockData] = useState<IQueryCustomer>();
-  const [addressesBlockData, setAddressesBlockData] = useState<IAddress[]>([]);
   const [passwordBlockData, setPasswordBlockData] = useState('');
 
   const switchBlock = (block: string) => {
@@ -443,22 +423,10 @@ const UserProfile = () => {
   };
 
   useEffect(() => {
-    // const fetchUserProfile = async () => {
-    //   await getCustomerById('a42bf47e-75a6-4b92-b237-5f2a16be09d9')(dispatch);
-    //   setDefaultAddress(userProfile);
-    // };
-    // fetchUserProfile();
     getCustomerById('7f171bc2-27a5-4a44-9421-a5494e7f195c')(dispatch);
-    // setDefaultAddress(null);
-    console.log('userProfile', userProfile);
     if (userProfile) {
-      setGeneralsBlockData(userProfile);
-      setAddressesBlockData(userProfile.addresses);
       setPasswordBlockData(userProfile.password);
     }
-
-    console.log('useEffect', addressesBlockData, generalsBlockData);
-    console.log(dataJson);
   }, []);
   return (
     <div className="user-profile">

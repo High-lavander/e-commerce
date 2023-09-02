@@ -24,15 +24,16 @@ interface IAddressComponent {
   data?: IAddress;
   isDefault?: boolean;
   isDisabled?: boolean;
-  setCb?: (arg: object) => void;
+  isEditableMode?: boolean;
+  setCb?: (arg: IAddress) => void;
 }
 const AddressComponent = (props: IAddressComponent) => {
   const country = useInput(props.data ? props.data.country : '');
   const city = useInput(props.data ? props.data.city : '');
   const street = useInput(props.data ? props.data.streetName : '');
   const postalCode = useInput(props.data ? props.data.postalCode : '');
-  const isEditable: boolean = Boolean(props.setCb);
-  const [selectedCity, setSelectedCountry] = useState('');
+  const isEditable: boolean = Boolean(props.isEditableMode) && Boolean(props.setCb);
+  const [selectedCity, setSelectedCountry] = useState(props.data ? props.data.country : '');
   const filtered = useMemo(() => {
     return countries.filter((c) => c.name.toLocaleLowerCase().includes(country.value.toLocaleLowerCase()));
   }, [country.value]);
@@ -42,14 +43,13 @@ const AddressComponent = (props: IAddressComponent) => {
     setSelectedCountry(countryCode);
   };
 
-  const address = [
-    {
-      city: city.value,
-      country: selectedCity,
-      postalCode: postalCode.value,
-      streetName: street.value,
-    },
-  ];
+  const address = {
+    id: props.data?.id,
+    city: city.value,
+    country: selectedCity,
+    postalCode: postalCode.value,
+    streetName: street.value,
+  };
   console.log(address);
 
   useEffect(() => {
@@ -57,8 +57,12 @@ const AddressComponent = (props: IAddressComponent) => {
   }, [city.value, selectedCity, postalCode.value, street.value]);
 
   return (
-    <div className={`user-profile__edit-inner ${props.isDefault && 'default-address'}`}>
-      {props.title && <div className="user-profile__title">{props.title}</div>}
+    <div
+      className={`address-component__edit-inner ${props.isDefault && 'address-component__mode_default'} ${
+        props.isEditableMode && 'address-component__mode_edit'
+      }`}
+    >
+      {props.title && <div className="user-profile__sub-title">{props.title}</div>}
       <form id={props.formId} className="user-profile__info-block">
         <div className="registration__input-wrapper country_selector">
           <InputElement
@@ -67,10 +71,10 @@ const AddressComponent = (props: IAddressComponent) => {
             type="text"
             placeholder="Country"
             validationCb="country"
-            disabled={props.isDefault}
+            disabled={props.isDefault || !isEditable}
           />
 
-          {isEditable && country.value && filtered[0] && (
+          {isEditable && country.value !== selectedCity && filtered[0] && (
             <ul className="user-profile__list countries-list">
               {filtered.map((country) => {
                 return (
