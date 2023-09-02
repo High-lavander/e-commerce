@@ -1,0 +1,14 @@
+.categories {
+    ul {
+        display: flex;
+        justify-content: space-between;
+
+        li {
+            color: #274C5B;
+        }
+    }
+}
+
+.active {
+    color: aqua;
+}
