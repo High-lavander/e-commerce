@@ -133,6 +133,43 @@ export const updateCustomer = (id: string, formData: string) => async (dispatch:
     })
     .catch((e) => dispatch(userProfileSlice.actions.userProfileFetchingError(e)));
 };
+
+// interface ICustomerPasswordChangeRequest {
+//   id: string;
+//   version: number;
+//   currentPassword: string;
+//   newPassword: string;
+// }
+export const changePassword = (formData: string) => async (dispatch: AppDispatch) => {
+  dispatch(userProfileSlice.actions.userProfileFetching());
+  const tokenObject = await getToken();
+  fetch(
+    `https://api.${process.env.VITE_CTP_API_REGION}.commercetools.com/${process.env.VITE_CTP_PROJECT_KEY}/customers/password`,
+    {
+      method: 'POST',
+      headers: {
+        Authorization: `Bearer ${tokenObject.access_token}`,
+        'Content-Type': 'application/json',
+      },
+      body: formData,
+    }
+  )
+    .then((res) => {
+      return res.json();
+    })
+    .then((data) => {
+      if ('errors' in (data as ICustomerResponseError)) {
+        dispatch(
+          userProfileSlice.actions.userProfileFetchingError(data.errors?.[0].detailedErrorMessage || data.message)
+        );
+        return;
+      }
+      dispatch(userProfileSlice.actions.userProfileFetchingSuccess(data));
+      dispatch(userProfileSlice.actions.userProfileFetchMessage('Password successfully changed'));
+    })
+    .catch((e) => dispatch(userProfileSlice.actions.userProfileFetchingError(e)));
+};
+
 export const userProfileSlice = createSlice({
   name: 'userProfile',
   initialState,

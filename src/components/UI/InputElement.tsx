@@ -1,4 +1,4 @@
-import { ChangeEvent, useRef } from 'react';
+import { ChangeEvent, useRef, useState } from 'react';
 interface IInputElementProps {
   placeholder?: string;
   className?: string;
@@ -27,6 +27,7 @@ const USPostalCode = /\d{5}([ \-]\d{4})?/;
 
 const InputElement = (props: IInputElementProps) => {
   const inputRef = useRef(null);
+  const [isVisible, setIsVisible] = useState(false);
   const inputElement: HTMLInputElement = inputRef.current!;
   const validates: { [key: string]: <T>(val: T) => void } = {
     name: (val) => {
@@ -106,6 +107,10 @@ const InputElement = (props: IInputElementProps) => {
       validates[props.validationCb](inputElement?.value);
     }
   };
+
+  const switchPasswordVisibility = () => {
+    setIsVisible(!isVisible);
+  };
   return (
     <label className={`registration__label ${props.labelClassname ? props.labelClassname : ''}`} htmlFor={props.id}>
       <span
@@ -114,23 +119,49 @@ const InputElement = (props: IInputElementProps) => {
       >
         {props.placeholder}
       </span>
-      <input
-        ref={inputRef}
-        name={props.id}
-        className={props.className}
-        type={props.type}
-        placeholder={props.placeholder}
-        value={props.value}
-        checked={props.checked}
-        onChange={handleChange}
-        maxLength={props.maxLength}
-        minLength={props.minLength}
-        max={props.max}
-        min={props.min}
-        disabled={props.disabled}
-        required={props.required}
-        style={{ borderColor: props.error ? 'red' : 'black' }}
-      />
+      {props.type !== 'password' ? (
+        <input
+          ref={inputRef}
+          name={props.id}
+          className={props.className}
+          type={props.type}
+          placeholder={props.placeholder}
+          value={props.value}
+          checked={props.checked}
+          onChange={handleChange}
+          maxLength={props.maxLength}
+          minLength={props.minLength}
+          max={props.max}
+          min={props.min}
+          disabled={props.disabled}
+          required={props.required}
+          style={{ borderColor: props.error ? 'red' : 'black' }}
+        />
+      ) : (
+        <>
+          <input
+            ref={inputRef}
+            name={props.id}
+            className={`${props.className} password-input__input`}
+            type={isVisible ? 'text' : 'password'}
+            placeholder={props.placeholder}
+            value={props.value}
+            checked={props.checked}
+            onChange={handleChange}
+            maxLength={props.maxLength}
+            minLength={props.minLength}
+            max={props.max}
+            min={props.min}
+            disabled={props.disabled}
+            required={props.required}
+            style={{ borderColor: props.error ? 'red' : 'black' }}
+          />
+          <span
+            onClick={switchPasswordVisibility}
+            className={`password-input__eye ${isVisible ? `password-input__eye_open` : `password-input__eye_close`}`}
+          ></span>
+        </>
+      )}
 
       {props.error && <span className="registration__input-error">{props.error}</span>}
       {props.type === 'date' && !Boolean(props.value) && <span className="registration__date-error">Enter date</span>}

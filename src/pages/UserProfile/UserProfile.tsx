@@ -379,31 +379,59 @@ interface IPasswordBlockProps {
   password: string;
 }
 const PasswordBlock = (props: IPasswordBlockProps) => {
-  const currentPassword = useInput('');
+  const { userProfileMessage, userProfileError, isUserProfileLoading } = useAppSelector((state) => state.userProfile);
+  const currentPassword = useInput(props.password || 'password');
   const newPassword = useInput('');
+  const [isEditMode, setIsEditMode] = useState(false);
+
+  const handleEditMode = () => {
+    setIsEditMode(!isEditMode);
+  };
+
   console.log('props.password', props.password);
   return (
     <div className="user-profile__edit-inner">
       <h1 className="user-profile__title">Modifying the password</h1>
-      <form className="user-profile__info-block">
-        <InputElement
-          {...currentPassword}
-          className="user-profile__input app__input_password"
-          type="password"
-          placeholder="Current password"
-          minLength={4}
-          validationCb="password"
-        />
-        <InputElement
-          {...newPassword}
-          className="user-profile__input app__input_password"
-          type="password"
-          placeholder="New password"
-          minLength={4}
-          validationCb="password"
-        />
-        <button className="user-profile__button">Save changes</button>
-      </form>
+      <section className="user-profile__password-block">
+        <button className="user-profile__change-switch" onClick={handleEditMode}>
+          Change Password
+        </button>
+        {isUserProfileLoading && <Loader />}
+        <FetchMessagesComponent successMessage={userProfileMessage} errorMessage={userProfileError} />
+        {isEditMode ? (
+          <form className="user-profile__info-block">
+            <InputElement
+              {...currentPassword}
+              className="user-profile__input app__input_password"
+              type="password"
+              placeholder="Current password"
+              minLength={4}
+              validationCb="password"
+            />
+            <InputElement
+              {...newPassword}
+              className="user-profile__input app__input_password"
+              type="password"
+              placeholder="New password"
+              minLength={4}
+              validationCb="password"
+            />
+            <button className="user-profile__button">Save changes</button>
+          </form>
+        ) : (
+          <div className="user-profile__password-view">
+            <InputElement
+              {...currentPassword}
+              value={currentPassword.value}
+              className="user-profile__input app__input_password"
+              type="password"
+              placeholder="Current password"
+              minLength={4}
+              disabled={true}
+            />
+          </div>
+        )}
+      </section>
     </div>
   );
 };
