@@ -8,15 +8,18 @@ import LoginPage from './pages/login/login';
 import Error404 from './pages/Error404/Error404';
 import RegistrationPage from './pages/registration/registration';
 import RedirectToMainLoggged from './components/Redirect/Redirect';
+import Catalog from './components/Catalog/Catalog';
 
 function App() {
   return (
     <>
       <Header />
+
       <Routes>
         <Route path="/" element={<Main />} />
         <Route path="/About" element={<About />} />
         <Route path="/contact" element={<Contact />} />
+        <Route path="/catalog" element={<Catalog />} />
         <Route
           path="/registration"
           element={
