@@ -15,7 +15,7 @@ const CatalogBreadcrumbs: FC<ICatalogBreadcrumbsProps> = ({ categories }) => {
     <div className="bread-crumb">
       <Link to={'/'}>Home</Link>
       {'/'}
-      <Link className={categoryId ? '' : 'active'} to={'/catalog'}>
+      <Link className={categoryId ? '' : 'active'} to={'/shop'}>
         Catalog
       </Link>
 

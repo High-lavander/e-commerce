@@ -5,6 +5,8 @@ import IProductElement, { categoryFilter, getAllCategories, getAllProducts } fro
 import ProductElement from '../ProductElement/ProductElement';
 import CatalogBreadcrumbs from '../CatalogBreadcrumbs/CatalogBreadcrumbs';
 import { useSearchParams } from 'react-router-dom';
+import ProductsFilter from '../ProductsFilter/ProductsFilter';
+import ProductsFilterOption from '../ProductsFilter/ProductsFilterOption';
 
 function Catalog() {
   const [products, setProducts] = useState([]);
@@ -49,6 +51,8 @@ function Catalog() {
       <div className="catalog_banner">
         <h1>Shop</h1>
       </div>
+      <ProductsFilter />
+      <ProductsFilterOption />
       <CatalogBreadcrumbs categories={categories} />
       <Categories categories={categories} />
       <div className="catalog_products">

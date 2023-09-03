@@ -1,11 +1,17 @@
 p {
     margin: 0px;
+
 }
 
 .product_block {
     width: 340px;
     border-radius: 30px;
     background: #F9F8F8;
+
+    &:hover {
+        transform: scale(1.2);
+        transition: 2s ease-in-out;
+    }
 
     &_info {
         display: flex;
@@ -20,7 +26,7 @@ p {
 
     &_info {
         &_title {
-            .title{
+            .title {
                 color: #274C5B;
                 font-size: 20px;
                 font-weight: 600;
@@ -34,6 +40,11 @@ p {
             font-weight: 700;
             font-size: 18px;
             display: flex;
+
+            p {
+                margin-right: 20px;
+                margin-top: 10px;
+            }
         }
 
         &_btn-basket {

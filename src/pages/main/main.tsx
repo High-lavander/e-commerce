@@ -1,5 +1,6 @@
 import './main.scss';
 import Arrow from '../../assets/icons/Aerrow.svg';
+import { Link } from 'react-router-dom';
 
 function Main() {
   return (
@@ -8,10 +9,12 @@ function Main() {
         <h4>Delicious and Healthy</h4>
         <h1>Explore a New Dimension of Nutrition!</h1>
       </div>
-      <button className="banner_btn">
-        <p>Shop Now</p>
-        <img src={Arrow} alt="arrow" />
-      </button>
+      <div className="banner_btn">
+        <Link to="/shop" >
+          <p>Shop Now</p>
+          <img src={Arrow} alt="arrow" />
+        </Link>
+      </div>
     </section>
   );
 }

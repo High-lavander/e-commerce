@@ -10,15 +10,15 @@ function Footer() {
         <ul>
           <li>
             <p>Anvar Abduragimov</p>
-            <a href="">bogdanovich231</a>
+            <a href="https://github.com/crecker05ru">crecker05ru</a>
           </li>
           <li>
             <p>Tatsiana Kulinkovich</p>
-            <a href="">bogdanovich231</a>
+            <a href="https://github.com/bogdanovich231">bogdanovich231</a>
           </li>
           <li>
             <p>Shakhzod Ikramov</p>
-            <a href="">bogdanovich231</a>
+            <a href="https://github.com/shakhzod235">shakhzod235</a>
           </li>
         </ul>
       </div>

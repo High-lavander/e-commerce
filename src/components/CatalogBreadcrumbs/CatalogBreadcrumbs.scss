@@ -1,8 +1,11 @@
-.active{
+.active {
     pointer-events: none;
+    color: #EFD372;
 }
 
-.bread-crumb{
+.bread-crumb {
     display: flex;
-    gap: 10px;
+    gap: 6px;
+    justify-content: center;
+    margin-top: 20px;
 }
