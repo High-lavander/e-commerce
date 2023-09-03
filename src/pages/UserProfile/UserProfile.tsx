@@ -6,7 +6,7 @@ import geolocation from '../../assets/user/geolocation.svg';
 import lock from '../../assets/user/lock.svg';
 import { useEffect, useState } from 'react';
 import AddressComponent from '../../components/AddressComponent';
-import { getCustomerById, updateCustomer } from '../../store/userProfile';
+import { changePassword, getCustomerById, updateCustomer } from '../../store/userProfile';
 import { useDispatch } from 'react-redux';
 import { useAppSelector } from '../../store/hooks';
 import { Loader } from '../../components/Loader';
@@ -379,13 +379,31 @@ interface IPasswordBlockProps {
   password: string;
 }
 const PasswordBlock = (props: IPasswordBlockProps) => {
-  const { userProfileMessage, userProfileError, isUserProfileLoading } = useAppSelector((state) => state.userProfile);
+  const dispatch = useDispatch();
+  const { userProfileMessage, userProfileError, isUserProfileLoading, userProfile } = useAppSelector(
+    (state) => state.userProfile
+  );
   const currentPassword = useInput(props.password || 'password');
   const newPassword = useInput('');
   const [isEditMode, setIsEditMode] = useState(false);
 
   const handleEditMode = () => {
     setIsEditMode(!isEditMode);
+  };
+
+  const saveChangedPassword = () => {
+    const postForm = {
+      id: userProfile?.id,
+      version: userProfile?.version,
+      currentPassword: currentPassword.value,
+      newPassword: newPassword.value,
+    };
+    const postData = JSON.stringify(postForm);
+    changePassword(postData)(dispatch);
+    if (userProfileError) {
+      return;
+    }
+    setIsEditMode(false);
   };
 
   console.log('props.password', props.password);
@@ -416,7 +434,13 @@ const PasswordBlock = (props: IPasswordBlockProps) => {
               minLength={4}
               validationCb="password"
             />
-            <button className="user-profile__button">Save changes</button>
+            <button
+              className="user-profile__button"
+              onClick={saveChangedPassword}
+              disabled={Boolean(newPassword.error)}
+            >
+              Save changes
+            </button>
           </form>
         ) : (
           <div className="user-profile__password-view">

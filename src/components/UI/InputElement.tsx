@@ -50,11 +50,20 @@ const InputElement = (props: IInputElementProps) => {
       if (val && (val as string).length < 8) {
         props.setError('minimum 8 characters');
       }
-      if (!(val as string)?.split('').some((char) => char.toUpperCase() === char)) {
-        props.setError(' at least 1 uppercase letter');
+      if (!(val as string)?.match(/[A-Z]/g)) {
+        props.setError('at least 1 uppercase letter');
       }
-      if (!(val as string)?.split('').some((char) => char.toLowerCase() === char)) {
-        props.setError(' at least 1 lowercase letter');
+      if (!(val as string)?.match(/[a-z]/g)) {
+        props.setError('at least 1 lowercase letter');
+      }
+      if (!(val as string).match(/[0-9]/)?.length) {
+        props.setError('at least 1 number letter');
+      }
+      if (!(val as string).match(/[!@#$%^&*]/)?.length) {
+        props.setError('at least 1 special symbol from !@#$%^&*');
+      }
+      if ((val as string)?.split('').some((char) => char === ' ')) {
+        props.setError('must not conatin spaces');
       }
     },
     email: (val) => {
@@ -115,7 +124,7 @@ const InputElement = (props: IInputElementProps) => {
     <label className={`registration__label ${props.labelClassname ? props.labelClassname : ''}`} htmlFor={props.id}>
       <span
         className="registration__input-placeholder"
-        style={{ paddingLeft: props.type === 'checkbox' ? '10px' : '0' }}
+        style={{ paddingLeft: props.type === 'checkbox' ? '10px' : '0', textAlign: 'left' }}
       >
         {props.placeholder}
       </span>
