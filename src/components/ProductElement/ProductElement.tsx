@@ -2,14 +2,15 @@ import IProductElement from '../../ApiCatalog/ApiCatalog';
 import './ProductElement.scss';
 
 function ProductElement({ product }: { product: IProductElement }) {
-
   const {
     masterData: { current },
   } = product;
   return (
     <div className="product_block">
       <div className="product_block_images">
-        {current.masterVariant.images[0] ? <img src={product.masterData.current.masterVariant.images[0].url} alt="Product img" /> : null}
+        {current.masterVariant.images[0] ? (
+          <img src={product.masterData.current.masterVariant.images[0].url} alt="Product img" />
+        ) : null}
       </div>
       <div className="product_block_description">
         <p>{current.description ? current.description.en : null}</p>

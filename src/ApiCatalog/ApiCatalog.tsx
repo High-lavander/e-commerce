@@ -1,4 +1,4 @@
-import { getToken } from "../store/customer";
+import { getToken } from '../store/customer';
 
 export default interface IProductElement {
   id: string;
@@ -9,8 +9,8 @@ export default interface IProductElement {
     current: {
       description: {
         en: string;
-      }
-      categories: [{ typeId: string, id: string }];
+      };
+      categories: [{ typeId: string; id: string }];
       masterVariant: {
         prices: {
           value: {
@@ -32,7 +32,7 @@ export default interface IGetCategory {
   key: string;
   name: {
     en: string;
-  }
+  };
 }
 
 export const getAllProducts = async () => {
@@ -40,12 +40,15 @@ export const getAllProducts = async () => {
     const tokenObject = await getToken();
     const accessToken = tokenObject.access_token;
 
-    const response = await fetch(`https://api.${process.env.VITE_CTP_API_REGION}.commercetools.com/${process.env.VITE_CTP_PROJECT_KEY}/products`, {
-      method: 'GET',
-      headers: {
-        Authorization: `Bearer ${accessToken}`,
-      },
-    });
+    const response = await fetch(
+      `https://api.${process.env.VITE_CTP_API_REGION}.commercetools.com/${process.env.VITE_CTP_PROJECT_KEY}/products`,
+      {
+        method: 'GET',
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+      }
+    );
 
     if (!response.ok) {
       throw new Error(`Error while executing the query: ${response.status}`);
@@ -59,18 +62,20 @@ export const getAllProducts = async () => {
   }
 };
 
-
 export const getAllCategories = async () => {
   try {
     const tokenObject = await getToken();
     const accessToken = tokenObject.access_token;
 
-    const response = await fetch(`https://api.${process.env.VITE_CTP_API_REGION}.commercetools.com/${process.env.VITE_CTP_PROJECT_KEY}/categories`, {
-      method: 'GET',
-      headers: {
-        Authorization: `Bearer ${accessToken}`,
-      },
-    });
+    const response = await fetch(
+      `https://api.${process.env.VITE_CTP_API_REGION}.commercetools.com/${process.env.VITE_CTP_PROJECT_KEY}/categories`,
+      {
+        method: 'GET',
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+      }
+    );
 
     if (!response.ok) {
       throw new Error(`Error while executing the query: ${response.status}`);
@@ -83,7 +88,6 @@ export const getAllCategories = async () => {
     throw error;
   }
 };
-
 
 export const categoryFilter = async (categoryId: string) => {
   try {
