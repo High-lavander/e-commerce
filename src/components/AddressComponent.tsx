@@ -2,6 +2,8 @@ import useInput from '../hooks/useInput';
 import { useEffect, useMemo, useState } from 'react';
 import { InputElement } from '../components';
 import countries from '../db/countries';
+import useCheckbox from '../hooks/useCheckbox';
+import { CheckboxSwitcherElement } from './UI/checkboxSwitcherElement';
 interface IAddress {
   key?: string;
   id?: string;
@@ -28,6 +30,8 @@ interface IAddressComponent {
   setCb?: (arg: IAddress) => void;
 }
 const AddressComponent = (props: IAddressComponent) => {
+  const asDefaultAddress = useCheckbox(false);
+  const addressType = useInput('');
   const country = useInput(props.data ? props.data.country : '');
   const city = useInput(props.data ? props.data.city : '');
   const street = useInput(props.data ? props.data.streetName : '');
@@ -64,6 +68,12 @@ const AddressComponent = (props: IAddressComponent) => {
     >
       {props.title && <div className="user-profile__sub-title">{props.title}</div>}
       <form id={props.formId} className="user-profile__info-block">
+        <CheckboxSwitcherElement
+          {...addressType}
+          value1="Shipping address"
+          value2="Billing address"
+          isDisabled={props.isDefault || !isEditable}
+        />
         <div className="registration__input-wrapper country_selector">
           <InputElement
             {...country}
@@ -114,6 +124,14 @@ const AddressComponent = (props: IAddressComponent) => {
           type="text"
           placeholder="Postal code"
           validationCb="postalCode"
+          disabled={props.isDefault || !isEditable}
+        />
+        <InputElement
+          labelClassname="checkbox_label"
+          {...asDefaultAddress}
+          className="registration__checkbox app__input_checkbox"
+          type="checkbox"
+          placeholder="Set as default address"
           disabled={props.isDefault || !isEditable}
         />
       </form>

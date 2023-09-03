@@ -298,11 +298,27 @@ const AddressesBlock = (props: IAddressesBlockProps) => {
     (state) => state.userProfile
   );
   const [updateAddresses, setUpdateAddresses] = useState<IAddress[]>(props.addresses);
+  const [newAddresses, setNewAddresses] = useState<IAddress[]>([]);
   const [isEditMode, setIsEditMode] = useState(props?.addresses?.map(() => false) || []);
   const defaultAddressData = props?.addresses.find((address) => address.id === props.defaultShippingAddressId);
 
   const handleUpdateAddressesCb = (address: IAddress) => {
     setUpdateAddresses(updateAddresses.map((addr) => (addr.id === address.id ? { ...addr, ...address } : { ...addr })));
+  };
+
+  // const handleUpdateNewAddressesCb = (address: IAddress) => {
+  //   setNewAddresses(newAddresses.map((addr) => (addr.id === address.id ? { ...addr, ...address } : { ...addr })));
+  // };
+
+  const addNewAddress = () => {
+    const newAddress: IAddress = {
+      city: '',
+      country: '',
+      streetName: '',
+      postalCode: '',
+    };
+    setNewAddresses((prev) => [...prev, newAddress]);
+    console.log('updateAddresses', updateAddresses);
   };
 
   const saveAddresses = (addr: IAddress, index: number) => {
@@ -336,6 +352,15 @@ const AddressesBlock = (props: IAddressesBlockProps) => {
     setIsEditMode(isEditMode.map((val, indx) => (indx === index ? !val : val)));
   };
 
+  const cancelNewAddress = (index: number) => {
+    setNewAddresses((prev) => prev.filter((_, inx) => inx !== index));
+  };
+
+  const saveNewAddresses = (newAddr: IAddress, index: number) => {
+    setNewAddresses((prev) => prev.map((addr, inx) => (inx === index ? { ...addr, ...newAddr } : { ...addr })));
+    console.log('newAddresses', newAddresses);
+  };
+
   return (
     <div className="user-profile__edit-inner">
       {<div className="user-profile__fetch-messages"></div>}
@@ -361,6 +386,7 @@ const AddressesBlock = (props: IAddressesBlockProps) => {
                   setCb={handleUpdateAddressesCb}
                   isEditableMode={isEditMode[index]}
                 />
+                {!isEditMode[index] && <button className="user-profile__button-delete">Delete address</button>}
                 {isUserProfileLoading && <Loader />}
                 {isEditMode[index] && (
                   <button className="user-profile__button" onClick={() => saveAddresses(address, index)}>
@@ -371,6 +397,32 @@ const AddressesBlock = (props: IAddressesBlockProps) => {
             );
           })}
       </ul>
+      <ul className="user-profile__addresses-new">
+        {newAddresses &&
+          newAddresses.map((newAddr, index) => {
+            return (
+              <li className="user-profile__addresses-item" key={index}>
+                <AddressComponent
+                  title={`New address ${index + 1}`}
+                  formId={`new${index}`}
+                  data={newAddr}
+                  setCb={handleUpdateAddressesCb}
+                  isEditableMode={true}
+                />
+                <button onClick={() => cancelNewAddress(index)} className="user-profile__button-cancel">
+                  Cancel address
+                </button>
+                {isUserProfileLoading && <Loader />}
+                <button className="user-profile__button" onClick={() => saveNewAddresses(newAddr, index)}>
+                  Save changes
+                </button>
+              </li>
+            );
+          })}
+      </ul>
+      <button onClick={addNewAddress} className="user-profile__button-add">
+        Add new address
+      </button>
     </div>
   );
 };
@@ -383,7 +435,7 @@ const PasswordBlock = (props: IPasswordBlockProps) => {
   const { userProfileMessage, userProfileError, isUserProfileLoading, userProfile } = useAppSelector(
     (state) => state.userProfile
   );
-  const currentPassword = useInput(props.password || 'password');
+  const currentPassword = useInput('');
   const newPassword = useInput('');
   const [isEditMode, setIsEditMode] = useState(false);
 
@@ -412,7 +464,7 @@ const PasswordBlock = (props: IPasswordBlockProps) => {
       <h1 className="user-profile__title">Modifying the password</h1>
       <section className="user-profile__password-block">
         <button className="user-profile__change-switch" onClick={handleEditMode}>
-          Change Password
+          {isEditMode ? 'Cancel' : 'Change Password'}
         </button>
         {isUserProfileLoading && <Loader />}
         <FetchMessagesComponent successMessage={userProfileMessage} errorMessage={userProfileError} />
