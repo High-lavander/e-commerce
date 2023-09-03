@@ -1,6 +1,5 @@
 import { Route, Routes } from 'react-router';
 import { Header } from './components';
-import Footer from './components/Footer';
 import Main from './pages/main/main';
 import About from './pages/About/About';
 import Contact from './pages/Contact/Contact';
@@ -9,6 +8,7 @@ import Error404 from './pages/Error404/Error404';
 import RegistrationPage from './pages/registration/registration';
 import RedirectToMainLoggged from './components/Redirect/Redirect';
 import Catalog from './components/Catalog/Catalog';
+import Footer from './components/Footer/Footer';
 
 function App() {
   return (
@@ -19,7 +19,7 @@ function App() {
         <Route path="/" element={<Main />} />
         <Route path="/About" element={<About />} />
         <Route path="/contact" element={<Contact />} />
-        <Route path="/catalog" element={<Catalog />} />
+        <Route path="/shop" element={<Catalog />} />
         <Route
           path="/registration"
           element={
