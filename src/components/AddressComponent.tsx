@@ -4,7 +4,7 @@ import { InputElement } from '../components';
 import countries from '../db/countries';
 import useCheckbox from '../hooks/useCheckbox';
 import { CheckboxSwitcherElement } from './UI/checkboxSwitcherElement';
-interface IAddress {
+interface IAddressComponent {
   key?: string;
   id?: string;
   title?: string;
@@ -20,23 +20,29 @@ interface IAddress {
   email?: string;
 }
 
-interface IAddressComponent {
+interface INewAddress extends IAddressComponent {
+  index?: number;
+  isEditMode?: boolean;
+}
+
+interface IAddressComponentProps {
+  index?: number;
   title?: string;
   formId?: string;
-  data?: IAddress;
+  data?: INewAddress;
   isDefault?: boolean;
   isDisabled?: boolean;
   isEditableMode?: boolean;
-  setCb?: (arg: IAddress) => void;
+  setCb?: (arg: IAddressComponent) => void;
 }
-const AddressComponent = (props: IAddressComponent) => {
+const AddressComponent = (props: IAddressComponentProps) => {
   const asDefaultAddress = useCheckbox(false);
   const addressType = useInput('');
   const country = useInput(props.data ? props.data.country : '');
   const city = useInput(props.data ? props.data.city : '');
   const street = useInput(props.data ? props.data.streetName : '');
   const postalCode = useInput(props.data ? props.data.postalCode : '');
-  const isEditable: boolean = Boolean(props.isEditableMode) && Boolean(props.setCb);
+  const isEditable: boolean = Boolean(props.isEditableMode);
   const [selectedCity, setSelectedCountry] = useState(props.data ? props.data.country : '');
   const filtered = useMemo(() => {
     return countries.filter((c) => c.name.toLocaleLowerCase().includes(country.value.toLocaleLowerCase()));
@@ -48,7 +54,9 @@ const AddressComponent = (props: IAddressComponent) => {
   };
 
   const address = {
-    id: props.data?.id,
+    ...(props.data?.id && { id: props.data?.id }),
+    ...(props.data?.index && { index: props.data?.index }),
+    ...(props.data?.isEditMode && { isEditMode: props.data?.isEditMode }),
     city: city.value,
     country: selectedCity,
     postalCode: postalCode.value,

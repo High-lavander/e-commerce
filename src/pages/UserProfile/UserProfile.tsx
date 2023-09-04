@@ -292,33 +292,23 @@ interface IAddressesBlockProps {
   defaultShippingAddressId?: string;
   defaultBillingAddressId?: string;
 }
+
+interface INewAddress extends IAddress {
+  index?: number;
+  isEditMode?: boolean;
+}
 const AddressesBlock = (props: IAddressesBlockProps) => {
   const dispatch = useDispatch();
   const { userProfile, isUserProfileLoading, userProfileError, userProfileMessage } = useAppSelector(
     (state) => state.userProfile
   );
   const [updateAddresses, setUpdateAddresses] = useState<IAddress[]>(props.addresses);
-  const [newAddresses, setNewAddresses] = useState<IAddress[]>([]);
+  const [newAddresses, setNewAddresses] = useState<INewAddress[]>([]);
   const [isEditMode, setIsEditMode] = useState(props?.addresses?.map(() => false) || []);
   const defaultAddressData = props?.addresses.find((address) => address.id === props.defaultShippingAddressId);
 
   const handleUpdateAddressesCb = (address: IAddress) => {
     setUpdateAddresses(updateAddresses.map((addr) => (addr.id === address.id ? { ...addr, ...address } : { ...addr })));
-  };
-
-  // const handleUpdateNewAddressesCb = (address: IAddress) => {
-  //   setNewAddresses(newAddresses.map((addr) => (addr.id === address.id ? { ...addr, ...address } : { ...addr })));
-  // };
-
-  const addNewAddress = () => {
-    const newAddress: IAddress = {
-      city: '',
-      country: '',
-      streetName: '',
-      postalCode: '',
-    };
-    setNewAddresses((prev) => [...prev, newAddress]);
-    console.log('updateAddresses', updateAddresses);
   };
 
   const saveAddresses = (addr: IAddress, index: number) => {
@@ -352,13 +342,66 @@ const AddressesBlock = (props: IAddressesBlockProps) => {
     setIsEditMode(isEditMode.map((val, indx) => (indx === index ? !val : val)));
   };
 
+  // const handleUpdateNewAddressesCb = (address: IAddress) => {
+  //   setNewAddresses(newAddresses.map((addr) => (addr.id === address.id ? { ...addr, ...address } : { ...addr })));
+  // };
+
+  const addNewAddress = () => {
+    const newAddress: INewAddress = {
+      city: '',
+      country: '',
+      streetName: '',
+      postalCode: '',
+      isEditMode: true,
+    };
+    setNewAddresses((prev) => [...prev, newAddress]);
+    console.log('updateAddresses', updateAddresses);
+  };
+
   const cancelNewAddress = (index: number) => {
     setNewAddresses((prev) => prev.filter((_, inx) => inx !== index));
   };
 
   const saveNewAddresses = (newAddr: IAddress, index: number) => {
-    setNewAddresses((prev) => prev.map((addr, inx) => (inx === index ? { ...addr, ...newAddr } : { ...addr })));
-    console.log('newAddresses', newAddresses);
+    setNewAddresses((prev) =>
+      prev.map((addr, inx) =>
+        inx === index ? { ...addr, ...newAddr, isEditMode: false } : { ...newAddr, isEditMode: false }
+      )
+    );
+    console.log('saveNewAddresses newAddresses', newAddresses);
+
+    let postForm = {};
+    if (newAddr) {
+      postForm = {
+        version: userProfile?.version,
+        actions: [
+          {
+            action: 'addAddress',
+            address: {
+              ...(newAddr.city && { city: newAddr.city }),
+              ...(newAddr.country && { country: newAddr.country }),
+              ...(newAddr.postalCode && { postalCode: newAddr.postalCode }),
+              ...(newAddr.streetName && { streetName: newAddr.streetName }),
+            },
+          },
+        ],
+      };
+    }
+
+    const postFormJson = JSON.stringify(postForm);
+    // updateCustomer(dataJson2.id, postFormJson)(dispatch);
+    if (userProfile) {
+      updateCustomer(userProfile.id, postFormJson)(dispatch);
+    } else {
+      console.log('No user id detected?login again');
+    }
+  };
+
+  const handleUpdateNewAddressesCb = (address: INewAddress) => {
+    setNewAddresses(
+      newAddresses.map((addr, indx) => (indx === address.index ? { ...addr, ...address } : { ...address }))
+    );
+    console.log('handleUpdateNewAddressesCb newAddresses', newAddresses);
   };
 
   return (
@@ -406,8 +449,9 @@ const AddressesBlock = (props: IAddressesBlockProps) => {
                   title={`New address ${index + 1}`}
                   formId={`new${index}`}
                   data={newAddr}
-                  setCb={handleUpdateAddressesCb}
-                  isEditableMode={true}
+                  setCb={handleUpdateNewAddressesCb}
+                  isEditableMode={newAddr.isEditMode}
+                  index={index}
                 />
                 <button onClick={() => cancelNewAddress(index)} className="user-profile__button-cancel">
                   Cancel address
