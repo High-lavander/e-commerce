@@ -1,3 +1,3 @@
-import { fetchCustomer, createCustomer, loginCustomer } from '../customer';
+import { createCustomer, loginCustomer } from '../customer';
 
-export { fetchCustomer, createCustomer, loginCustomer };
+export { createCustomer, loginCustomer };

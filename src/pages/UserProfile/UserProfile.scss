@@ -1,0 +1,282 @@
+.user-profile {
+  &__inner {
+    display: flex;
+  }
+  &__aside {
+    flex: 2 1 20%;
+        @media screen and (max-width: 767px) {
+       position: fixed;
+       display: flex;
+       justify-content: center;
+       top: 0;
+       left: 50%;
+       transform: translate(-50%,0);
+       z-index: 9;
+    }
+  }
+  &__edit{
+    display: flex;
+    flex:  18 1 80%;
+    justify-content: center;
+  }
+  &__edit-inner {
+    max-width: 720px;
+    margin-bottom: 4rem;
+  }
+  &__title {
+    font-size: 3.13rem;
+    margin-bottom: 60px;
+  }
+  &__sub-title {
+    font-size: 2.9rem;
+    margin-bottom: 0;
+  }
+
+ 
+  &__info-block {
+    position: relative;
+    padding: 36px 16px 16px;
+  }
+  &__password-block {
+    position: relative;
+    padding: 36px 16px 16px;
+  }
+  &__password-view {
+    position: relative;
+    padding: 36px 16px 16px;
+  }
+  &__message {
+    &_success {
+      position: absolute;
+      top: 0;
+      left: 16px;
+      height: 30px;
+      width: 80%;
+      overflow-y: auto;
+      color: #20ff80;
+    }
+    &_error {
+      position: absolute;
+      top: 0;
+      left: 16px;
+      height: 30px;
+      width: 80%;
+      overflow-y: auto;
+      color: #ff0000;
+
+    }
+  }
+  &__edit-switch {
+    position: absolute;
+    right: 10px;
+    top: 5px;
+    height: 30px;
+    width: 20px;
+    padding: 12px;
+    font-size: 14px;
+    background-color: transparent;
+    background-image: url('../../assets/user/edit-pencil.svg');
+    background-size: contain;
+    background-repeat: no-repeat;
+    outline: none;
+    border: none;
+    &:focus {
+      outline: none;
+      box-shadow: none;
+    }
+  }
+  &__change-switch {
+    cursor: pointer;
+    background-color: transparent;
+    width: 100%;
+    height: 62px;
+    margin-bottom: 1rem;
+    padding-left: 39px;
+    padding-right: 39px;
+    font-size: var(--button-font-size);
+    text-align: center;
+    border-radius: 16px;
+    border: 1px solid #274c5b;
+    background: #fff;
+  }
+  &__list {
+    display: flex;
+    flex-direction: column;
+    row-gap: 20px;
+  }
+  &__list-item {
+    padding: 8px;
+    background-color: rgba($color: #E3F1E9, $alpha: 1.0);
+  }
+  &__item-key {
+    font-weight: 800;
+  }
+  &__addresses-item {
+    position: relative;
+    max-width: 720px;
+    margin-bottom: 7rem;
+    background-color: rgba($color: #E3F1E9, $alpha: 1.0);
+    border: 1px solid #000000;
+    border-radius: 16px;
+  }
+  &__input {
+    margin-bottom: 1rem;
+    border-radius: 16px;
+    height: 32px;
+    &_double {
+      display: flex;
+      column-gap: 20px;
+    }
+  }
+  &__button {
+    position: absolute;
+    bottom: -5.6rem;
+    width: 100%;
+    height: 62px;
+    margin-bottom: 1rem;
+    padding-left: 39px;
+    padding-right: 39px;
+    font-size: var(--button-font-size);
+    text-align: center;
+    border-radius: 16px;
+    border: 1px solid #274c5b;
+    background: #fff;
+  }
+  &__button-delete {
+    position: absolute;
+    bottom: -5.6rem;
+    width: 100%;
+    height: 62px;
+    margin-bottom: 1rem;
+    padding-left: 39px;
+    padding-right: 39px;
+    font-size: var(--button-font-size);
+    text-align: center;
+    border-radius: 16px;
+    border: 1px solid #ff0000;
+    background: #fff;
+  }
+  &__button-add {
+    width: 100%;
+    height: 62px;
+    margin-bottom: 1rem;
+    padding-left: 39px;
+    padding-right: 39px;
+    font-size: var(--button-font-size);
+    text-align: center;
+    border-radius: 16px;
+    border: 1px solid #274c5b;
+    background: #82dcff;
+  }
+  &__button-cancel {
+    position: absolute;
+    bottom: -20px;
+    width: 100%;
+    height: 42px;
+    margin-bottom: 1rem;
+    padding-left: 39px;
+    padding-right: 39px;
+    font-size: var(--button-font-size);
+    text-align: center;
+    border-radius: 16px;
+    border: 1px solid #274c5b;
+    background: #ff4974;
+  }
+  &__default-address {
+    margin-bottom: 4rem;
+    background-color: rgba($color: #b3b3b3, $alpha: 0.3);
+    border-radius: 16px;
+  }
+  &__loader-fixed {
+    position: fixed;
+    left: 50%;
+    top:0;
+    z-index: 99;
+  }
+}
+
+.settings {
+  &__switch {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 40px 80px;
+    background-color: #E3F1E9;
+    cursor: pointer;
+    transition: background-color linear 0.25s;
+    @media screen and (max-width: 767px) {
+      padding: 1rem;
+    }
+    &:hover {
+      background-color: rgba($color: #fff, $alpha: 0.9);
+    }
+
+    &_active {
+      background-color: #fff;
+    }
+  }
+  &__image {
+    width: 70px;
+    height: 90px;
+    @media screen and (max-width: 767px) {
+      width: 1rem;
+      height: 1rem;
+    }
+  }
+}
+
+.address-component {
+  &__edit-inner {
+    padding: 20px;
+    border-radius: 16px;
+  }
+  &__mode {
+    &_edit {
+      padding: 20px;
+      background-color: rgba($color: #fff, $alpha: 1.0);
+      border-radius: 16px;
+    }
+    &_default {
+      padding: 20px;
+      background-color: rgba($color: #a0a0a0, $alpha: 0.3);
+      border-radius: 16px;
+    }
+  }
+  &__form-error {
+    display: block;
+    max-width: 300px;
+    color: red;
+  }
+}
+
+.password-input {
+  &__input {
+    position: relative;
+  }
+  &__eye {
+    display: block;
+    position: absolute;
+    background-image: url('../../assets/icons/eye-open.svg');
+    background-size: contain;
+    background-repeat: no-repeat;
+    top: 35%;
+    right: 5%;
+    width: 26px;
+    height: 26px;
+    background-color: transparent;
+    border: none;
+    &:hover {
+      border: none;
+      opacity: 0.5;
+    }
+    &:focus {
+      outline: none;
+    }
+    &_close {
+      background-image: url('../../assets/icons/eye-close.svg');
+      opacity: 0.8;
+    }
+  }
+
+
+}

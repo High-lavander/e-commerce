@@ -25,7 +25,10 @@ h6 {
 }
 
 //////////
-
+ul {
+  margin: 0;
+  padding: 0;
+}
 li {
   list-style: none;
 }
@@ -110,27 +113,56 @@ input::-webkit-inner-spin-button {
     &_text {
       padding: 8px;
       font-size: inherit;
+      &:disabled {
+        user-select: none;
+        pointer-events: none;
+        background-color: rgba($color: #a2a2a2, $alpha: 0.4);
+      }
     }
 
     &_email {
       padding: 8px;
       font-size: inherit;
+      &:disabled {
+        user-select: none;
+        pointer-events: none;
+        background-color: rgba($color: #a2a2a2, $alpha: 0.4);
+
+      }
     }
 
     &_password {
       padding: 8px;
       font-size: inherit;
+      &:disabled {
+        user-select: none;
+        pointer-events: none;
+        background-color: rgba($color: #a2a2a2, $alpha: 0.4);
+
+      }
     }
 
     &_date {
       padding: 8px;
       font-size: inherit;
       user-select: none;
+      &:disabled {
+        user-select: none;
+        pointer-events: none;
+        background-color: rgba($color: #a2a2a2, $alpha: 0.4);
+
+      }
     }
 
     &_number {
       padding: 8px;
       font-size: inherit;
+      &:disabled {
+        user-select: none;
+        pointer-events: none;
+        background-color: rgba($color: #a2a2a2, $alpha: 0.4);
+
+      }
     }
   }
 }

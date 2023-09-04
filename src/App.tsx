@@ -8,6 +8,7 @@ import LoginPage from './pages/login/login';
 import Error404 from './pages/Error404/Error404';
 import RegistrationPage from './pages/registration/registration';
 import RedirectToMainLoggged from './components/Redirect/Redirect';
+import UserProfile from './pages/UserProfile/UserProfile';
 
 function App() {
   return (
@@ -33,6 +34,7 @@ function App() {
             </RedirectToMainLoggged>
           }
         />
+        <Route path="/user-profile/:id" element={<UserProfile />} />
         <Route path="*" element={<Error404 />} />
       </Routes>
       <Footer />

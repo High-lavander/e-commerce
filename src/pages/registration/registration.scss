@@ -50,6 +50,8 @@
 
   &__label {
     display: flex;
+    position: relative;
+    padding-bottom: 1rem;
     flex-direction: column;
     font-size: var(--label-font-size);
     width: 100%;
@@ -57,6 +59,7 @@
 
   &__input {
     height: 61px;
+    margin-bottom: 1rem;
     border: 1px solid #274c5b;
     width: 100%;
     font-size: var(--input-font-size);
@@ -83,15 +86,16 @@
     }
 
     &-error {
+      position: absolute;
       color: #ff0000;
       font-size: var(--input-font-size) !important;
-
+      bottom: -10px;
       @media screen and (max-width: 1200px) {
-        bottom: -20px;
+        // bottom: -20px;
       }
 
       @media screen and (max-width: 420px) {
-        bottom: -15px;
+        // bottom: -15px;
       }
     }
 
@@ -101,7 +105,7 @@
       font-style: normal;
       font-weight: 800;
       line-height: normal;
-      margin-bottom: 8px;
+      margin-bottom: 0px;
 
     }
   }
