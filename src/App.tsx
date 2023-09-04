@@ -3,6 +3,7 @@ import { Header } from './components';
 import Footer from './components/Footer';
 import Main from './pages/main/main';
 import About from './pages/About/About';
+import DetailedProduct from './pages/DetailedProduct/DetailedProduct';
 import Contact from './pages/Contact/Contact';
 import LoginPage from './pages/login/login';
 import Error404 from './pages/Error404/Error404';
@@ -16,6 +17,7 @@ function App() {
       <Routes>
         <Route path="/" element={<Main />} />
         <Route path="/About" element={<About />} />
+        <Route path="/detailed-product/:id" element={<DetailedProduct />} />
         <Route path="/contact" element={<Contact />} />
         <Route
           path="/registration"
