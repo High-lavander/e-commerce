@@ -12,85 +12,6 @@ import { useAppSelector } from '../../store/hooks';
 import { Loader } from '../../components/Loader';
 import { FetchMessagesComponent } from '../../components/FetchMessagesComponent';
 
-interface IQueryCustomer {
-  id: string;
-  version: number;
-  versionModifiedAt: string;
-  lastMessageSequenceNumber: number;
-  createdAt: string;
-  lastModifiedAt: string;
-  lastModifiedBy: {
-    clientId: string;
-    isPlatformClient: boolean;
-  };
-  createdBy: {
-    clientId: string;
-    isPlatformClient: boolean;
-  };
-  customerNumber?: string;
-  email: string;
-  firstName: string;
-  lastName: string;
-  title?: string;
-  dateOfBirth?: string;
-  password: string;
-  addresses: IAddress[];
-  defaultShippingAddressId?: string;
-  shippingAddressIds: string[];
-  defaultBillingAddressId?: string;
-  billingAddressIds: string[];
-  isEmailVerified: boolean;
-  key?: string;
-  stores: [];
-  authenticationMode: string;
-}
-
-const dataJson2: IQueryCustomer = {
-  id: '7f171bc2-27a5-4a44-9421-a5494e7f195c',
-  version: 1,
-  versionModifiedAt: '2023-08-18T21:03:33.581Z',
-  lastMessageSequenceNumber: 1,
-  createdAt: '2023-08-18T21:03:33.581Z',
-  lastModifiedAt: '2023-08-18T21:03:33.581Z',
-  lastModifiedBy: {
-    clientId: 'svS0pMBqBgsAvo4YHURZIY5j',
-    isPlatformClient: false,
-  },
-  createdBy: {
-    clientId: 'svS0pMBqBgsAvo4YHURZIY5j',
-    isPlatformClient: false,
-  },
-  email: 'fort26@rambler.ru',
-  firstName: 'aazz',
-  lastName: 'zxcc',
-  password: '****jcs=',
-  addresses: [
-    {
-      id: 'zaVHXNOd',
-      streetName: 'ииии',
-      postalCode: '45432',
-      city: 'cece',
-      country: 'RU',
-      key: '0',
-    },
-    {
-      id: 'Cg34IoQX',
-      streetName: 'ииии',
-      postalCode: '45432',
-      city: 'cece',
-      country: 'RU',
-      key: '1',
-    },
-  ],
-  defaultShippingAddressId: 'zaVHXNOd',
-  defaultBillingAddressId: 'Cg34IoQX',
-  shippingAddressIds: ['zaVHXNOd'],
-  billingAddressIds: ['Cg34IoQX', 'zaVHXNOd'],
-  isEmailVerified: false,
-  stores: [],
-  authenticationMode: 'Password',
-};
-
 interface IGenerals {
   id: string;
   vesrion: number;
@@ -181,7 +102,11 @@ const GeneralsBlock = (props: IGeneralsBlockProps) => {
       ],
     };
     const postFormJson = JSON.stringify(postForm);
-    updateCustomer(dataJson2.id, postFormJson)(dispatch);
+    if (userProfile) {
+      updateCustomer(userProfile.id, postFormJson)(dispatch);
+    } else {
+      console.log('No user id detected,login again');
+    }
     setFormMessage(undefined);
     setIsEditMode(false);
   };
@@ -293,9 +218,21 @@ interface IAddressesBlockProps {
   defaultBillingAddressId?: string;
 }
 
+enum AddressTypes {
+  SHIPPING = 'Shipping address',
+  BILLING = 'Billing address',
+}
+
 interface INewAddress extends IAddress {
   index?: number;
   isEditMode?: boolean;
+  asDefaultAddress?: boolean;
+  addressType?: AddressTypes;
+}
+
+interface IPostFormUpdate {
+  version?: number;
+  actions?: object[];
 }
 const AddressesBlock = (props: IAddressesBlockProps) => {
   const dispatch = useDispatch();
@@ -335,16 +272,34 @@ const AddressesBlock = (props: IAddressesBlockProps) => {
     }
 
     const postFormJson = JSON.stringify(postForm);
-    updateCustomer(dataJson2.id, postFormJson)(dispatch);
+    if (userProfile) {
+      updateCustomer(userProfile.id, postFormJson)(dispatch);
+    } else {
+      console.log('No user id detected,login again');
+    }
   };
 
   const handleEditMode = (index: number) => {
     setIsEditMode(isEditMode.map((val, indx) => (indx === index ? !val : val)));
   };
 
-  // const handleUpdateNewAddressesCb = (address: IAddress) => {
-  //   setNewAddresses(newAddresses.map((addr) => (addr.id === address.id ? { ...addr, ...address } : { ...addr })));
-  // };
+  const deleteAddress = (address: IAddress) => {
+    const postForm = {
+      version: userProfile?.version,
+      actions: [
+        {
+          action: 'removeAddress',
+          addressId: address.id,
+        },
+      ],
+    };
+    const postFormJson = JSON.stringify(postForm);
+    if (userProfile) {
+      updateCustomer(userProfile.id, postFormJson)(dispatch);
+    } else {
+      console.log('No user id detected,login again');
+    }
+  };
 
   const addNewAddress = () => {
     const newAddress: INewAddress = {
@@ -355,22 +310,21 @@ const AddressesBlock = (props: IAddressesBlockProps) => {
       isEditMode: true,
     };
     setNewAddresses((prev) => [...prev, newAddress]);
-    console.log('updateAddresses', updateAddresses);
   };
 
   const cancelNewAddress = (index: number) => {
     setNewAddresses((prev) => prev.filter((_, inx) => inx !== index));
   };
 
-  const saveNewAddresses = (newAddr: IAddress, index: number) => {
+  const saveNewAddresses = (newAddr: INewAddress, index: number) => {
     setNewAddresses((prev) =>
       prev.map((addr, inx) =>
         inx === index ? { ...addr, ...newAddr, isEditMode: false } : { ...newAddr, isEditMode: false }
       )
     );
-    console.log('saveNewAddresses newAddresses', newAddresses);
 
-    let postForm = {};
+    let postForm: IPostFormUpdate = {};
+    const keyGenerate = `${newAddr.city} ${newAddr.streetName}`;
     if (newAddr) {
       postForm = {
         version: userProfile?.version,
@@ -378,6 +332,7 @@ const AddressesBlock = (props: IAddressesBlockProps) => {
           {
             action: 'addAddress',
             address: {
+              key: keyGenerate,
               ...(newAddr.city && { city: newAddr.city }),
               ...(newAddr.country && { country: newAddr.country }),
               ...(newAddr.postalCode && { postalCode: newAddr.postalCode }),
@@ -387,11 +342,26 @@ const AddressesBlock = (props: IAddressesBlockProps) => {
         ],
       };
     }
-
+    if (postForm.actions) {
+      if (newAddr.asDefaultAddress && newAddr.addressType === AddressTypes.SHIPPING) {
+        postForm.actions.push({ action: 'setDefaultShippingAddress', addressKey: keyGenerate });
+        postForm.actions.push({ action: 'addShippingAddressId', addressKey: keyGenerate });
+      }
+      if (newAddr.asDefaultAddress && newAddr.addressType === AddressTypes.BILLING) {
+        postForm.actions.push({ action: 'setDefaultBillingAddress', addressKey: keyGenerate });
+        postForm.actions.push({ action: 'addBillingAddressId', addressKey: keyGenerate });
+      }
+      if (!newAddr.asDefaultAddress && newAddr.addressType === AddressTypes.SHIPPING) {
+        postForm.actions.push({ action: 'addShippingAddressId', addressKey: keyGenerate });
+      }
+      if (!newAddr.asDefaultAddress && newAddr.addressType === AddressTypes.BILLING) {
+        postForm.actions.push({ action: 'addBillingAddressId', addressKey: keyGenerate });
+      }
+    }
     const postFormJson = JSON.stringify(postForm);
-    // updateCustomer(dataJson2.id, postFormJson)(dispatch);
     if (userProfile) {
       updateCustomer(userProfile.id, postFormJson)(dispatch);
+      setNewAddresses([]);
     } else {
       console.log('No user id detected?login again');
     }
@@ -401,7 +371,6 @@ const AddressesBlock = (props: IAddressesBlockProps) => {
     setNewAddresses(
       newAddresses.map((addr, indx) => (indx === address.index ? { ...addr, ...address } : { ...address }))
     );
-    console.log('handleUpdateNewAddressesCb newAddresses', newAddresses);
   };
 
   return (
@@ -409,6 +378,12 @@ const AddressesBlock = (props: IAddressesBlockProps) => {
       {<div className="user-profile__fetch-messages"></div>}
       <FetchMessagesComponent successMessage={userProfileMessage} errorMessage={userProfileError} />
       <h1 className="user-profile__title">Address management</h1>
+      {isUserProfileLoading && (
+        <div className="user-profile__loader-fixed">
+          <Loader />
+        </div>
+      )}
+
       {defaultAddressData ? (
         <div className="user-profile__default-address">
           <AddressComponent title="Default address" isDefault={true} data={defaultAddressData} />
@@ -428,9 +403,16 @@ const AddressesBlock = (props: IAddressesBlockProps) => {
                   data={address}
                   setCb={handleUpdateAddressesCb}
                   isEditableMode={isEditMode[index]}
+                  defaultShippingAddressId={userProfile?.defaultShippingAddressId}
+                  defaultBillingAddressId={userProfile?.defaultBillingAddressId}
+                  shippingAddressIds={userProfile?.shippingAddressIds}
+                  billingAddressIds={userProfile?.billingAddressIds}
                 />
-                {!isEditMode[index] && <button className="user-profile__button-delete">Delete address</button>}
-                {isUserProfileLoading && <Loader />}
+                {!isEditMode[index] && (
+                  <button className="user-profile__button-delete" onClick={() => deleteAddress(address)}>
+                    Delete address
+                  </button>
+                )}
                 {isEditMode[index] && (
                   <button className="user-profile__button" onClick={() => saveAddresses(address, index)}>
                     Save changes
@@ -453,10 +435,11 @@ const AddressesBlock = (props: IAddressesBlockProps) => {
                   isEditableMode={newAddr.isEditMode}
                   index={index}
                 />
-                <button onClick={() => cancelNewAddress(index)} className="user-profile__button-cancel">
-                  Cancel address
-                </button>
-                {isUserProfileLoading && <Loader />}
+                {newAddr.isEditMode && (
+                  <button onClick={() => cancelNewAddress(index)} className="user-profile__button-cancel">
+                    Cancel address
+                  </button>
+                )}
                 <button className="user-profile__button" onClick={() => saveNewAddresses(newAddr, index)}>
                   Save changes
                 </button>
@@ -464,9 +447,11 @@ const AddressesBlock = (props: IAddressesBlockProps) => {
             );
           })}
       </ul>
-      <button onClick={addNewAddress} className="user-profile__button-add">
-        Add new address
-      </button>
+      {newAddresses.length < 1 && (
+        <button onClick={addNewAddress} className="user-profile__button-add">
+          Add new address
+        </button>
+      )}
     </div>
   );
 };
@@ -479,7 +464,7 @@ const PasswordBlock = (props: IPasswordBlockProps) => {
   const { userProfileMessage, userProfileError, isUserProfileLoading, userProfile } = useAppSelector(
     (state) => state.userProfile
   );
-  const currentPassword = useInput('');
+  const currentPassword = useInput(props.password);
   const newPassword = useInput('');
   const [isEditMode, setIsEditMode] = useState(false);
 
@@ -502,7 +487,6 @@ const PasswordBlock = (props: IPasswordBlockProps) => {
     setIsEditMode(false);
   };
 
-  console.log('props.password', props.password);
   return (
     <div className="user-profile__edit-inner">
       <h1 className="user-profile__title">Modifying the password</h1>

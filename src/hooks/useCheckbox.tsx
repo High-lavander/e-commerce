@@ -13,6 +13,7 @@ const useCheckbox = (initialValue: boolean = false) => {
     error,
     onChange: handleChange,
     setError,
+    setChecked,
   };
 };
 

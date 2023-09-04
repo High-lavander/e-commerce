@@ -20,9 +20,15 @@ interface IAddressComponent {
   email?: string;
 }
 
+enum AddressTypes {
+  SHIPPING = 'Shipping address',
+  BILLING = 'Billing address',
+}
 interface INewAddress extends IAddressComponent {
   index?: number;
   isEditMode?: boolean;
+  asDefaultAddress?: boolean;
+  addressType?: AddressTypes;
 }
 
 interface IAddressComponentProps {
@@ -30,20 +36,31 @@ interface IAddressComponentProps {
   title?: string;
   formId?: string;
   data?: INewAddress;
+  defaultShippingAddressId?: string;
+  defaultBillingAddressId?: string;
+  shippingAddressIds?: string[];
+  billingAddressIds?: string[];
   isDefault?: boolean;
   isDisabled?: boolean;
   isEditableMode?: boolean;
   setCb?: (arg: IAddressComponent) => void;
 }
 const AddressComponent = (props: IAddressComponentProps) => {
-  const asDefaultAddress = useCheckbox(false);
-  const addressType = useInput('');
+  const hasDefaultShippingAddres: boolean =
+    props?.defaultShippingAddressId?.includes(props?.data?.id as string) || false;
+  const currentAddressType =
+    props?.billingAddressIds && props?.billingAddressIds?.indexOf(props?.data?.id as string) !== -1
+      ? AddressTypes.BILLING
+      : AddressTypes.SHIPPING;
+  const asDefaultAddress = useCheckbox(hasDefaultShippingAddres);
+  const addressType = useInput(currentAddressType || 'Shipping');
   const country = useInput(props.data ? props.data.country : '');
   const city = useInput(props.data ? props.data.city : '');
   const street = useInput(props.data ? props.data.streetName : '');
   const postalCode = useInput(props.data ? props.data.postalCode : '');
   const isEditable: boolean = Boolean(props.isEditableMode);
   const [selectedCity, setSelectedCountry] = useState(props.data ? props.data.country : '');
+  const [formError, setFormError] = useState('');
   const filtered = useMemo(() => {
     return countries.filter((c) => c.name.toLocaleLowerCase().includes(country.value.toLocaleLowerCase()));
   }, [country.value]);
@@ -53,20 +70,30 @@ const AddressComponent = (props: IAddressComponentProps) => {
     setSelectedCountry(countryCode);
   };
 
+  const handleAddressType = <T,>(value: T) => {
+    addressType.setValue(value as string);
+  };
+
   const address = {
     ...(props.data?.id && { id: props.data?.id }),
     ...(props.data?.index && { index: props.data?.index }),
     ...(props.data?.isEditMode && { isEditMode: props.data?.isEditMode }),
+    ...(addressType.value && { addressType: addressType.value }),
+    ...(asDefaultAddress.checked && { asDefaultAddress: asDefaultAddress.checked }),
     city: city.value,
     country: selectedCity,
     postalCode: postalCode.value,
     streetName: street.value,
   };
-  console.log(address);
 
   useEffect(() => {
+    if (country.error || city.error || street.error || postalCode.error) {
+      setFormError('Fields Country,City, Street  and Postal code must be valid and filled');
+    } else {
+      setFormError('');
+    }
     props.setCb && props.setCb(address);
-  }, [city.value, selectedCity, postalCode.value, street.value]);
+  }, [city.value, selectedCity, postalCode.value, street.value, addressType?.value]);
 
   return (
     <div
@@ -78,6 +105,7 @@ const AddressComponent = (props: IAddressComponentProps) => {
       <form id={props.formId} className="user-profile__info-block">
         <CheckboxSwitcherElement
           {...addressType}
+          outerCb={handleAddressType}
           value1="Shipping address"
           value2="Billing address"
           isDisabled={props.isDefault || !isEditable}
@@ -142,6 +170,7 @@ const AddressComponent = (props: IAddressComponentProps) => {
           placeholder="Set as default address"
           disabled={props.isDefault || !isEditable}
         />
+        {formError && <div className="address-component__form-error">{formError}</div>}
       </form>
     </div>
   );

@@ -1,5 +1,4 @@
-// import { useState } from 'react';
-import useInput from '../../hooks/useInput';
+import useCheckbox from '../../hooks/useCheckbox';
 import './checboxSwitcherElement.scss';
 import { ChangeEvent, useRef, useEffect } from 'react';
 
@@ -14,34 +13,32 @@ interface ICheckboxSwitcherElementProps {
   setError?: React.Dispatch<React.SetStateAction<string>>;
 }
 export const CheckboxSwitcherElement = (props: ICheckboxSwitcherElementProps) => {
-  // const [value, setValue] = useState();
-  const switcher = useInput(props.value1);
+  const switcherCheckbox = useCheckbox(props.value === props.value2);
   const checkboxRef = useRef<HTMLInputElement | null>(null);
-  // const checkboxElement = checkboxRef && (checkboxRef.current as HTMLInputElement);
+  const valArray = [props.value1, props.value2];
 
   useEffect(() => {
-    // if (checkboxElement.checked) {
-    //   value.setValue(props.value1);
-    // } else if (checkboxElement.checked) {
-    //   value.setValue(props.value2);
-    // }
-    props.outerCb && props.outerCb(switcher.value);
-  }, [props.value1, props.value2]);
+    props.outerCb && props.outerCb(valArray[Number(switcherCheckbox.checked)]);
+  }, [props.value, props.value1, props.value2, switcherCheckbox.checked]);
   return (
     <div className={`checkbox-switch__container ${props.isDisabled && 'checkbox-switch__disabled'}`}>
       <label className="checkbox-switch__label">
         <input
           className="checkbox-switch__input"
           type="checkbox"
-          value={switcher.value}
-          onChange={switcher.onChange}
+          checked={switcherCheckbox.checked}
+          onChange={switcherCheckbox.onChange}
           ref={checkboxRef}
           disabled={props.isDisabled}
         />
         <span className="checkbox-switch__icon"></span>
       </label>
-      <span className="checkbox-switch__value1">{props.value1}</span>
-      <span className="checkbox-switch__value2">{props.value2}</span>
+      <span className={`checkbox-switch__value1 ${!switcherCheckbox.checked && 'checkbox-switch__value-active'}`}>
+        {props.value1}
+      </span>
+      <span className={`checkbox-switch__value2 ${switcherCheckbox.checked && 'checkbox-switch__value-active'}`}>
+        {props.value2}
+      </span>
     </div>
   );
 };
