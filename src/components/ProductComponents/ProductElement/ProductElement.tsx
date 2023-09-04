@@ -1,6 +1,4 @@
-import { useParams } from 'react-router';
 import { getToken } from '../../../store/customer';
-import IProductElement from '../../../ApiCatalog/ApiCatalog';
 
 const ProductElement = async () => {
   // const { id } = useParams();

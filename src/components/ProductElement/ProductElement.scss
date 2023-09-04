@@ -71,6 +71,9 @@ p {
         }
     }
 }
+.price_discount {
+    text-decoration: line-through;
+}
 
 @media screen and (max-width: 400px) {
     .product_block {
