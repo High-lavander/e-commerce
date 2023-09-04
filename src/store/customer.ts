@@ -57,7 +57,7 @@ export const createCustomer = (formData: string) => async (dispatch: AppDispatch
         Authorization: `Bearer ${tokenObject.access_token}`,
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify(formData),
+      body: formData,
     }
   ).then((res) => res.json());
   if ('customer' in response) {

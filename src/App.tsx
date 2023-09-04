@@ -34,7 +34,7 @@ function App() {
             </RedirectToMainLoggged>
           }
         />
-        <Route path="/user-profile" element={<UserProfile />} />
+        <Route path="/user-profile/:id" element={<UserProfile />} />
         <Route path="*" element={<Error404 />} />
       </Routes>
       <Footer />

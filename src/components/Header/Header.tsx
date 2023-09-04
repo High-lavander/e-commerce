@@ -12,6 +12,7 @@ function Header() {
   const [menuOpen, setMenuOpen] = useState(false);
 
   const loggedIn = useAppSelector((state) => Boolean(state.customer.customer));
+  const { customer } = useAppSelector((state) => state.customer);
   const dispatch = useDispatch();
 
   const toggleMenu = () => {
@@ -63,6 +64,7 @@ function Header() {
               Contact
             </Link>
           </li>
+
           {!loggedIn ? (
             <>
               <li>
@@ -87,11 +89,18 @@ function Header() {
               </li>
             </>
           ) : (
-            <li>
-              <button className="header_logout-btn header_sign" onClick={onLogoutClick}>
-                <p>Log Out</p>
-              </button>
-            </li>
+            <>
+              <li>
+                <Link to={`/user-profile/${customer?.id}`} onClick={closeMenu}>
+                  Profile
+                </Link>
+              </li>
+              <li>
+                <button className="header_logout-btn header_sign" onClick={onLogoutClick}>
+                  <p>Log Out</p>
+                </button>
+              </li>
+            </>
           )}
         </ul>
       </nav>

@@ -11,6 +11,7 @@ import { useDispatch } from 'react-redux';
 import { useAppSelector } from '../../store/hooks';
 import { Loader } from '../../components/Loader';
 import { FetchMessagesComponent } from '../../components/FetchMessagesComponent';
+import { useNavigate } from 'react-router';
 
 interface IGenerals {
   id: string;
@@ -541,20 +542,37 @@ const PasswordBlock = (props: IPasswordBlockProps) => {
 };
 const UserProfile = () => {
   const { userProfile } = useAppSelector((state) => state.userProfile);
+  const { customer } = useAppSelector((state) => state.customer);
   const [currentBlock, setCurrentBlock] = useState('generals');
   const dispatch = useDispatch();
   const [passwordBlockData, setPasswordBlockData] = useState('');
+  const navigate = useNavigate();
 
   const switchBlock = (block: string) => {
     setCurrentBlock(block);
   };
 
+  const delayedNavigate = (delay: number) => {
+    setTimeout(() => {
+      navigate('/');
+    }, delay);
+  };
+
   useEffect(() => {
-    getCustomerById('7f171bc2-27a5-4a44-9421-a5494e7f195c')(dispatch);
+    getCustomerById(customer.id)(dispatch);
     if (userProfile) {
       setPasswordBlockData(userProfile.password);
     }
   }, []);
+  if (!customer) {
+    delayedNavigate(2500);
+    return (
+      <>
+        <h2>Your not logged!</h2>
+        <p>redirecting to main</p>
+      </>
+    );
+  }
   return (
     <div className="user-profile">
       <div className="user-profile__inner">
