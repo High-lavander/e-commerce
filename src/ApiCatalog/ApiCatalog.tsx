@@ -35,20 +35,29 @@ export default interface IGetCategory {
   };
 }
 
-export const getAllProducts = async () => {
+export const getAllProducts = async (filter: string | null, sort: string | null) => {
   try {
     const tokenObject = await getToken();
     const accessToken = tokenObject.access_token;
 
-    const response = await fetch(
-      `https://api.${process.env.VITE_CTP_API_REGION}.commercetools.com/${process.env.VITE_CTP_PROJECT_KEY}/products`,
-      {
-        method: 'GET',
-        headers: {
-          Authorization: `Bearer ${accessToken}`,
-        },
-      }
-    );
+    const url = [
+      `https://api.${process.env.VITE_CTP_API_REGION}.commercetools.com/${process.env.VITE_CTP_PROJECT_KEY}/product-projections/search`,
+    ];
+
+    if (filter) {
+      url.push(`?filter=${filter}`);
+    }
+
+    if (sort) {
+      url.push(url.length > 1 ? `&sort=${sort}` : `?sort=${sort}`);
+    }
+
+    const response = await fetch(url.join(''), {
+      method: 'GET',
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+      },
+    });
 
     if (!response.ok) {
       throw new Error(`Error while executing the query: ${response.status}`);

@@ -1,24 +1,33 @@
-function ProductsFilterOption() {
-    return (
-        <div className="filter_option">
-            <div className="filter_option_checkbox">
-                <input type="checkbox" className="filter_option_baking" id="baking " name="baking " />
-                <label htmlFor="baking ">Baking </label>
-            </div>
-            <div className="filter_option_checkbox">
-                <input type="checkbox" className="filter_option_grill" id="grill " name="grill " />
-                <label htmlFor="grill ">Grill </label>
-            </div>
-            <div className="filter_option_checkbox">
-                <input type="checkbox" className="filter_option_salad" id="salad" name="salad " />
-                <label htmlFor="salad ">Salad </label>
-            </div>
-            <div className="filter_option_checkbox">
-                <input type="checkbox" className="filter_option_smoothie" id="smoothie" name="smoothie " />
-                <label htmlFor="smoothie ">Smoothie </label>
-            </div>
-        </div>
-    )
+import { Dispatch, FC, SetStateAction } from 'react';
+import { cookingOptions } from '../../constants/cookingOptions';
+
+interface IProductsFilterOptionProps {
+  activeCookingOptions: string[];
+  setActiveCookingOptions: Dispatch<SetStateAction<string[]>>;
 }
 
-export default ProductsFilterOption
+const ProductsFilterOption: FC<IProductsFilterOptionProps> = ({ activeCookingOptions, setActiveCookingOptions }) => {
+  return (
+    <form className="filter_option">
+      {cookingOptions.map((option) => (
+        <div key={option.value} className="filter_option_checkbox">
+          <input
+            checked={activeCookingOptions.includes(option.value)}
+            type="checkbox"
+            onChange={(e) => {
+              e.target.checked
+                ? setActiveCookingOptions([...activeCookingOptions, option.value])
+                : setActiveCookingOptions(activeCookingOptions.filter((it) => it !== option.value));
+            }}
+            className="filter_option_baking"
+            id={option.value}
+            name={option.name}
+          />
+          <label htmlFor={option.value}>{option.name} </label>
+        </div>
+      ))}
+    </form>
+  );
+};
+
+export default ProductsFilterOption;
