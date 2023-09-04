@@ -9,6 +9,7 @@ import ProductsFilter from '../ProductsFilter/ProductsFilter';
 import ProductsFilterOption from '../ProductsFilter/ProductsFilterOption';
 import SortSelect from '../SortSelect/SortSelect';
 import { sortOptions } from '../../constants/sortOptions';
+import SearchBar from '../SearchBar/SearchBar';
 
 function Catalog() {
   const [products, setProducts] = useState([]);
@@ -17,6 +18,7 @@ function Catalog() {
   const [sortOption, setSortOption] = useState(sortOptions[0]);
   const [priceFilter, setPriceFilter] = useState({ from: '0', to: '9999' });
   const [activeCookingOptions, setActiveCookingOptions] = useState<string[]>([]);
+  const [searchQuery, setSearchQuery] = useState('');
 
   const categoryId = searchParams.get('categoryId');
 
@@ -27,11 +29,13 @@ function Catalog() {
         ? `variants.price.centAmount:range (${priceFilter.from} to ${priceFilter.to})`
         : null;
       const cookingOptionsString = activeCookingOptions.length > 0 ? `variants.attributes.lookProducts:exists` : null;
+      const searchFilterString = searchQuery ? `text.en.${searchQuery}` : null; 
 
       try {
         const allProductsData = await getAllProducts(
-          [categoryFilter, priceFilterString, cookingOptionsString].filter(Boolean).join('&'),
-          sortOption.value
+          [categoryFilter, priceFilterString, cookingOptionsString, searchFilterString].filter(Boolean).join('&'),
+          sortOption.value,
+          searchQuery
         );
         setProducts(allProductsData.results);
       } catch (error) {
@@ -40,7 +44,7 @@ function Catalog() {
     }
 
     fetchProducts();
-  }, [categoryId, sortOption, priceFilter, activeCookingOptions]);
+  }, [categoryId, sortOption, priceFilter, activeCookingOptions, searchQuery]); 
 
   useEffect(() => {
     async function fetchCategories() {
@@ -54,7 +58,9 @@ function Catalog() {
 
     fetchCategories();
   }, []);
-
+  const handleSearch = (query:string) => {
+    setSearchQuery(query);
+  };
   return (
     <div className="catalog">
       <div className="catalog_banner">
@@ -65,6 +71,7 @@ function Catalog() {
         setActiveCookingOptions={setActiveCookingOptions}
         activeCookingOptions={activeCookingOptions}
       />
+      <SearchBar onSearch={handleSearch} />
       <CatalogBreadcrumbs categories={categories} />
       <Categories categories={categories} />
       <SortSelect sortOption={sortOption} setSortOption={setSortOption} />

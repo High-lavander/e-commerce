@@ -35,7 +35,7 @@ export default interface IGetCategory {
   };
 }
 
-export const getAllProducts = async (filter: string | null, sort: string | null) => {
+export const getAllProducts = async (filter: string | null, sort: string | null, searchQuery: string | null) => {
   try {
     const tokenObject = await getToken();
     const accessToken = tokenObject.access_token;
@@ -46,6 +46,10 @@ export const getAllProducts = async (filter: string | null, sort: string | null)
 
     if (filter) {
       url.push(`?filter=${filter}`);
+    }
+    
+    if (searchQuery) {
+      url.push(url.length > 1 ? `&text.en=${searchQuery}` : `?text.en=${searchQuery}`);
     }
 
     if (sort) {
