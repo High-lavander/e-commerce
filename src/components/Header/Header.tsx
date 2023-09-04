@@ -60,6 +60,11 @@ function Header() {
             </Link>
           </li>
           <li>
+            <Link to="/detailed-product/id" onClick={closeMenu}>
+              Detailed Product
+            </Link>
+          </li>
+          <li>
             <Link to="/contact" onClick={closeMenu}>
               Contact
             </Link>

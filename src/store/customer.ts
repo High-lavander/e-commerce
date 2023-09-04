@@ -35,7 +35,7 @@ interface ICustomer {
   authenticationMode: string;
 }
 
-const getToken = () => {
+export const getToken = () => {
   return fetch(`https://auth.${process.env.VITE_CTP_API_REGION}.commercetools.com/oauth/token`, {
     method: 'POST',
     headers: {
