@@ -1,0 +1,98 @@
+@import url('https://fonts.googleapis.com/css2?family=Yellowtail&display=swap');
+
+.banner {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: center;
+    background: url('../../assets/Banner.png') #D4D4D4 50% / cover no-repeat;
+    height: 100vh;
+    row-gap: 23px;
+
+    h4 {
+        font-family: 'Yellowtail', cursive;
+        color: #68A47F;
+        font-weight: 400;
+        margin: 0px;
+    }
+
+    h1 {
+        color: #274C5B;
+    }
+
+    .banner_btn {
+        border-radius: 16px;
+        border: none;
+        margin-left: 13.5%;
+
+        a {
+            display: flex;
+            padding: 20px 39px;
+            align-items: center;
+            border-radius: 16px;
+            border: none;
+            background-color: #EFD372;
+
+            &:hover {
+                cursor: pointer;
+                transform: scale(1.1) translateY(0);
+                transition: all 300ms ease;
+                box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+                background-color: #ffff;
+                border: 2px solid #EFD372;
+
+            }
+        }
+
+
+
+        p {
+            margin: 0px;
+            margin-right: 10px;
+            font-size: 20px;
+            color: #274C5B;
+            font-weight: 700;
+        }
+    }
+}
+
+.banner_title {
+    width: 38%;
+    margin-left: 13.5%;
+}
+
+@media screen and (max-width: 1000px) {
+    .banner_title {
+        width: 55%;
+        margin-left: 2%;
+    }
+
+    .banner .banner_btn {
+        margin-left: 2%;
+    }
+}
+
+@media screen and (max-width: 800px) {
+    .banner_title {
+        width: 90%;
+    }
+
+    .banner {
+        background: url('../../assets/BackgroundBaner.svg') #F1EFF0 100% / cover no-repeat;
+
+    }
+}
+
+@media screen and (max-width: 450px) {
+    .banner {
+        align-items: center;
+
+        h1 {
+            font-size: 50px;
+        }
+    }
+
+    .banner_title {
+        text-align: center;
+    }
+}

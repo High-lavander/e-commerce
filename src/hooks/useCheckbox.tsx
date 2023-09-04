@@ -1,6 +1,6 @@
 import { ChangeEvent, useState } from 'react';
 
-export default function useInput(initialValue: boolean = false) {
+const useCheckbox = (initialValue: boolean = false) => {
   const [checked, setChecked] = useState(initialValue);
   const [error, setError] = useState('');
 
@@ -13,5 +13,8 @@ export default function useInput(initialValue: boolean = false) {
     error,
     onChange: handleChange,
     setError,
+    setChecked,
   };
-}
+};
+
+export default useCheckbox;

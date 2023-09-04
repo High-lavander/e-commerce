@@ -1,4 +1,4 @@
-import { ChangeEvent, useRef } from 'react';
+import { ChangeEvent, useRef, useState } from 'react';
 interface IInputElementProps {
   placeholder?: string;
   className?: string;
@@ -27,6 +27,7 @@ const USPostalCode = /\d{5}([ \-]\d{4})?/;
 
 const InputElement = (props: IInputElementProps) => {
   const inputRef = useRef(null);
+  const [isVisible, setIsVisible] = useState(false);
   const inputElement: HTMLInputElement = inputRef.current!;
   const validates: { [key: string]: <T>(val: T) => void } = {
     name: (val) => {
@@ -34,7 +35,7 @@ const InputElement = (props: IInputElementProps) => {
       if (excludeSpecialChar.test(val as string)) {
         props.setError('must not have special characters');
       }
-      if ((val as string).length < 2) {
+      if (val && (val as string).length < 2) {
         props.setError(`at least 2 characters`);
       }
     },
@@ -46,14 +47,23 @@ const InputElement = (props: IInputElementProps) => {
     },
     password: (val) => {
       props.setError('');
-      if ((val as string).length < 8) {
+      if (val && (val as string).length < 8) {
         props.setError('minimum 8 characters');
       }
-      if (!(val as string).split('').some((char) => char.toUpperCase() === char)) {
-        props.setError(' at least 1 uppercase letter');
+      if (!(val as string)?.match(/[A-Z]/g)) {
+        props.setError('at least 1 uppercase letter');
       }
-      if (!(val as string).split('').some((char) => char.toLowerCase() === char)) {
-        props.setError(' at least 1 lowercase letter');
+      if (!(val as string)?.match(/[a-z]/g)) {
+        props.setError('at least 1 lowercase letter');
+      }
+      if (!(val as string).match(/[0-9]/)?.length) {
+        props.setError('at least 1 number letter');
+      }
+      if (!(val as string).match(/[!@#$%^&*]/)?.length) {
+        props.setError('at least 1 special symbol from !@#$%^&*');
+      }
+      if ((val as string)?.split('').some((char) => char === ' ')) {
+        props.setError('must not conatin spaces');
       }
     },
     email: (val) => {
@@ -73,7 +83,7 @@ const InputElement = (props: IInputElementProps) => {
     },
     street: (val) => {
       props.setError('');
-      if ((val as string).length < 1) {
+      if (val && (val as string).length < 1) {
         props.setError('at least 1 character');
       }
     },
@@ -82,7 +92,7 @@ const InputElement = (props: IInputElementProps) => {
       if (excludeSpecialCharAndNumbers.test(val as string)) {
         props.setError('must not have special characters or numbers');
       }
-      if ((val as string).length < 1) {
+      if (val && (val as string).length < 1) {
         props.setError(`at least 1 character`);
       }
     },
@@ -91,7 +101,7 @@ const InputElement = (props: IInputElementProps) => {
       if (excludeSpecialCharAndNumbers.test(val as string)) {
         props.setError('must not have special characters or numbers');
       }
-      if ((val as string).length < 1) {
+      if (val && (val as string).length < 1) {
         props.setError(`at least 1 character`);
       }
     },
@@ -106,31 +116,61 @@ const InputElement = (props: IInputElementProps) => {
       validates[props.validationCb](inputElement?.value);
     }
   };
+
+  const switchPasswordVisibility = () => {
+    setIsVisible(!isVisible);
+  };
   return (
     <label className={`registration__label ${props.labelClassname ? props.labelClassname : ''}`} htmlFor={props.id}>
       <span
         className="registration__input-placeholder"
-        style={{ paddingLeft: props.type === 'checkbox' ? '10px' : '0' }}
+        style={{ paddingLeft: props.type === 'checkbox' ? '10px' : '0', textAlign: 'left' }}
       >
         {props.placeholder}
       </span>
-      <input
-        ref={inputRef}
-        name={props.id}
-        className={props.className}
-        type={props.type}
-        placeholder={props.placeholder}
-        value={props.value}
-        checked={props.checked}
-        onChange={handleChange}
-        maxLength={props.maxLength}
-        minLength={props.minLength}
-        max={props.max}
-        min={props.min}
-        disabled={props.disabled}
-        required={props.required}
-        style={{ borderColor: props.error ? 'red' : 'black' }}
-      />
+      {props.type !== 'password' ? (
+        <input
+          ref={inputRef}
+          name={props.id}
+          className={props.className}
+          type={props.type}
+          placeholder={props.placeholder}
+          value={props.value}
+          checked={props.checked}
+          onChange={handleChange}
+          maxLength={props.maxLength}
+          minLength={props.minLength}
+          max={props.max}
+          min={props.min}
+          disabled={props.disabled}
+          required={props.required}
+          style={{ borderColor: props.error ? 'red' : 'black' }}
+        />
+      ) : (
+        <>
+          <input
+            ref={inputRef}
+            name={props.id}
+            className={`${props.className} password-input__input`}
+            type={isVisible ? 'text' : 'password'}
+            placeholder={props.placeholder}
+            value={props.value}
+            checked={props.checked}
+            onChange={handleChange}
+            maxLength={props.maxLength}
+            minLength={props.minLength}
+            max={props.max}
+            min={props.min}
+            disabled={props.disabled}
+            required={props.required}
+            style={{ borderColor: props.error ? 'red' : 'black' }}
+          />
+          <span
+            onClick={switchPasswordVisibility}
+            className={`password-input__eye ${isVisible ? `password-input__eye_open` : `password-input__eye_close`}`}
+          ></span>
+        </>
+      )}
 
       {props.error && <span className="registration__input-error">{props.error}</span>}
       {props.type === 'date' && !Boolean(props.value) && <span className="registration__date-error">Enter date</span>}
