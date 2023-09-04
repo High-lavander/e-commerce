@@ -1,3 +1,5 @@
+import './Sort.scss';
+
 interface ISortOption {
   name: string;
   value: string;

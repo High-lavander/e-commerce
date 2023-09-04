@@ -15,7 +15,7 @@ const ProductsFilter: FC<IProductsFilterProps> = ({ setPriceFilter }) => {
 
   return (
     <div className="range">
-      <h4>Filter by prace</h4>
+      <h4>Filter by price</h4>
 
       <div className="price-content">
         <div>

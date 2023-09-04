@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
+import logo from '../../assets/icons/search.svg';
 
+import './SearchBar.scss'
 function SearchBar({ onSearch }: { onSearch: (query: string) => void }) {
   const [searchQuery, setSearchQuery] = useState('');
 
@@ -18,15 +20,15 @@ function SearchBar({ onSearch }: { onSearch: (query: string) => void }) {
   };
 
   return (
-    <div>
+    <div className="search_bar_block">
       <input
         type="text"
-        placeholder="Поиск..."
+        placeholder="Search product..."
         value={searchQuery}
         onChange={handleInputChange}
         onKeyPress={handleKeyPress}
       />
-      <button onClick={handleSearch}>Поиск</button>
+      <button className="search_btn" onClick={handleSearch}> <img src={logo} alt="Logo" /></button>
     </div>
   );
 }

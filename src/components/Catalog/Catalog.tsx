@@ -29,7 +29,7 @@ function Catalog() {
         ? `variants.price.centAmount:range (${priceFilter.from} to ${priceFilter.to})`
         : null;
       const cookingOptionsString = activeCookingOptions.length > 0 ? `variants.attributes.lookProducts:exists` : null;
-      const searchFilterString = searchQuery ? `text.en.${searchQuery}` : null; 
+      const searchFilterString = searchQuery ? `text.en.${searchQuery}` : null;
 
       try {
         const allProductsData = await getAllProducts(
@@ -44,7 +44,7 @@ function Catalog() {
     }
 
     fetchProducts();
-  }, [categoryId, sortOption, priceFilter, activeCookingOptions, searchQuery]); 
+  }, [categoryId, sortOption, priceFilter, activeCookingOptions, searchQuery]);
 
   useEffect(() => {
     async function fetchCategories() {
@@ -58,7 +58,7 @@ function Catalog() {
 
     fetchCategories();
   }, []);
-  const handleSearch = (query:string) => {
+  const handleSearch = (query: string) => {
     setSearchQuery(query);
   };
   return (
@@ -66,15 +66,22 @@ function Catalog() {
       <div className="catalog_banner">
         <h1>Shop</h1>
       </div>
-      <ProductsFilter setPriceFilter={setPriceFilter} />
-      <ProductsFilterOption
-        setActiveCookingOptions={setActiveCookingOptions}
-        activeCookingOptions={activeCookingOptions}
-      />
-      <SearchBar onSearch={handleSearch} />
+      <div className="filter_block">
+        <div className="filter_products">
+          <ProductsFilter setPriceFilter={setPriceFilter} />
+          <ProductsFilterOption
+            setActiveCookingOptions={setActiveCookingOptions}
+            activeCookingOptions={activeCookingOptions}
+          />
+        </div>
+        <div className="search_bar">
+          <SearchBar onSearch={handleSearch} />
+          <SortSelect sortOption={sortOption} setSortOption={setSortOption} />
+        </div>
+      </div>
       <CatalogBreadcrumbs categories={categories} />
       <Categories categories={categories} />
-      <SortSelect sortOption={sortOption} setSortOption={setSortOption} />
+
       <div className="catalog_products">
         {products.map((product) => (
           <ProductElement key={(product as IProductElement).id} product={product} />

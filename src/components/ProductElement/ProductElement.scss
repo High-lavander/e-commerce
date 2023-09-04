@@ -71,3 +71,9 @@ p {
         }
     }
 }
+
+@media screen and (max-width: 400px) {
+    .product_block {
+        width: 280px;
+    }
+}
