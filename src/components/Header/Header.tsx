@@ -35,10 +35,12 @@ function Header() {
 
   return (
     <div className="header">
-      <div className="header_logo">
-        <img src={logo} alt="Logo Organic" />
-        <h3>Organic</h3>
-      </div>
+      <Link to="/">
+        <div className="header_logo">
+          <img src={logo} alt="Logo Organic" />
+          <h3>Organic</h3>
+        </div>
+      </Link>
       <nav>
         <div data-testid="burger_btn" className={`header_burger-btn ${menuOpen ? 'open' : ''}`} onClick={toggleMenu}>
           <span></span>

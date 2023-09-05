@@ -1,4 +1,4 @@
-import './Sort.scss'
+import './Sort.scss';
 interface ICookingOption {
   name: string;
   value: string;
