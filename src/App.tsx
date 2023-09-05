@@ -11,6 +11,7 @@ import RedirectToMainLoggged from './components/Redirect/Redirect';
 import Catalog from './components/Catalog/Catalog';
 import Footer from './components/Footer/Footer';
 import UserProfile from './pages/UserProfile/UserProfile';
+import BasketPage from './pages/Basket/BasketPage';
 
 function App() {
   return (
@@ -40,6 +41,7 @@ function App() {
           }
         />
         <Route path="/user-profile/:id" element={<UserProfile />} />
+        <Route path="/basket/:id" element={<BasketPage />} />
         <Route path="*" element={<Error404 />} />
       </Routes>
       <Footer />
