@@ -53,7 +53,7 @@ const BasketPage = () => {
         {
           action: CartActionsType.ADDITEM,
           variantId: 1,
-          productId: 'e0832ff0-cf12-4b83-ba5e-67ba87305ed1',
+          productId: '91d01317-cbb3-48fe-a6cc-410ec5ee4934',
           quantity: 1,
         },
       ],
