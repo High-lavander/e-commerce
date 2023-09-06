@@ -1,5 +1,6 @@
 import { useEffect } from 'react';
 import './ProductDetailComponent.scss';
+// import { SwiperComponent } from '../Swiper/SwiperComponent';
 
 interface IProductDetailProps {
   productData?: IProductDetail;
@@ -70,7 +71,7 @@ export const ProductDetailComponent = (props: IProductDetailProps) => {
         <div className="product-element__cell">
           <div className="product-element__info">
             <h1 className="product-element__title">{props.productData?.masterData.current.name.en}</h1>
-            <div className="product-element__rating"></div>
+            <div className="product-element__rating">{/* <SwiperComponent /> */}</div>
             <div className="product-element__prices">
               <div className="product-element__old-price">
                 {props.productData?.masterData.current.masterVariant.prices[0].value.centAmount}{' '}
