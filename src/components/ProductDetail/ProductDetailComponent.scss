@@ -1,0 +1,22 @@
+.product-element {
+  padding-top: 80px;
+  max-width: 1200px;
+  margin-left: auto;
+  margin-right: auto;
+  padding-bottom: 120px;
+  &__inner {
+    display: flex;
+    column-gap: 30px;
+    justify-content: center;
+  }
+  &__image {
+    border-radius: 16px;
+  }
+  &__info {
+    max-width: 658px;
+  }
+  &__old-price {
+    text-decoration: line-through;
+    color: rgba(#000000, 0.5)
+  }
+}
