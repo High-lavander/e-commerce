@@ -5,16 +5,17 @@ import { Swiper, SwiperSlide } from 'swiper/react';
 import 'swiper/scss';
 import 'swiper/scss/navigation';
 import 'swiper/scss/pagination';
-import styles from './SwiperImageComponent.module.scss';
 interface ISwiperComponentProps {
   images?: string[];
+  swiperStyles?: React.CSSProperties | undefined;
   swiperClass?: string;
+  swiperSlideStyles?: React.CSSProperties | undefined;
   swiperSlideClass?: string;
-  swiperItemClass?: string;
-  outerCb?: () => void;
+  imageStyles?: React.CSSProperties | undefined;
+  imageClass?: string;
 }
 
-export const SwiperImageComponent = (props: ISwiperComponentProps) => {
+export const SwiperModalComponent = (props: ISwiperComponentProps) => {
   return (
     <Swiper
       modules={[Navigation, Pagination, Scrollbar, A11y]}
@@ -25,17 +26,14 @@ export const SwiperImageComponent = (props: ISwiperComponentProps) => {
       scrollbar={{ draggable: true }}
       onSwiper={(swiper) => console.log(swiper)}
       onSlideChange={() => console.log('slide change')}
-      className={`${styles.swiper} ${props.swiperClass}`}
+      style={props.swiperStyles}
+      className={`${props.swiperClass}`}
     >
       {props.images &&
         props.images.map((image) => {
           return (
-            <SwiperSlide key={image} className={`${styles.swiper__slide} ${props.swiperSlideClass}`}>
-              <img
-                src={image}
-                className={`${styles.swiper__image} ${props.swiperItemClass}`}
-                onClick={props?.outerCb}
-              />
+            <SwiperSlide key={image} style={props.swiperSlideStyles} className={`${props.swiperSlideClass}`}>
+              <img src={image} style={props.imageStyles} className={`${props.imageClass}`} />
             </SwiperSlide>
           );
         })}

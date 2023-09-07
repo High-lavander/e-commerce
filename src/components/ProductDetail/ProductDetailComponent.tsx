@@ -1,6 +1,7 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import './ProductDetailComponent.scss';
 import { SwiperImageComponent } from '../Swiper/SwiperImageComponent';
+import { ProductDetailModal } from './ProductDetailModal';
 
 interface IProductDetailProps {
   productData?: IProductDetail;
@@ -57,16 +58,26 @@ interface IImage {
 }
 export const ProductDetailComponent = (props: IProductDetailProps) => {
   const images = props.productData?.masterData.current.masterVariant.images.map((img) => img.url) || [];
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const openModal = () => {
+    setIsModalOpen(true);
+  };
+
+  const closeModal = () => {
+    setIsModalOpen(false);
+  };
   useEffect(() => {
     console.log('props.productData', props.productData);
   }, [props]);
   return (
     <div className="product-element">
+      <ProductDetailModal isOpened={isModalOpen} outerCloseCb={closeModal} images={images} />
       <div className="product-element__inner">
         <div className="product-element__cell">
           {images.length > 1 ? (
             <div className="product-element__sliders">
-              <SwiperImageComponent images={images} swiperItemClass="product-element__image" />
+              <SwiperImageComponent images={images} swiperItemClass="product-element__image" outerCb={openModal} />
             </div>
           ) : (
             <img
