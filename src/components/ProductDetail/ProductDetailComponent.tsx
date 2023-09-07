@@ -64,13 +64,16 @@ export const ProductDetailComponent = (props: IProductDetailProps) => {
     <div className="product-element">
       <div className="product-element__inner">
         <div className="product-element__cell">
-          <div className="product-element__sliders">
-            <SwiperImageComponent images={images} swiperItemClass="product-element__image" />
-          </div>
-          {/* <img
-            className="product-element__image"
-            src={props.productData?.masterData.current.masterVariant.images[0].url}
-          ></img> */}
+          {images.length > 1 ? (
+            <div className="product-element__sliders">
+              <SwiperImageComponent images={images} swiperItemClass="product-element__image" />
+            </div>
+          ) : (
+            <img
+              className="product-element__image"
+              src={props.productData?.masterData.current.masterVariant.images[0].url}
+            ></img>
+          )}
         </div>
         <div className="product-element__cell">
           <div className="product-element__info">
