@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
 import './ProductDetailComponent.scss';
-// import { SwiperComponent } from '../Swiper/SwiperComponent';
+import { SwiperImageComponent } from '../Swiper/SwiperImageComponent';
 
 interface IProductDetailProps {
   productData?: IProductDetail;
@@ -56,6 +56,7 @@ interface IImage {
   url: string;
 }
 export const ProductDetailComponent = (props: IProductDetailProps) => {
+  const images = props.productData?.masterData.current.masterVariant.images.map((img) => img.url) || [];
   useEffect(() => {
     console.log('props.productData', props.productData);
   }, [props]);
@@ -63,15 +64,18 @@ export const ProductDetailComponent = (props: IProductDetailProps) => {
     <div className="product-element">
       <div className="product-element__inner">
         <div className="product-element__cell">
-          <img
+          <div className="product-element__sliders">
+            <SwiperImageComponent images={images} swiperItemClass="product-element__image" />
+          </div>
+          {/* <img
             className="product-element__image"
             src={props.productData?.masterData.current.masterVariant.images[0].url}
-          ></img>
+          ></img> */}
         </div>
         <div className="product-element__cell">
           <div className="product-element__info">
             <h1 className="product-element__title">{props.productData?.masterData.current.name.en}</h1>
-            <div className="product-element__rating">{/* <SwiperComponent /> */}</div>
+            <div className="product-element__rating"></div>
             <div className="product-element__prices">
               <div className="product-element__old-price">
                 {props.productData?.masterData.current.masterVariant.prices[0].value.centAmount}{' '}
