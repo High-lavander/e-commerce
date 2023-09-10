@@ -1,0 +1,41 @@
+.catalog_banner {
+    background: url('../../assets/background_shop.png') 50% / cover no-repeat #E3F1E9;
+    height: 50vh;
+
+    h1 {
+        display: flex;
+        color: #274C5B;
+        align-items: center;
+        justify-content: center;
+        padding-top: 100px;
+    }
+}
+
+.catalog_products {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 30px;
+}
+
+.filter_products {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.filter_block {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 40px;
+}
+
+@media screen and (max-width: 1000px) {
+    .filter_block {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 40px;
+    }
+}

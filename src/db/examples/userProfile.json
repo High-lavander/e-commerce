@@ -1,0 +1,49 @@
+{"id": "7f171bc2-27a5-4a44-9421-a5494e7f195c",
+"version": 1,
+"versionModifiedAt": "2023-08-18T21:03:33.581Z",
+"lastMessageSequenceNumber": 1,
+"createdAt": "2023-08-18T21:03:33.581Z",
+"lastModifiedAt": "2023-08-18T21:03:33.581Z",
+"lastModifiedBy": {
+    "clientId": "svS0pMBqBgsAvo4YHURZIY5j",
+    "isPlatformClient": false
+},
+"createdBy": {
+    "clientId": "svS0pMBqBgsAvo4YHURZIY5j",
+    "isPlatformClient": false
+},
+"email": "fort26@rambler.ru",
+"firstName": "aazz",
+"lastName": "zxcc",
+"password": "****jcs=",
+"addresses": [
+    {
+        "id": "zaVHXNOd",
+        "streetName": "ииии",
+        "postalCode": "45432",
+        "city": "cece",
+        "country": "RU",
+        "key": "0"
+    },
+    {
+        "id": "Cg34IoQX",
+        "streetName": "ииии",
+        "postalCode": "45432",
+        "city": "cece",
+        "country": "RU",
+        "key": "1"
+    }
+],
+"defaultShippingAddressId": "zaVHXNOd",
+"defaultBillingAddressId": "Cg34IoQX",
+"shippingAddressIds": [
+    "zaVHXNOd"
+],
+"billingAddressIds": [
+    "Cg34IoQX",
+    "zaVHXNOd"
+],
+"isEmailVerified": false,
+"stores": [],
+"authenticationMode": "Password"
+}
