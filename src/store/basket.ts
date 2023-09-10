@@ -93,10 +93,12 @@ interface IBasketRequestBody {
 }
 
 interface IBasketAction {
-  action: CartActionsType.ADDITEM;
-  productId: string;
+  action: CartActionsType;
+  customerId?: string;
+  productId?: string;
+  lineItemId?: string;
   variantId?: number;
-  quantity: number;
+  quantity?: number;
 }
 
 export enum CartActionsType {
@@ -111,11 +113,24 @@ export enum CartActionsType {
   SETCUSTOMERID = 'setCustomerId',
   SETANONYMOUSID = 'setAnonymousId',
 }
-const initialState: IBasketState = {
-  basket: null,
-  basketError: '',
-  basketMessage: '',
-  isBasketLoading: false,
+const initialState = (): IBasketState => {
+  try {
+    const basketString = localStorage.getItem('basket') || '';
+    const basket = JSON.parse(basketString);
+    return {
+      basket,
+      basketError: '',
+      basketMessage: '',
+      isBasketLoading: false,
+    };
+  } catch {
+    return {
+      basket: null,
+      basketError: '',
+      basketMessage: '',
+      isBasketLoading: false,
+    };
+  }
 };
 
 const getToken = () => {
@@ -217,6 +232,11 @@ export const createBasket = async (dispatch: AppDispatch) => {
         dispatch(basketSlice.actions.basketFetchingError(data.errors?.[0].detailedErrorMessage || data.message));
         return;
       }
+      try {
+        localStorage.setItem('basket', JSON.stringify(data));
+      } catch (e) {
+        console.log('Error localstorage \n', e);
+      }
       dispatch(basketSlice.actions.basketFetchingSuccess(data));
     })
     .catch((e) => dispatch(basketSlice.actions.basketFetchingError('Error' + e)));
@@ -247,6 +267,11 @@ export const replicateBasket = (cartReferenceId: string) => async (dispatch: App
         dispatch(basketSlice.actions.basketFetchingError(data.errors?.[0].detailedErrorMessage || data.message));
         return;
       }
+      try {
+        localStorage.setItem('basket', JSON.stringify(data));
+      } catch (e) {
+        console.log('Error localstorage \n', e);
+      }
       dispatch(basketSlice.actions.basketFetchingSuccess(data));
     })
     .catch((e) => dispatch(basketSlice.actions.basketFetchingError('Error' + e)));
@@ -271,6 +296,11 @@ export const updateBasketById = (id: string, postForm: IBasketRequestBody) => as
       if ('errors' in data) {
         dispatch(basketSlice.actions.basketFetchingError(data.errors?.[0].detailedErrorMessage || data.message));
         return;
+      }
+      try {
+        localStorage.setItem('basket', JSON.stringify(data));
+      } catch (e) {
+        console.log('Error localstorage \n', e);
       }
       dispatch(basketSlice.actions.basketFetchingSuccess(data));
     })
@@ -300,6 +330,11 @@ export const recalculateBasketById = (id: string) => async (dispatch: AppDispatc
         dispatch(basketSlice.actions.basketFetchingError(data.errors?.[0].detailedErrorMessage || data.message));
         return;
       }
+      try {
+        localStorage.setItem('basket', JSON.stringify(data));
+      } catch (e) {
+        console.log('Error localstorage \n', e);
+      }
       dispatch(basketSlice.actions.basketFetchingSuccess(data));
     })
     .catch((e) => dispatch(basketSlice.actions.basketFetchingError('Error' + e)));
@@ -323,6 +358,11 @@ export const deleteBasketById = (id: string, version: number) => async (dispatch
       if ('errors' in data) {
         dispatch(basketSlice.actions.basketFetchingError(data.errors?.[0].detailedErrorMessage || data.message));
         return;
+      }
+      try {
+        localStorage.removeItem('basket');
+      } catch (e) {
+        console.log('Error localstorage \n', e);
       }
       dispatch(basketSlice.actions.basketFetchingSuccess(data));
     })

@@ -59,4 +59,23 @@
     color: rgba(#00aeff, 1);
     font-weight: 500;
   }
+
+}
+
+.cart {
+  &__button{
+    height: 80px;
+    width: 213px;
+    color: #fff;
+    font-size: 20px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: normal;
+    &_add  {
+      background-color: #274C5B;
+    }
+    &_remove {
+      background-color: #EFD372;
+    }
+  }
 }
