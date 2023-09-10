@@ -35,7 +35,7 @@ interface ICustomer {
   authenticationMode: string;
 }
 
-const getToken = () => {
+export const getToken = () => {
   return fetch(`https://auth.${process.env.VITE_CTP_API_REGION}.commercetools.com/oauth/token`, {
     method: 'POST',
     headers: {
@@ -57,7 +57,7 @@ export const createCustomer = (formData: string) => async (dispatch: AppDispatch
         Authorization: `Bearer ${tokenObject.access_token}`,
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify(formData),
+      body: formData,
     }
   ).then((res) => res.json());
   if ('customer' in response) {

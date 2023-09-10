@@ -1,0 +1,100 @@
+.product-modal {
+  display: flex;
+  position: fixed;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  z-index: 9;
+  top: 20%;
+  left: 50%;
+  &__inner {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 0.4rem;
+    min-width: 720px;
+    padding: 1.3rem;
+    min-height: 250px;
+    position: absolute;
+    transform: translate(0,30%);
+    background-color: white;
+    border: 1px solid #ddd;
+    border-radius: 15px;
+    z-index: 9;
+
+    @media screen and (max-width: 1300px) {
+      transform: translate(0,45%);
+        
+    }
+  
+    @media screen and (max-width: 767px) {
+      min-width: 480px;
+      transform: translate(0,50%);
+    }
+
+    @media screen and (max-width: 500px) {
+      min-width: 320px;
+      max-width: 340px;
+      transform: translate(0,50%);
+    }
+    
+
+  }
+
+  &__overlay {
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    width: 100%;
+    height: 100%;
+    backdrop-filter: blur(3px);
+    z-index: 1;
+    background-color: rgba($color: #000000, $alpha: 0.3);
+  }
+  &__container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  &__close-button {
+    position: absolute;
+    padding: 2px;
+    width: 2rem;
+    height: 2rem;
+    top: 1rem;
+    right: 1rem;
+  }
+  &__carousel {
+    padding: 2rem;
+    max-width: 1200px;
+    @media screen and (max-width: 1300px) {
+      width: 700px;
+        
+    }
+  
+    @media screen and (max-width: 767px) {
+      width: 440px;
+    }
+    @media screen and (max-width: 500px) {
+    max-width: 340px;
+      min-width: 300px;
+    }
+  }
+  &__image {
+    display: block;
+    width: 100%;
+    height: 600px;
+    border-radius: 16px;
+    @media screen and (max-width: 1300px) {
+      width: 100%;
+      height: 400px;
+    }
+  
+    @media screen and (max-width: 767px) {
+      width: 100%;
+      height: 300px;
+    }
+  }
+}

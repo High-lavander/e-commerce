@@ -79,6 +79,6 @@ or
     [crecker05ru](https://github.com/crecker05ru)
   - **Tatsiana Kulinkovich** - *Half-TeamLead* -
     [bogdanovich231](https://github.com/bogdanovich231)
-  - **Sergey Gorin** - *Half-a-Half-TeamLead* -
-    [seygorin](https://github.com/seygorin)
+  - **Shakhzod Ikramov** - *Half-a-Half-TeamLead* -
+    [shakhzod235](https://github.com/shakhzod235)
 

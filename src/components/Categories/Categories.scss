@@ -1,0 +1,25 @@
+.categories {
+    ul {
+        display: flex;
+        justify-content: center;
+        flex-wrap: wrap;
+
+        li {
+            cursor: pointer;
+            color: #274C5B;
+            margin-right: 15px;
+            padding: 10px 20px;
+            border: 1px solid #274C5B;
+            border-radius: 30px;
+
+            &:hover {
+                color: white;
+                background: #274C5B;
+            }
+        }
+    }
+}
+
+.active {
+    color: aqua;
+}

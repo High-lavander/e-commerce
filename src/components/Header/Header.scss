@@ -60,6 +60,32 @@ a {
   }
 }
 
+.header_shopping-basket {
+  position: relative;
+  width: 40px;
+  height: 40px;
+  // width: 2.5rem;
+  // height: 2.5rem;
+  // background-image: url('../../assets/shopping-cart.svg');
+  // background-size: contain;
+  // background-repeat: no-repeat;
+}
+
+.header_basket-icon{
+  position: absolute;
+  display: block;
+  top: 0;
+  width: 2.5rem;
+  height: 2.5rem;
+  background-image: url('../../assets/shopping-cart.svg');
+  background-size: contain;
+  background-repeat: no-repeat;
+} 
+.header_basket-counter {
+  position: absolute;
+  top: -1rem;
+  left: 1rem;
+}
 .menu {
   display: flex;
   list-style: none;

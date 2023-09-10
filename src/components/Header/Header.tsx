@@ -12,7 +12,9 @@ function Header() {
   const [menuOpen, setMenuOpen] = useState(false);
 
   const loggedIn = useAppSelector((state) => Boolean(state.customer.customer));
+  const { customer } = useAppSelector((state) => state.customer);
   const dispatch = useDispatch();
+  const itemsCount = 0;
 
   const toggleMenu = () => {
     setMenuOpen(!menuOpen);
@@ -34,10 +36,12 @@ function Header() {
 
   return (
     <div className="header">
-      <div className="header_logo">
-        <img src={logo} alt="Logo Organic" />
-        <h3>Organic</h3>
-      </div>
+      <Link to="/">
+        <div className="header_logo">
+          <img src={logo} alt="Logo Organic" />
+          <h3>Organic</h3>
+        </div>
+      </Link>
       <nav>
         <div data-testid="burger_btn" className={`header_burger-btn ${menuOpen ? 'open' : ''}`} onClick={toggleMenu}>
           <span></span>
@@ -63,6 +67,7 @@ function Header() {
               Contact
             </Link>
           </li>
+
           {!loggedIn ? (
             <>
               <li>
@@ -87,12 +92,27 @@ function Header() {
               </li>
             </>
           ) : (
-            <li>
-              <button className="header_logout-btn header_sign" onClick={onLogoutClick}>
-                <p>Log Out</p>
-              </button>
-            </li>
+            <>
+              <li>
+                <Link to={`/user-profile/${customer?.id}`} onClick={closeMenu}>
+                  Profile
+                </Link>
+              </li>
+              <li>
+                <button className="header_logout-btn header_sign" onClick={onLogoutClick}>
+                  <p>Log Out</p>
+                </button>
+              </li>
+            </>
           )}
+          <li>
+            <Link to={`/basket/${customer?.id}`} onClick={closeMenu}>
+              <div className="header_shopping-basket">
+                <span className="header_basket-icon"></span>
+                <span className="header_basket-counter">{itemsCount || 0}</span>
+              </div>
+            </Link>
+          </li>
         </ul>
       </nav>
     </div>
