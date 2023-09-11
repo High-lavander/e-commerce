@@ -60,6 +60,20 @@ const BasketPage = () => {
     })(dispatch);
   };
 
+  const handleSetCutomerId = () => {
+    if (basket) {
+      updateBasketById(basket?.id, {
+        version: basket?.version || 1,
+        actions: [
+          {
+            action: CartActionsType.SETCUSTOMERID,
+            customerId: customer?.id || 'svS0pMBqBgsAvo4YHURZIY5j',
+          },
+        ],
+      })(dispatch);
+    }
+  };
+
   const handleDelete = () => {
     deleteBasketById('59433385-0544-40a9-afb4-53f5c36ae467', 1)(dispatch);
   };
@@ -74,6 +88,7 @@ const BasketPage = () => {
           <button onClick={handleReplicate}>Replicate Basket</button>
           <button onClick={handleUpdateBasketById}>Update By ID Basket</button>
           <button onClick={handleDelete}>Delete Basket</button>
+          <button onClick={handleSetCutomerId}>handleSetCutomerId</button>
         </div>
       </div>
     </section>
