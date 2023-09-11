@@ -12,13 +12,8 @@ import Catalog from './components/Catalog/Catalog';
 import Footer from './components/Footer/Footer';
 import UserProfile from './pages/UserProfile/UserProfile';
 import BasketPage from './pages/Basket/BasketPage';
-import React from 'react';
 
 function App() {
-  console.log('App');
-  React.useEffect(() => {
-    console.log('Use App');
-  }, []);
   return (
     <>
       <Header />

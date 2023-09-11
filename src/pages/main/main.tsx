@@ -1,12 +1,8 @@
 import './main.scss';
 import Arrow from '../../assets/icons/Aerrow.svg';
 import { Link } from 'react-router-dom';
-import { useEffect } from 'react';
 
 function Main() {
-  useEffect(() => {
-    console.log('Main');
-  }, []);
   return (
     <section className="banner">
       <div className="banner_title">
