@@ -29,7 +29,7 @@ function Catalog() {
         ? `variants.price.centAmount:range (${priceFilter.from} to ${priceFilter.to})`
         : null;
       const cookingOptionsString = activeCookingOptions.length > 0 ? `variants.attributes.lookProducts:exists` : null;
-      const searchFilterString = searchQuery ? `text.en.${searchQuery}` : null;
+      const searchFilterString = searchQuery ? `text.en=${searchQuery}` : null;
 
       try {
         const allProductsData = await getAllProducts(
