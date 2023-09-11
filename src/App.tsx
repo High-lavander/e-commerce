@@ -14,7 +14,7 @@ import UserProfile from './pages/UserProfile/UserProfile';
 import BasketPage from './pages/Basket/BasketPage';
 import Loading from './components/Loading/Loading';
 
-const Catalog = lazy(() => import('./components/Catalog/Catalog'))
+const Catalog = lazy(() => import('./components/Catalog/Catalog'));
 function App() {
   return (
     <>
@@ -25,7 +25,14 @@ function App() {
         <Route path="/About" element={<About />} />
         <Route path="/product/:id" element={<DetailedProduct />} />s
         <Route path="/contact" element={<Contact />} />
-        <Route path="/shop" element={<Suspense fallback={<Loading />}><Catalog /></Suspense>} />
+        <Route
+          path="/shop"
+          element={
+            <Suspense fallback={<Loading />}>
+              <Catalog />
+            </Suspense>
+          }
+        />
         <Route
           path="/registration"
           element={
