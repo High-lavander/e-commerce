@@ -1,8 +1,19 @@
 import './main.scss';
 import Arrow from '../../assets/icons/Aerrow.svg';
 import { Link } from 'react-router-dom';
+import { useAppDispatch } from '../../store/hooks';
+import { getStoreToken } from '../../store/customer';
+import { useEffect } from 'react';
 
 function Main() {
+  const dispatch = useAppDispatch();
+
+  useEffect(() => {
+    const fetchToken = async () => {
+      getStoreToken(dispatch);
+    };
+    fetchToken();
+  }, []);
   return (
     <section className="banner">
       <div className="banner_title">

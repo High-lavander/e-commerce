@@ -1,0 +1,35 @@
+.line-item {
+  display: flex;
+  flex-wrap: nowrap;
+  justify-content: space-around;
+  align-items: center;
+  // & * {
+  //   // border-right: 1px solid #a2a2a2;
+  // }
+  &__image {
+    display: block;
+    width: 200px;
+    height: 140px;
+    object-fit: cover;
+  }
+  &__quantity-container {
+    display: flex;
+    column-gap: 1rem;
+  }
+}
+.quantity-button {
+  padding: 4px;
+  height: 30px;
+  width: 30px;
+  color: #fff;
+  font-size: 1rem;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+  &__add  {
+    background-color: #274C5B;
+  }
+  &__remove {
+    background-color: #EFD372;
+  }
+} 

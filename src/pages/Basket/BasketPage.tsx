@@ -12,6 +12,7 @@ import {
 } from '../../store/basket';
 import './Basket.scss';
 import { CartActionsType } from '../../store/basket';
+import { LineItemComponent } from '../../components/Basket/lineItemComponent';
 
 const BasketPage = () => {
   const dispatch = useAppDispatch();
@@ -77,6 +78,9 @@ const BasketPage = () => {
   const handleDelete = () => {
     deleteBasketById('59433385-0544-40a9-afb4-53f5c36ae467', 1)(dispatch);
   };
+  useEffect(() => {
+    console.log('basket', basket);
+  }, []);
   return (
     <section className="basket__inner">
       <div className="basket__content">
@@ -90,6 +94,14 @@ const BasketPage = () => {
           <button onClick={handleDelete}>Delete Basket</button>
           <button onClick={handleSetCutomerId}>handleSetCutomerId</button>
         </div>
+        <ul className="basket__items"></ul>
+        {basket?.lineItems.map((item) => {
+          return (
+            <li key={item.id}>
+              <LineItemComponent {...item} />
+            </li>
+          );
+        })}
       </div>
     </section>
   );

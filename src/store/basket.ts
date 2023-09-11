@@ -15,7 +15,7 @@ interface IBasket {
   lineItems: ILineItem[];
 }
 
-interface ILineItem {
+export interface ILineItem {
   id: string;
   key?: string;
   productId: string;
