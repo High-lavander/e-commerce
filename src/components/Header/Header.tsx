@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { disableBodyScroll, enableBodyScroll } from 'body-scroll-lock';
 import logo from '../../assets/icons/Logo.svg';
@@ -33,6 +33,10 @@ function Header() {
     localStorage.removeItem('customer');
     dispatch(setCustomer(null));
   };
+
+  useEffect(() => {
+    console.log('Header');
+  }, []);
 
   return (
     <div className="header">

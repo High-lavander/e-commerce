@@ -63,9 +63,6 @@ export const ProductDetailComponent = (props: IProductDetailProps) => {
   const { basket } = useAppSelector((state) => state.basket);
   const images = props.productData?.masterData.current.masterVariant.images.map((img) => img.url) || [];
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const isInCart = useMemo(() => {
-    return basket?.lineItems.some((item) => item?.productId === props.productData?.id);
-  }, [basket]);
 
   const currentLineItem = useMemo(() => {
     return basket?.lineItems.find((item) => item?.productId === props.productData?.id);
@@ -148,7 +145,7 @@ export const ProductDetailComponent = (props: IProductDetailProps) => {
           </div>
           <div className="product-element__product-cart product-cart">
             <div className="product-cart__inner">
-              {isInCart ? (
+              {currentLineItem ? (
                 <button
                   className={`product-cart__cart-button cart__button cart__button_remove`}
                   onClick={removeProductFromCart}
