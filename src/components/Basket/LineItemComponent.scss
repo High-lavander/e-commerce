@@ -12,6 +12,10 @@
     height: 140px;
     object-fit: cover;
     border-radius: 16px;
+    @media screen and (max-width: 720px) {
+      width: 100px;
+      height: 70px;
+    }
   }
   &____prices {
     display: flex;
@@ -34,6 +38,13 @@
     font-size: 20px;
     text-align: center;
     border-radius: 16px;
+
+    @media screen and (max-width: 720px) {
+      padding-right: 1.2rem;
+      padding-left: 0.3rem;
+      width: 64px;
+      height: 40px;
+    }
   }
   &__quantity-label {
     padding-bottom: 0;
@@ -48,6 +59,13 @@
     background-image: url('../../assets/icons/update-arrows.svg');
     background-size: contain;
     cursor: pointer;
+
+    @media screen and (max-width: 720px) {
+      top: 11px;
+      right: 4px;
+      height: 18px;
+      width: 18px;
+    }
   }
 }
 .quantity-button {

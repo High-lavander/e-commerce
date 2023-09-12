@@ -1,6 +1,7 @@
 import { useParams } from 'react-router';
 import { useAppDispatch, useAppSelector } from '../../store/hooks';
 import { useEffect } from 'react';
+import Arrow from '../../assets/icons/Aerrow.svg';
 import {
   createBasket,
   deleteBasketById,
@@ -13,6 +14,7 @@ import {
 import './Basket.scss';
 import { CartActionsType } from '../../store/basket';
 import { LineItemComponent } from '../../components/Basket/lineItemComponent';
+import { Link } from 'react-router-dom';
 
 const BasketPage = () => {
   const dispatch = useAppDispatch();
@@ -95,17 +97,32 @@ const BasketPage = () => {
           <button onClick={handleSetCutomerId}>handleSetCutomerId</button>
         </div>
         <ul className="basket__items"></ul>
-        {basket?.lineItems.map((item) => {
-          return (
-            <li key={item.id}>
-              <LineItemComponent {...item} />
-            </li>
-          );
-        })}
+        {basket?.lineItems ? (
+          basket?.lineItems.map((item) => {
+            return (
+              <li key={item.id}>
+                <LineItemComponent {...item} />
+              </li>
+            );
+          })
+        ) : (
+          <div className="basket__empty">
+            <h3 className="basket__empty-title">Your cart is empty!</h3>
+            <h4 className="basket__empty-message">Hurry, head to the shop page</h4>
+            <Link to="/shop" className="basket__shop-link">
+              <button className="basket__button-shop">
+                <p className="basket__button-text">Shop Now</p>
+                <img className="basket__button-arrow" src={Arrow} alt="arrow" />
+              </button>
+            </Link>
+          </div>
+        )}
       </div>
-      <div className="basket__total-container">
-        <div className="basket__total-price">Total: {basket?.totalPrice.centAmount}</div>
-      </div>
+      {basket?.lineItems && (
+        <div className="basket__total-container">
+          <div className="basket__total-price">Total: {basket?.totalPrice.centAmount}</div>
+        </div>
+      )}
     </section>
   );
 };
