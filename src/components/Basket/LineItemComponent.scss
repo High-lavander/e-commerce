@@ -18,6 +18,9 @@
     flex-direction: column;
     row-gap: 1rem;
   }
+  &__count {
+    position: relative;
+  }
   &__quantity-container {
     display: flex;
     align-items: center;
@@ -26,12 +29,25 @@
   &__quantity-input {
     width: 92px;
     height: 63px;
+    padding-right: 2.5rem;
+    padding-left: 0.5rem;
     font-size: 20px;
     text-align: center;
     border-radius: 16px;
   }
   &__quantity-label {
     padding-bottom: 0;
+  }
+  &__quantity-update {
+    position: absolute;
+    display: block;
+    top: 14px;
+    right: 8px;
+    width: 2rem;
+    height: 2rem;
+    background-image: url('../../assets/icons/update-arrows.svg');
+    background-size: contain;
+    cursor: pointer;
   }
 }
 .quantity-button {
@@ -54,3 +70,16 @@
     background-color: #EFD372;
   }
 } 
+@keyframes update-arrows-spin {
+  0%{
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+.update-arrows {
+  &__loading {
+    animation: update-arrows-spin 1s linear 0s infinite normal forwards;
+  }
+}

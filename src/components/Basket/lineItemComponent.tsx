@@ -9,7 +9,7 @@ import './LineItemComponent.scss';
 
 type ILineItemsProps = ILineItem;
 export const LineItemComponent = (props: ILineItemsProps) => {
-  const { basket } = useAppSelector((state) => state.basket);
+  const { basket, isBasketLoading } = useAppSelector((state) => state.basket);
   const dispatch = useAppDispatch();
   const [productData, setProductData] = useState<IProductDetail>();
   // const quantity = useInput(String(props.quantity) || '1');
@@ -34,6 +34,7 @@ export const LineItemComponent = (props: ILineItemsProps) => {
 
   const deleteFromBasket = () => {
     if (basket) {
+      console.log('IFFFF', basket?.id);
       updateBasketById(basket?.id, {
         version: basket?.version,
         actions: [
@@ -42,7 +43,7 @@ export const LineItemComponent = (props: ILineItemsProps) => {
             lineItemId: props.id,
           },
         ],
-      });
+      })(dispatch);
     }
   };
 
@@ -60,6 +61,10 @@ export const LineItemComponent = (props: ILineItemsProps) => {
         ],
       })(dispatch);
     }
+  };
+
+  const updateQuantity = () => {
+    changeLineItemQuantity(quantity);
   };
   useEffect(() => {
     const fetchProductData = async () => {
@@ -108,6 +113,10 @@ export const LineItemComponent = (props: ILineItemsProps) => {
         </button>
         <div className="line-item__count">
           <input value={quantity} onChange={quantityChange} className="line-item__quantity-input" type="number" />
+          <span
+            className={`line-item__quantity-update update-arrows ${isBasketLoading && 'update-arrows__loading'}`}
+            onClick={updateQuantity}
+          ></span>
         </div>
         <button
           className="line-item__quantity-button  quantity-button quantity-button__decrement"
