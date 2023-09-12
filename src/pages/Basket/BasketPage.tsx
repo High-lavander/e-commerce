@@ -103,6 +103,9 @@ const BasketPage = () => {
           );
         })}
       </div>
+      <div className="basket__total-container">
+        <div className="basket__total-price">Total: {basket?.totalPrice.centAmount}</div>
+      </div>
     </section>
   );
 };

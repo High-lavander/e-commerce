@@ -13,6 +13,15 @@ interface IBasket {
   businessUnit?: object;
   store?: object;
   lineItems: ILineItem[];
+  totalLineItemQuantity: number;
+  totalPrice: ITotalPrice;
+}
+
+interface ITotalPrice {
+  centAmount: number;
+  currencyCode: string;
+  fractionDigits: number;
+  type: string;
 }
 
 export interface ILineItem {
