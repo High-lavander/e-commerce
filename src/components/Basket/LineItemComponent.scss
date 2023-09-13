@@ -17,6 +17,9 @@
       height: 70px;
     }
   }
+  &__name {
+    min-width: 120px;
+  }
   &__prices {
     display: flex;
     flex-direction: column;

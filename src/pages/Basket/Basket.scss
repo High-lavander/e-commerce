@@ -26,6 +26,9 @@
     }
     color: #274C5B;
   }
+  &__items {
+    margin-bottom: 2rem;
+  }
   &__button-shop {
     position: relative;
     padding: 1rem;
@@ -46,6 +49,7 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
+    margin-bottom: 2rem;
   }
   &__promo-input {
     border-radius: 16px;
@@ -54,5 +58,25 @@
   &__promo-button {
     background-color: #274C5B;
     color: #fff;
+  }
+  &__footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  &__clear-button {
+    position: relative;
+    padding-right: 2rem;
+    background-color: #EFD372;
+
+    &::after {
+      position: absolute;
+      content: '';
+      right: 6px;
+      width: 1.3rem;
+      height: 1.3rem;
+      background-image: url('../../assets/icons/trash-can-filled.svg');
+      background-size: cover;
+    }
   }
 }

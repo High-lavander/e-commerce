@@ -95,6 +95,12 @@ const BasketPage = () => {
   const handleDelete = () => {
     deleteBasketById('59433385-0544-40a9-afb4-53f5c36ae467', 1)(dispatch);
   };
+
+  const clearBasket = () => {
+    if (basket) {
+      deleteBasketById(basket?.id, basket?.version)(dispatch);
+    }
+  };
   useEffect(() => {
     console.log('basket', basket);
   }, []);
@@ -111,15 +117,25 @@ const BasketPage = () => {
           <button onClick={handleDelete}>Delete Basket</button>
           <button onClick={handleSetCutomerId}>handleSetCutomerId</button>
         </div>
-        <ul className="basket__items"></ul>
-        {basket?.lineItems ? (
-          basket?.lineItems.map((item) => {
+        {/* <ul className="basket__items">
+          {basket?.lineItems.map((item) => {
             return (
               <li key={item.id}>
                 <LineItemComponent {...item} />
               </li>
             );
-          })
+          })}
+        </ul> */}
+        {basket?.lineItems ? (
+          <ul className="basket__items">
+            {basket?.lineItems.map((item) => {
+              return (
+                <li key={item.id}>
+                  <LineItemComponent {...item} />
+                </li>
+              );
+            })}
+          </ul>
         ) : (
           <div className="basket__empty">
             <h3 className="basket__empty-title">Your cart is empty!</h3>
@@ -142,7 +158,12 @@ const BasketPage = () => {
               Apply
             </button>
           </div>
-          <div className="basket__total-price">Total: {basket?.totalPrice.centAmount}</div>
+          <div className="basket__footer">
+            <div className="basket__total-price">Total: {basket?.totalPrice.centAmount}</div>
+            <button className="basket__clear-button" onClick={clearBasket}>
+              Clear Basket
+            </button>
+          </div>
         </div>
       )}
     </section>
