@@ -1,7 +1,63 @@
 import IProductElement from '../../ApiCatalog/ApiCatalog';
 import './ProductElement.scss';
+import { CartActionsType, updateBasketById } from '../../store/basket';
+import { useAppDispatch, useAppSelector } from '../../store/hooks';
 
-function ProductElement({ product }: { product: IProductElement['masterData']['current'] }) {
+interface IProductDetailProps {
+  productData?: {
+    id: string;
+    key: string;
+    price: number;
+    imageUrl: string;
+    masterData: {
+      current: {
+        description: {
+          en: string;
+        };
+        categories: [{ typeId: string; id: string }];
+        masterVariant: {
+          id: number;
+          prices: {
+            value: {
+              centAmount: number;
+              currencyCode: string;
+            };
+          }[];
+          images: [{ url: string }];
+        };
+        name: {
+          en: string;
+        };
+      };
+    };
+  };
+}
+function ProductElement({
+  product,
+  addProducts,
+}: {
+  product: IProductElement['masterData']['current'];
+  addProducts: IProductDetailProps;
+}) {
+  const dispatch = useAppDispatch();
+  const { basket } = useAppSelector((state) => state.basket);
+
+  const addProductToCart = () => {
+    if (basket) {
+      updateBasketById(basket?.id, {
+        version: basket?.version,
+        actions: [
+          {
+            action: CartActionsType.ADDITEM,
+            variantId: addProducts.productData?.masterData.current.masterVariant.id,
+            productId: addProducts.productData?.id,
+            quantity: 1,
+          },
+        ],
+      })(dispatch);
+    }
+  };
+
   return (
     <div className="product_block">
       <div className="product_block_images">
@@ -19,7 +75,7 @@ function ProductElement({ product }: { product: IProductElement['masterData']['c
             </p>
           </div>
         </div>
-        <button className="product_block_info_btn-basket">
+        <button className="product_block_info_btn-basket" onClick={addProductToCart}>
           <p>Add</p>
           <div className="total_product">0</div>
         </button>
@@ -27,4 +83,5 @@ function ProductElement({ product }: { product: IProductElement['masterData']['c
     </div>
   );
 }
+
 export default ProductElement;
