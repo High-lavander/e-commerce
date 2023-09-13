@@ -17,7 +17,7 @@ const SortSelect: FC<ISortSelectProps> = ({ sortOption, setSortOption }) => {
   return (
     <>
       <div onClick={() => setIsDropDownOpened(!isDropDownOpened)} style={{ cursor: 'pointer' }}>
-        {'Сортировать: '}
+        {'Sort: '}
         {sortOption.name}
       </div>
       {isDropDownOpened

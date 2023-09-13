@@ -14,7 +14,7 @@ import UserProfile from './pages/UserProfile/UserProfile';
 import BasketPage from './pages/Basket/BasketPage';
 import Loading from './components/Loading/Loading';
 
-const Catalog = lazy(() => import('./components/Catalog/Catalog'));
+const Shop = lazy(() => import('./pages/Shop/Shop'));
 function App() {
   return (
     <>
@@ -29,7 +29,7 @@ function App() {
           path="/shop"
           element={
             <Suspense fallback={<Loading />}>
-              <Catalog />
+              <Shop />
             </Suspense>
           }
         />

@@ -5,6 +5,9 @@ export default interface IProductElement {
   key: string;
   price: number;
   imageUrl: string;
+  description: {
+    en: string;
+  };
   masterData: {
     current: {
       description: {
@@ -12,6 +15,7 @@ export default interface IProductElement {
       };
       categories: [{ typeId: string; id: string }];
       masterVariant: {
+        id: number;
         prices: {
           value: {
             centAmount: number;

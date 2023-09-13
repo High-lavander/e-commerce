@@ -62,11 +62,12 @@ function Catalog() {
     setSearchQuery(query);
   };
   return (
-    <div className="catalog">
-      <div className="catalog_banner">
-        <h1>Shop</h1>
-      </div>
+    <>
       <div className="filter_block">
+        <div className="search_bar">
+          <SearchBar onSearch={handleSearch} />
+          <SortSelect sortOption={sortOption} setSortOption={setSortOption} />
+        </div>
         <div className="filter_products">
           <ProductsFilter setPriceFilter={setPriceFilter} />
           <ProductsFilterOption
@@ -74,22 +75,19 @@ function Catalog() {
             activeCookingOptions={activeCookingOptions}
           />
         </div>
-        <div className="search_bar">
-          <SearchBar onSearch={handleSearch} />
-          <SortSelect sortOption={sortOption} setSortOption={setSortOption} />
-        </div>
       </div>
-      <CatalogBreadcrumbs categories={categories} />
-      <Categories categories={categories} />
-
+      <div className="categories_block">
+        <CatalogBreadcrumbs categories={categories} />
+        <Categories categories={categories} />
+      </div>
       <div className="catalog_products">
         {products.map((product) => (
           <Link to={`/product/${(product as IProductElement).id}`} key={(product as IProductElement).id}>
-            <ProductElement key={(product as IProductElement).id} product={product} />
+            <ProductElement key={(product as IProductElement).id} product={product} productData={product} />
           </Link>
         ))}
       </div>
-    </div>
+    </>
   );
 }
 

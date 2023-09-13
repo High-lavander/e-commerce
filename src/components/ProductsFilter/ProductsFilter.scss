@@ -1,16 +1,16 @@
 .range {
     width: 100%;
-    background-color: #fff;
     border-radius: 5px;
     padding: 20px;
+    h4 {
+        color: #274C5B;
+        margin-bottom: 20px;
+        text-align: center;
+        font-weight: 600;
+    }
 }
 
-h4 {
-    color: #000;
-    margin-bottom: 20px;
-    text-align: center;
-    font-weight: 600;
-}
+
 
 .price-content {
     display: flex;
