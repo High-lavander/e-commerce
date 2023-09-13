@@ -11,12 +11,17 @@ interface IBasket {
   customerGroup?: ICustomerGroupReference;
   anonymousId?: string;
   businessUnit?: object;
+  discountCodes?: IDiscountCodes[];
   store?: object;
   lineItems: ILineItem[];
   totalLineItemQuantity: number;
   totalPrice: ITotalPrice;
 }
 
+interface IDiscountCodes {
+  discountCode: { typeId: string; id: string };
+  state: string;
+}
 interface ITotalPrice {
   centAmount: number;
   currencyCode: string;
@@ -108,6 +113,7 @@ interface IBasketAction {
   lineItemId?: string;
   variantId?: number;
   quantity?: number;
+  code?: string;
 }
 
 export enum CartActionsType {

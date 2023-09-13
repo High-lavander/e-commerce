@@ -1,6 +1,6 @@
 import { useParams } from 'react-router';
 import { useAppDispatch, useAppSelector } from '../../store/hooks';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import Arrow from '../../assets/icons/Aerrow.svg';
 import {
   createBasket,
@@ -21,6 +21,7 @@ const BasketPage = () => {
   const router = useParams();
   const { basket, basketError, isBasketLoading } = useAppSelector((state) => state.basket);
   const { customer } = useAppSelector((state) => state.customer);
+  const [promoCode, setPromocode] = useState('');
   useEffect(() => {
     if (router.id) {
       console.log('router.id', router.id);
@@ -47,6 +48,20 @@ const BasketPage = () => {
 
   const handleReplicate = () => {
     replicateBasket('59433385-0544-40a9-afb4-53f5c36ae467')(dispatch);
+  };
+
+  const applyDiscount = () => {
+    if (basket) {
+      updateBasketById(basket?.id, {
+        version: basket?.version,
+        actions: [
+          {
+            action: CartActionsType.ADDDISCOUNT,
+            code: promoCode,
+          },
+        ],
+      })(dispatch);
+    }
   };
 
   const handleUpdateBasketById = () => {
@@ -120,7 +135,11 @@ const BasketPage = () => {
       </div>
       {basket?.lineItems && (
         <div className="basket__total-container">
+          <span>Enter promo code</span>
+          <input value={promoCode} onChange={(e) => setPromocode(e.target.value)} />
+          <button onClick={applyDiscount}>Apply</button>
           <div className="basket__total-price">Total: {basket?.totalPrice.centAmount}</div>
+          <div className="basket__promo-price">Total with promo: {basket?.totalPrice.centAmount}</div>
         </div>
       )}
     </section>

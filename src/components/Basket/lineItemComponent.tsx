@@ -44,6 +44,9 @@ export const LineItemComponent = (props: ILineItemsProps) => {
           },
         ],
       })(dispatch);
+      if (basket.discountCodes) {
+        basket?.discountCodes[0].discountCode.id;
+      }
     }
   };
 
