@@ -1,0 +1,80 @@
+.contactUs {
+  margin-top: 210px;
+  margin-bottom: 100px;
+}
+
+.container {
+  display: flex;
+  align-items: center;
+  gap: 75px;
+  width: 1380px;
+  margin: 0 auto;
+  padding: 0 10px;
+}
+
+.fruitsImg {
+  border-radius: 15px;
+}
+
+.rightCol {
+  .title {
+    color: #274c5b;
+    font-size: 3.125rem;
+    font-weight: 800;
+    line-height: normal;
+  }
+
+  .description {
+    margin: 14px 0 0 0;
+    color: #525c60;
+    font-size: 1.125rem;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 165.4%;
+  }
+
+  .contacts {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    margin: 35px 0;
+
+    .contactCard {
+      display: flex;
+      justify-content: flex-start;
+      align-items: center;
+      gap: 20px;
+      width: 350px;
+      padding: 10px;
+      border-radius: 16px;
+      border: 1px solid #eee;
+      background: #fff;
+      transition: 0.3s box-shadow;
+
+      &:hover {
+        box-shadow: 0px 10px 15px 0px rgba(29, 29, 29, 0.1);
+      }
+    }
+  }
+
+  .contactIcons {
+    display: flex;
+    justify-content: flex-start;
+    gap: 15px;
+
+    .contactLink {
+      .contactCircle {
+        transition: 0.3s fill;
+      }
+
+      &:hover .contactCircle {
+        fill: #cfecd7;
+      }
+    }
+  }
+}
+
+.verticallyCentered {
+  display: flex;
+  align-items: center;
+}
