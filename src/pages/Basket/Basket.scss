@@ -42,4 +42,17 @@
     background-color: rgba($color: #00ff91, $alpha: 0.1);
     font-weight: 500;
   }
+  &__promo {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  &__promo-input {
+    border-radius: 16px;
+    padding: 8px;
+  }
+  &__promo-button {
+    background-color: #274C5B;
+    color: #fff;
+  }
 }

@@ -101,8 +101,12 @@ export const LineItemComponent = (props: ILineItemsProps) => {
       />
       <h2 className="line-item__name">{productData?.masterData.current.name.en}</h2>
       <div className="line-item__prices">
-        <div className="line-item__discount-price">{props.price.value.centAmount}</div>
-        <div className="line-item__price">
+        <div className={`line-item__price ${props?.discountedPricePerQuantity[0] && 'line-item__old-price'}`}>
+          {props.price.value.centAmount}
+        </div>
+
+        <div className="line-item__discount-price">
+          {' '}
           {props?.discountedPricePerQuantity[0] &&
             props?.discountedPricePerQuantity?.[0].discountedPrice.value.centAmount}
         </div>

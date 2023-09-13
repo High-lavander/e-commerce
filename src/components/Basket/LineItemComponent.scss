@@ -17,10 +17,19 @@
       height: 70px;
     }
   }
-  &____prices {
+  &__prices {
     display: flex;
     flex-direction: column;
-    row-gap: 1rem;
+    justify-content: center;
+    align-items: center;
+  }
+  &__discount-price {
+    font-weight: 500;
+    color: #0099ff;
+  }
+  &__old-price{
+    opacity: 0.7;
+    text-decoration: line-through;
   }
   &__count {
     position: relative;
@@ -28,7 +37,12 @@
   &__quantity-container {
     display: flex;
     align-items: center;
+    justify-content: space-between;
     column-gap: 1rem;
+    width: 200px;
+    @media screen and (max-width: 720px) {
+      width: auto;
+    }
   }
   &__quantity-input {
     width: 92px;
@@ -66,6 +80,9 @@
       height: 18px;
       width: 18px;
     }
+  }
+  &__total{
+    min-width: 60px;
   }
 }
 .quantity-button {

@@ -19,6 +19,11 @@ function Main() {
       <div className="banner_title">
         <h4>Delicious and Healthy</h4>
         <h1>Explore a New Dimension of Nutrition!</h1>
+        <div className="banner_promo">
+          <div className="banner_promo-text">
+            ENTER PROMO <span className="banner_promo-code">NEWPERSON</span> 15% OFF DISCOUNT
+          </div>
+        </div>
       </div>
       <Link to="/shop" className="banner_shop-link">
         <button className="banner_btn">

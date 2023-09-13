@@ -135,11 +135,14 @@ const BasketPage = () => {
       </div>
       {basket?.lineItems && (
         <div className="basket__total-container">
-          <span>Enter promo code</span>
-          <input value={promoCode} onChange={(e) => setPromocode(e.target.value)} />
-          <button onClick={applyDiscount}>Apply</button>
+          <div className="basket__promo">
+            <span className="basket__promo-span">Enter promo code</span>
+            <input className="basket__promo-input" value={promoCode} onChange={(e) => setPromocode(e.target.value)} />
+            <button className="basket__promo-button" onClick={applyDiscount}>
+              Apply
+            </button>
+          </div>
           <div className="basket__total-price">Total: {basket?.totalPrice.centAmount}</div>
-          <div className="basket__promo-price">Total with promo: {basket?.totalPrice.centAmount}</div>
         </div>
       )}
     </section>
