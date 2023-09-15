@@ -67,11 +67,16 @@
     grid-area: catalog;
 }
 
+.pagination {
+    grid-area: pagination;
+}
+
 .catalog {
     display: grid;
     grid-template-areas:
         'categories categories categories categories categories categories'
-        'filter filter catalog catalog catalog catalog';
-    gap: 10px;
+        'filter filter catalog catalog catalog catalog'
+        'pagination pagination pagination pagination pagination pagination';
+    gap: 20px;
     padding: 10px;
 }

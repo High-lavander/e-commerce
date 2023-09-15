@@ -85,8 +85,10 @@ p {
         .total_product {
             border-radius: 100%;
             background: #274C5B;
-            padding: 14px 20px;
+            padding: 14px 3px;
             color: white;
+            min-width: 50px;
+            text-align: center;
         }
     }
 }

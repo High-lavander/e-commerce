@@ -10,6 +10,7 @@ import ProductsFilterOption from '../ProductsFilter/ProductsFilterOption';
 import SortSelect from '../SortSelect/SortSelect';
 import { sortOptions } from '../../constants/sortOptions';
 import SearchBar from '../SearchBar/SearchBar';
+import Pagination from '../Pagination/Pagination';
 
 function Catalog() {
   const [products, setProducts] = useState([]);
@@ -19,6 +20,7 @@ function Catalog() {
   const [priceFilter, setPriceFilter] = useState({ from: '0', to: '9999' });
   const [activeCookingOptions, setActiveCookingOptions] = useState<string[]>([]);
   const [searchQuery, setSearchQuery] = useState('');
+  const [currentPage, setCurrentPage] = useState(1);
 
   const categoryId = searchParams.get('categoryId');
 
@@ -35,7 +37,8 @@ function Catalog() {
         const allProductsData = await getAllProducts(
           [categoryFilter, priceFilterString, cookingOptionsString, searchFilterString].filter(Boolean).join('&'),
           sortOption.value,
-          searchQuery
+          searchQuery,
+          currentPage
         );
         setProducts(allProductsData.results);
       } catch (error) {
@@ -44,7 +47,7 @@ function Catalog() {
     }
 
     fetchProducts();
-  }, [categoryId, sortOption, priceFilter, activeCookingOptions, searchQuery]);
+  }, [categoryId, sortOption, priceFilter, activeCookingOptions, searchQuery, currentPage]);
 
   useEffect(() => {
     async function fetchCategories() {
@@ -60,6 +63,9 @@ function Catalog() {
   }, []);
   const handleSearch = (query: string) => {
     setSearchQuery(query);
+  };
+  const handlePageChange = (newPage: number) => {
+    setCurrentPage(newPage);
   };
   return (
     <>
@@ -85,6 +91,7 @@ function Catalog() {
           <ProductElement key={(product as IProductElement).id} product={product} productData={product} />
         ))}
       </div>
+      <Pagination currentPage={currentPage} totalPages={5} onPageChange={handlePageChange} />
     </>
   );
 }

@@ -51,14 +51,11 @@ function ProductElement({
       }
     }
   };
-
   return (
     <div className="product_block">
       <Link to={`/product/${productData.id}`} key={productData.id}>
         <div className="product_block_images">
-          {product.masterVariant.images[0] ? (
-            <img src={product.masterVariant.images[0].url} alt="Product img" />
-          ) : null}
+          {product.masterVariant.images[0] ? <img src={product.masterVariant.images[0].url} alt="Product img" /> : null}
         </div>
       </Link>
       <div className="product_block_description">
