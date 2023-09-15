@@ -1,8 +1,9 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import IProductElement from '../../ApiCatalog/ApiCatalog';
 import './ProductElement.scss';
 import { CartActionsType, updateBasketById } from '../../store/basket';
 import { useAppDispatch, useAppSelector } from '../../store/hooks';
+import { Link } from 'react-router-dom';
 
 function ProductElement({
   product,
@@ -11,48 +12,57 @@ function ProductElement({
   product: IProductElement['masterData']['current'];
   productData: IProductElement;
 }) {
-  const [addedToCart, setAddedToCart] = useState(false);
-  const [cartItemCount, setCartItemCount] = useState(0);
   const dispatch = useAppDispatch();
   const { basket } = useAppSelector((state) => state.basket);
 
+  const findCartItem = basket?.lineItems.find((item) => item.productId === productData.id);
+  const [cartItemCount, setCartItemCount] = useState(findCartItem ? findCartItem.quantity : 0);
+
   const addProductToCart = () => {
     if (basket) {
-      updateBasketById(basket?.id, {
-        version: basket?.version,
-        actions: [
-          {
-            action: CartActionsType.ADDITEM,
-            variantId: product?.masterVariant?.id,
-            productId: productData.id,
-            quantity: 1,
-          },
-        ],
-      })(dispatch);
+      const existingCartItem = basket.lineItems.find((item) => item.productId === productData.id);
 
-      const isAddedToCart = basket.lineItems.some((item) => item.productId === productData.id);
-
-      if (isAddedToCart) {
-        setAddedToCart(true);
-        setCartItemCount(cartItemCount + 1);
+      if (existingCartItem) {
+        updateBasketById(basket?.id, {
+          version: basket?.version,
+          actions: [
+            {
+              action: CartActionsType.ADDITEM,
+              variantId: product?.masterVariant?.id,
+              productId: productData.id,
+              quantity: 1,
+            },
+          ],
+        })(dispatch);
+        setCartItemCount(existingCartItem.quantity + 1);
+      } else {
+        updateBasketById(basket?.id, {
+          version: basket?.version,
+          actions: [
+            {
+              action: CartActionsType.ADDITEM,
+              variantId: product?.masterVariant?.id,
+              productId: productData.id,
+              quantity: 1,
+            },
+          ],
+        })(dispatch);
+        setCartItemCount(1);
       }
     }
   };
 
-  useEffect(() => {
-    if (basket) {
-      const totalItems = basket.lineItems.reduce((total, item) => total + item.quantity, 0);
-      setCartItemCount(totalItems);
-    }
-  }, [basket]);
-
   return (
     <div className="product_block">
-      <div className="product_block_images">
-        {product.masterVariant.images[0] ? <img src={product.masterVariant.images[0].url} alt="Product img" /> : null}
-      </div>
+      <Link to={`/product/${productData.id}`} key={productData.id}>
+        <div className="product_block_images">
+          {product.masterVariant.images[0] ? (
+            <img src={product.masterVariant.images[0].url} alt="Product img" />
+          ) : null}
+        </div>
+      </Link>
       <div className="product_block_description">
-        <p>{productData.description.en}</p>
+        <p>{`${productData.description.en.slice(0, 50)}...`}</p>
       </div>
       <div className="product_block_info">
         <div className="product_block_info_title">
@@ -67,7 +77,7 @@ function ProductElement({
           </div>
         </div>
         <button className="product_block_info_btn-basket" onClick={addProductToCart}>
-          <p>{addedToCart ? 'Added' : 'Add'}</p>
+          <p>Add</p>
           <div className="total_product">{cartItemCount}</div>
         </button>
       </div>

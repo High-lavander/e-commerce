@@ -4,7 +4,7 @@ import Categories from '../Categories/Categories';
 import IProductElement, { getAllCategories, getAllProducts } from '../../ApiCatalog/ApiCatalog';
 import ProductElement from '../ProductElement/ProductElement';
 import CatalogBreadcrumbs from '../CatalogBreadcrumbs/CatalogBreadcrumbs';
-import { Link, useSearchParams } from 'react-router-dom';
+import { useSearchParams } from 'react-router-dom';
 import ProductsFilter from '../ProductsFilter/ProductsFilter';
 import ProductsFilterOption from '../ProductsFilter/ProductsFilterOption';
 import SortSelect from '../SortSelect/SortSelect';
@@ -82,9 +82,7 @@ function Catalog() {
       </div>
       <div className="catalog_products">
         {products.map((product) => (
-          <Link to={`/product/${(product as IProductElement).id}`} key={(product as IProductElement).id}>
-            <ProductElement key={(product as IProductElement).id} product={product} productData={product} />
-          </Link>
+          <ProductElement key={(product as IProductElement).id} product={product} productData={product} />
         ))}
       </div>
     </>

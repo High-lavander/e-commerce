@@ -59,6 +59,9 @@ export const getAllProducts = async (filter: string | null, sort: string | null,
     if (sort) {
       url.push(url.length > 1 ? `&sort=${sort}` : `?sort=${sort}`);
     }
+    url.push(`&limit=5`);
+
+    url.push(`&offset=0`);
 
     const response = await fetch(url.join(''), {
       method: 'GET',
@@ -115,7 +118,7 @@ export const categoryFilter = async (categoryId: string) => {
 
     const response = await fetch(
       `https://api.${process.env.VITE_CTP_API_REGION}.commercetools.com/${process.env.VITE_CTP_PROJECT_KEY}/products?where=` +
-        encodeURIComponent(where),
+      encodeURIComponent(where),
       {
         method: 'GET',
         headers: {

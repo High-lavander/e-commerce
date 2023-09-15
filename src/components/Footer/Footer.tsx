@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import logo from '../../assets/icons/Logo.svg';
+import logo from '../../assets/icons/rs_school_logo.svg';
 import './Footer.scss';
 
 function Footer() {
@@ -24,8 +24,7 @@ function Footer() {
       </div>
       <div className="footer_information">
         <div className="footer_information_logo">
-          <img src={logo} alt="Logo Organic" />
-          <h3>Organic</h3>
+          <img src={logo} alt="Logo" />
         </div>
         <div className="footer_information_description">
           <p>
