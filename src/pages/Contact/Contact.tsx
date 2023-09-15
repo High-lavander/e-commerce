@@ -1,6 +1,7 @@
 import Banner from '../../components/UI/Banner/Banner';
 import contactBackground from '../../assets/banner-contact.svg';
 import contactFruits from '../../assets/contact-fruits.svg';
+import locationPin from '../../assets/location-pin.svg';
 import styles from './Contact.module.scss';
 
 function Contact() {
@@ -10,11 +11,11 @@ function Contact() {
       <section className={styles.contactUs}>
         <div className={styles.container}>
           <div>
-            <img src={contactFruits} className={styles.fruitsImg} alt="fruits" />
+            <img src={contactFruits} className={styles.contactUsfruitsImg} alt="fruits" />
           </div>
-          <div className={styles.rightCol}>
-            <h2 className={styles.title}>We&apos;d love to talk about how we can work together.</h2>
-            <p className={styles.description}>
+          <div className={styles.contactUsRightCol}>
+            <h2 className={styles.contactUsTitle}>We&apos;d love to talk about how we can work together.</h2>
+            <p className={styles.contactUsDescription}>
               Simply dummy text of the printing and typesetting industry. Lorem had ceased to been the industry&apos;s
               standard dummy text ever since the 1500s, when an unknown printer took a galley.
             </p>
@@ -107,6 +108,42 @@ function Contact() {
                   />
                 </svg>
               </a>
+            </div>
+          </div>
+        </div>
+      </section>
+      <section className={styles.location}>
+        <div className={styles.container}>
+          <div className={styles.locationBackground}>
+            <div className={styles.locationContainer}>
+              <h3 className={styles.locationTitle}>Location</h3>
+              <h2 className={styles.locationSubtitle}>Our Farms</h2>
+              <p className={styles.locationDescription}>
+                Established fact that a reader will be distracted by the readable content of a page when looking a
+                layout. The point of using.
+              </p>
+              <div className={styles.locationAddressList}>
+                <div className={styles.locationAddress}>
+                  <img src={locationPin} alt="Map Pin" />
+                  <div className={styles.locationInfo}>
+                    <p>
+                      <strong className={styles.locationAddressCity}>New York, USA:</strong>
+                    </p>
+                    <p>299 Park Avenue New York,</p>
+                    <p>New York 10171</p>
+                  </div>
+                </div>
+                <div className={styles.locationAddress}>
+                  <img src={locationPin} alt="Map Pin" />
+                  <div className={styles.locationInfo}>
+                    <p>
+                      <strong className={styles.locationAddressCity}>London, UK:</strong>
+                    </p>
+                    <p>30 Stamford Street,</p>
+                    <p>London SE1 9LQ</p>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
         </div>
