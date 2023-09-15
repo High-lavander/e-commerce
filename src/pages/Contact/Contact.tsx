@@ -5,9 +5,9 @@ import styles from './Contact.module.scss';
 
 function Contact() {
   return (
-    <div>
+    <main>
       <Banner title="Contact Us" backgroundImage={contactBackground} />
-      <div className={styles.contactUs}>
+      <section className={styles.contactUs}>
         <div className={styles.container}>
           <div>
             <img src={contactFruits} className={styles.fruitsImg} alt="fruits" />
@@ -106,8 +106,8 @@ function Contact() {
             </div>
           </div>
         </div>
-      </div>
-    </div>
+      </section>
+    </main>
   );
 }
 
