@@ -28,9 +28,7 @@
     margin: 14px 0 0 0;
     color: #525c60;
     font-size: 1.125rem;
-    font-style: normal;
-    font-weight: 400;
-    line-height: 165.4%;
+    line-height: 1.86075rem;
   }
 
   .contacts {
@@ -53,6 +51,19 @@
 
       &:hover {
         box-shadow: 0px 10px 15px 0px rgba(29, 29, 29, 0.1);
+      }
+
+      .contactCardTitle {
+        color: #274c5b;
+        font-size: 1.5625rem;
+        font-weight: 800;
+        line-height: normal;
+      }
+
+      .contactCardDetails {
+        color: #525c60;
+        font-size: 1.125rem;
+        line-height: 1.86075rem;
       }
     }
   }

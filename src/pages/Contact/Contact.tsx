@@ -34,8 +34,10 @@ function Contact() {
                   </svg>
                 </div>
                 <div>
-                  <h3>Message</h3>
-                  <a href="mailto:support@organic.com">support@organic.com</a>
+                  <h3 className={styles.contactCardTitle}>Message</h3>
+                  <a className={styles.contactCardDetails} href="mailto:support@organic.com">
+                    support@organic.com
+                  </a>
                 </div>
               </div>
               <div className={styles.contactCard}>
@@ -55,8 +57,10 @@ function Contact() {
                   </svg>
                 </div>
                 <div>
-                  <h3>Contact Us</h3>
-                  <a href="tel:+01123456789">+01 123 456 789</a>
+                  <h3 className={styles.contactCardTitle}>Contact Us</h3>
+                  <a className={styles.contactCardDetails} href="tel:+01123456789">
+                    +01 123 456 789
+                  </a>
                 </div>
               </div>
             </div>
