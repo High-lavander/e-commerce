@@ -126,7 +126,7 @@ const BasketPage = () => {
             );
           })}
         </ul> */}
-        {basket?.lineItems ? (
+        {basket?.lineItems && basket?.lineItems?.length > 0 ? (
           <ul className="basket__items">
             {basket?.lineItems.map((item) => {
               return (

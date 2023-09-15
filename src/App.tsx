@@ -12,8 +12,50 @@ import Catalog from './components/Catalog/Catalog';
 import Footer from './components/Footer/Footer';
 import UserProfile from './pages/UserProfile/UserProfile';
 import BasketPage from './pages/Basket/BasketPage';
+import { useAppDispatch, useAppSelector } from './store/hooks';
+import { fetchToken } from './store/token';
+import { useEffect } from 'react';
+import { CartActionsType, createBasket, getBasketByCustomerId, updateBasketById } from './store/basket';
 
 function App() {
+  const customerStore = useAppSelector((state) => state.customer);
+  const tokenStore = useAppSelector((store) => store.token);
+  const basketStore = useAppSelector((store) => store.basket);
+  const dispatch = useAppDispatch();
+
+  const handleCreateBasket = () => {
+    createBasket(dispatch);
+  };
+
+  const handleGetByCustomerId = () => {
+    getBasketByCustomerId(customerStore.customer?.id)(dispatch);
+  };
+
+  const handleSetCutomerId = () => {
+    if (basketStore.basket) {
+      updateBasketById(basketStore.basket?.id, {
+        version: basketStore.basket?.version || 1,
+        actions: [
+          {
+            action: CartActionsType.SETCUSTOMERID,
+            customerId: customerStore.customer?.id,
+          },
+        ],
+      })(dispatch);
+    }
+  };
+
+  useEffect(() => {
+    dispatch(fetchToken);
+    if (customerStore.customer) {
+      handleGetByCustomerId();
+      if (!basketStore.basket?.customerId) {
+        handleCreateBasket();
+        handleSetCutomerId();
+      }
+    }
+    console.log('tokenStore.token', tokenStore.token);
+  }, []);
   return (
     <>
       <Header />
