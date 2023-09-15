@@ -18,6 +18,7 @@
 
 .contactUsRightCol {
   .contactUsTitle {
+    margin-bottom: 14px;
     color: #274c5b;
     font-size: 3.125rem;
     font-weight: 800;
@@ -25,7 +26,7 @@
   }
 
   .contactUsDescription {
-    margin: 14px 0 0 0;
+    margin-bottom: 35px;
     color: #525c60;
     font-size: 1.125rem;
     line-height: 1.86075rem;
@@ -35,7 +36,7 @@
     display: flex;
     flex-direction: column;
     gap: 15px;
-    margin: 35px 0;
+    margin-bottom: 35px;
 
     .contactCard {
       display: flex;
