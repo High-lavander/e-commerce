@@ -10,10 +10,8 @@ function Banner(props: IBannerProps) {
     backgroundImage: `url(${props.backgroundImage})`,
   };
   return (
-    <div>
-      <div className={styles.banner} style={BannerStyle}>
-        {props.title}
-      </div>
+    <div className={styles.banner} style={BannerStyle}>
+      <h1 className={styles.title}>{props.title}</h1>
     </div>
   );
 }
