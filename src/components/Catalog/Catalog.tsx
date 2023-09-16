@@ -67,13 +67,14 @@ function Catalog() {
   const handlePageChange = (newPage: number) => {
     setCurrentPage(newPage);
   };
+
   return (
     <>
       <div className="filter_block">
         <div className="search_bar">
           <SearchBar onSearch={handleSearch} />
-          <SortSelect sortOption={sortOption} setSortOption={setSortOption} />
         </div>
+        <SortSelect sortOption={sortOption} setSortOption={setSortOption} />
         <div className="filter_products">
           <ProductsFilter setPriceFilter={setPriceFilter} />
           <ProductsFilterOption

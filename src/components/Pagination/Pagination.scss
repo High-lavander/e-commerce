@@ -22,3 +22,9 @@
         background-color: #7EB693;
     }
 }
+
+@media screen and (max-width: 500px) {
+    .pagination_btn {
+        padding: 8px 14px;
+    }
+}

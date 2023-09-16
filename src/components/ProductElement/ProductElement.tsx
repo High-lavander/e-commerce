@@ -66,11 +66,17 @@ function ProductElement({
           <p className="title">{product.name.en}</p>
           <div className="price">
             <p className="price_discount">
-              ${product.masterVariant.prices[0] ? product.masterVariant.prices[0].value.centAmount : null}
+              &#8364;
+              {product.masterVariant.prices[0]
+                ? `${(product.masterVariant.prices[0].value.centAmount / 100).toFixed(2)}`
+                : null}
             </p>
             <p className="price_current">
-              ${product.masterVariant.prices[1] ? product.masterVariant.prices[1].value.centAmount : null}
-            </p>
+              &#8364;
+              {product.masterVariant.prices[1]
+                ? `${(product.masterVariant.prices[1].value.centAmount / 100).toFixed(2)}`
+                : null}
+            </p>{' '}
           </div>
         </div>
         <button className="product_block_info_btn-basket" onClick={addProductToCart}>

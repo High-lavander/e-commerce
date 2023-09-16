@@ -6,8 +6,8 @@ interface IProductsFilterProps {
 }
 
 const ProductsFilter: FC<IProductsFilterProps> = ({ setPriceFilter }) => {
-  const [minPrice, setMinPrice] = useState('100');
-  const [maxPrice, setMaxPrice] = useState('9999');
+  const [minPrice, setMinPrice] = useState('0');
+  const [maxPrice, setMaxPrice] = useState('999');
 
   useEffect(() => {
     setPriceFilter({ from: minPrice, to: maxPrice });
@@ -20,12 +20,12 @@ const ProductsFilter: FC<IProductsFilterProps> = ({ setPriceFilter }) => {
       <div className="price-content">
         <div>
           <label>Min</label>
-          <p id="min-value">${minPrice}</p>
+          <p id="min-value">&#8364;{minPrice}</p>
         </div>
 
         <div>
           <label>Max</label>
-          <p id="max-value">${maxPrice}</p>
+          <p id="max-value">&#8364;{maxPrice}</p>
         </div>
       </div>
 
