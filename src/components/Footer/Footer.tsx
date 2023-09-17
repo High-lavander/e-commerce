@@ -24,7 +24,9 @@ function Footer() {
       </div>
       <div className="footer_information">
         <div className="footer_information_logo">
-         <a href="https://rs.school/"><img src={logo} alt="Logo" /></a> 
+          <a href="https://rs.school/">
+            <img src={logo} alt="Logo" />
+          </a>
         </div>
         <div className="footer_information_description">
           <p>
