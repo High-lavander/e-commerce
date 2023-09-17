@@ -1,16 +1,7 @@
-import { useParams } from 'react-router';
 import { useAppDispatch, useAppSelector } from '../../store/hooks';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import Arrow from '../../assets/icons/Aerrow.svg';
-import {
-  createBasket,
-  deleteBasketById,
-  getBasketByCustomerId,
-  getBasketById,
-  queryBaskets,
-  replicateBasket,
-  updateBasketById,
-} from '../../store/basket';
+import { deleteBasketById, updateBasketById } from '../../store/basket';
 import './Basket.scss';
 import { CartActionsType } from '../../store/basket';
 import { LineItemComponent } from '../../components/Basket/lineItemComponent';
@@ -18,42 +9,13 @@ import { Link } from 'react-router-dom';
 
 const BasketPage = () => {
   const dispatch = useAppDispatch();
-  const router = useParams();
-  const { basket, basketError, isBasketLoading } = useAppSelector((state) => state.basket);
-  const { customer } = useAppSelector((state) => state.customer);
+  const basketStore = useAppSelector((state) => state.basket);
   const [promoCode, setPromocode] = useState('');
-  useEffect(() => {
-    if (router.id) {
-      console.log('router.id', router.id);
-      console.log('basket', basket);
-      console.log('basketError', basketError);
-    }
-  }, [basket, basketError, isBasketLoading]);
-
-  const handleQuery = () => {
-    queryBaskets(dispatch);
-  };
-
-  const handleGetById = () => {
-    getBasketById('59433385-0544-40a9-afb4-53f5c36ae467')(dispatch);
-  };
-
-  const handleGetByCustomerId = () => {
-    getBasketByCustomerId(customer?.id || 'svS0pMBqBgsAvo4YHURZIY5j')(dispatch);
-  };
-
-  const handleCreate = () => {
-    createBasket(dispatch);
-  };
-
-  const handleReplicate = () => {
-    replicateBasket('59433385-0544-40a9-afb4-53f5c36ae467')(dispatch);
-  };
 
   const applyDiscount = () => {
-    if (basket) {
-      updateBasketById(basket?.id, {
-        version: basket?.version,
+    if (basketStore.basket) {
+      updateBasketById(basketStore.basket?.id, {
+        version: basketStore.basket?.version,
         actions: [
           {
             action: CartActionsType.ADDDISCOUNT,
@@ -64,71 +26,17 @@ const BasketPage = () => {
     }
   };
 
-  const handleUpdateBasketById = () => {
-    updateBasketById('59433385-0544-40a9-afb4-53f5c36ae467', {
-      version: 1,
-      actions: [
-        {
-          action: CartActionsType.ADDITEM,
-          variantId: 1,
-          productId: '91d01317-cbb3-48fe-a6cc-410ec5ee4934',
-          quantity: 1,
-        },
-      ],
-    })(dispatch);
-  };
-
-  const handleSetCutomerId = () => {
-    if (basket) {
-      updateBasketById(basket?.id, {
-        version: basket?.version || 1,
-        actions: [
-          {
-            action: CartActionsType.SETCUSTOMERID,
-            customerId: customer?.id || 'svS0pMBqBgsAvo4YHURZIY5j',
-          },
-        ],
-      })(dispatch);
-    }
-  };
-
-  const handleDelete = () => {
-    deleteBasketById('59433385-0544-40a9-afb4-53f5c36ae467', 1)(dispatch);
-  };
-
   const clearBasket = () => {
-    if (basket) {
-      deleteBasketById(basket?.id, basket?.version)(dispatch);
+    if (basketStore.basket) {
+      deleteBasketById(basketStore.basket?.id, basketStore.basket?.version)(dispatch);
     }
   };
-  useEffect(() => {
-    console.log('basket', basket);
-  }, []);
   return (
     <section className="basket__inner">
       <div className="basket__content">
-        <div className="basket__buttons">
-          <button onClick={handleQuery}>Query Basket</button>
-          <button onClick={handleGetById}>Get By ID Basket</button>
-          <button onClick={handleGetByCustomerId}>Get By Customer ID Basket</button>
-          <button onClick={handleCreate}>Create Basket</button>
-          <button onClick={handleReplicate}>Replicate Basket</button>
-          <button onClick={handleUpdateBasketById}>Update By ID Basket</button>
-          <button onClick={handleDelete}>Delete Basket</button>
-          <button onClick={handleSetCutomerId}>handleSetCutomerId</button>
-        </div>
-        {/* <ul className="basket__items">
-          {basket?.lineItems.map((item) => {
-            return (
-              <li key={item.id}>
-                <LineItemComponent {...item} />
-              </li>
-            );
-          })}
-        </ul> */}
-        {basket?.lineItems && basket?.lineItems?.length > 0 ? (
+        {basketStore.basket?.lineItems && basketStore.basket?.lineItems?.length > 0 ? (
           <ul className="basket__items">
-            {basket?.lineItems.map((item) => {
+            {basketStore.basket?.lineItems.map((item) => {
               return (
                 <li key={item.id}>
                   <LineItemComponent {...item} />
@@ -149,7 +57,7 @@ const BasketPage = () => {
           </div>
         )}
       </div>
-      {basket?.lineItems && (
+      {basketStore.basket?.lineItems && (
         <div className="basket__total-container">
           <div className="basket__promo">
             <span className="basket__promo-span">Enter promo code</span>
@@ -159,7 +67,7 @@ const BasketPage = () => {
             </button>
           </div>
           <div className="basket__footer">
-            <div className="basket__total-price">Total: {basket?.totalPrice.centAmount}</div>
+            <div className="basket__total-price">Total: {basketStore.basket?.totalPrice.centAmount}</div>
             <button className="basket__clear-button" onClick={clearBasket}>
               Clear Basket
             </button>

@@ -15,20 +15,15 @@ import BasketPage from './pages/Basket/BasketPage';
 import { useAppDispatch, useAppSelector } from './store/hooks';
 import { fetchToken } from './store/token';
 import { useEffect } from 'react';
-import { CartActionsType, createBasket, getBasketByCustomerId, updateBasketById } from './store/basket';
+import { CartActionsType, createBasket, updateBasketById } from './store/basket';
 
 function App() {
   const customerStore = useAppSelector((state) => state.customer);
-  const tokenStore = useAppSelector((store) => store.token);
   const basketStore = useAppSelector((store) => store.basket);
   const dispatch = useAppDispatch();
 
   const handleCreateBasket = () => {
     createBasket(dispatch);
-  };
-
-  const handleGetByCustomerId = () => {
-    getBasketByCustomerId(customerStore.customer?.id)(dispatch);
   };
 
   const handleSetCutomerId = () => {
@@ -48,13 +43,13 @@ function App() {
   useEffect(() => {
     dispatch(fetchToken);
     if (customerStore.customer) {
-      handleGetByCustomerId();
       if (!basketStore.basket?.customerId) {
         handleCreateBasket();
-        handleSetCutomerId();
+        setTimeout(() => {
+          handleSetCutomerId();
+        }, 0);
       }
     }
-    console.log('tokenStore.token', tokenStore.token);
   }, []);
   return (
     <>

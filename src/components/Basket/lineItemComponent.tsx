@@ -2,19 +2,15 @@ import { ChangeEvent, useEffect, useState } from 'react';
 import { updateBasketById, type ILineItem, CartActionsType } from '../../store/basket';
 import type { IProductDetail } from '../../types/productDetail';
 import { useAppDispatch, useAppSelector } from '../../store/hooks';
-import type { IToken } from '../../store/customer';
+import { getToken, type IToken } from '../../store/customer';
 import './LineItemComponent.scss';
-// import { InputElement } from '..';
-// import useInput from '../../hooks/useInput';
 
 type ILineItemsProps = ILineItem;
 export const LineItemComponent = (props: ILineItemsProps) => {
   const { basket, isBasketLoading } = useAppSelector((state) => state.basket);
   const dispatch = useAppDispatch();
   const [productData, setProductData] = useState<IProductDetail>();
-  // const quantity = useInput(String(props.quantity) || '1');
   const [quantity, setQuantity] = useState(props.quantity);
-  const tokenData = useAppSelector((state) => state.customer.tokenData as IToken | null);
 
   const quantityChange = (e: ChangeEvent<HTMLInputElement>) => {
     setQuantity(Number(e.target.value));
@@ -34,7 +30,6 @@ export const LineItemComponent = (props: ILineItemsProps) => {
 
   const deleteFromBasket = () => {
     if (basket) {
-      console.log('IFFFF', basket?.id);
       updateBasketById(basket?.id, {
         version: basket?.version,
         actions: [
@@ -51,7 +46,6 @@ export const LineItemComponent = (props: ILineItemsProps) => {
   };
 
   const changeLineItemQuantity = (quantity: number) => {
-    console.log('changeLineItemQuantity', basket?.id);
     if (basket) {
       updateBasketById(basket?.id, {
         version: basket?.version,
@@ -71,6 +65,7 @@ export const LineItemComponent = (props: ILineItemsProps) => {
   };
   useEffect(() => {
     const fetchProductData = async () => {
+      const tokenData: IToken = await getToken();
       fetch(
         `https://api.${process.env.VITE_CTP_API_REGION}.commercetools.com/${process.env.VITE_CTP_PROJECT_KEY}/products/${props.productId}`,
         {

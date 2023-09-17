@@ -1,4 +1,3 @@
-// import { useState } from 'react';
 import { SwiperModalComponent } from '../Swiper/SwiperModalComponent';
 import './ProductDetailModal.scss';
 interface IProductDetailModal {
@@ -7,8 +6,6 @@ interface IProductDetailModal {
   outerCloseCb?: () => void;
 }
 export const ProductDetailModal = (props: IProductDetailModal) => {
-  // const [isOpened, setIsOpened] = useState(false);
-
   return (
     props.isOpened && (
       <div className="product-modal">

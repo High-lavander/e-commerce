@@ -2,7 +2,7 @@ import { createSlice } from '@reduxjs/toolkit';
 import { AppDispatch } from '.';
 
 // interface Cart = Basket
-interface IBasket {
+export interface IBasket {
   id: string;
   version: number;
   key?: string;
@@ -231,16 +231,19 @@ export const getBasketByCustomerId = (id: string) => async (dispatch: AppDispatc
 export const createBasket = async (dispatch: AppDispatch) => {
   dispatch(basketSlice.actions.basketFetching());
   const tokenObject = await getToken();
-  fetch(`https://api.${process.env.VITE_CTP_API_REGION}.commercetools.com/${process.env.VITE_CTP_PROJECT_KEY}/carts`, {
-    method: 'POST',
-    headers: {
-      Authorization: `Bearer ${tokenObject.access_token}`,
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify({
-      currency: 'EUR',
-    }),
-  })
+  return fetch(
+    `https://api.${process.env.VITE_CTP_API_REGION}.commercetools.com/${process.env.VITE_CTP_PROJECT_KEY}/carts`,
+    {
+      method: 'POST',
+      headers: {
+        Authorization: `Bearer ${tokenObject.access_token}`,
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        currency: 'EUR',
+      }),
+    }
+  )
     .then((res) => res.json())
     .then((data) => {
       if ('errors' in data) {
@@ -253,6 +256,7 @@ export const createBasket = async (dispatch: AppDispatch) => {
         console.log('Error localstorage \n', e);
       }
       dispatch(basketSlice.actions.basketFetchingSuccess(data));
+      return data as IBasket;
     })
     .catch((e) => dispatch(basketSlice.actions.basketFetchingError('Error' + e)));
 };
@@ -293,8 +297,9 @@ export const replicateBasket = (cartReferenceId: string) => async (dispatch: App
 };
 
 export const updateBasketById = (id: string, postForm: IBasketRequestBody) => async (dispatch: AppDispatch) => {
-  dispatch(basketSlice.actions.basketFetching());
   const tokenObject = await getToken();
+
+  dispatch(basketSlice.actions.basketFetching());
   fetch(
     `https://api.${process.env.VITE_CTP_API_REGION}.commercetools.com/${process.env.VITE_CTP_PROJECT_KEY}/carts/${id}`,
     {
@@ -376,10 +381,10 @@ export const deleteBasketById = (id: string, version: number) => async (dispatch
       }
       try {
         localStorage.removeItem('basket');
+        dispatch(basketSlice.actions.basketFetchingSuccess(null));
       } catch (e) {
         console.log('Error localstorage \n', e);
       }
-      dispatch(basketSlice.actions.basketFetchingSuccess(data));
     })
     .catch((e) => dispatch(basketSlice.actions.basketFetchingError('Error' + e)));
 };
