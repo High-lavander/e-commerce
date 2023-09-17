@@ -1,9 +1,10 @@
-import { useEffect, useMemo, useState } from 'react';
+import { useMemo, useState } from 'react';
 import './ProductDetailComponent.scss';
 import { SwiperImageComponent } from '../Swiper/SwiperImageComponent';
 import { ProductDetailModal } from './ProductDetailModal';
-import { CartActionsType, updateBasketById } from '../../store/basket';
+import { CartActionsType, createBasket, updateBasketById } from '../../store/basket';
 import { useAppDispatch, useAppSelector } from '../../store/hooks';
+import type { IBasket } from '../../store/basket';
 
 interface IProductDetailProps {
   productData?: IProductDetail;
@@ -60,13 +61,13 @@ interface IImage {
 }
 export const ProductDetailComponent = (props: IProductDetailProps) => {
   const dispatch = useAppDispatch();
-  const { basket } = useAppSelector((state) => state.basket);
+  const basketStore = useAppSelector((state) => state.basket);
   const images = props.productData?.masterData.current.masterVariant.images.map((img) => img.url) || [];
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const currentLineItem = useMemo(() => {
-    return basket?.lineItems.find((item) => item?.productId === props.productData?.id);
-  }, [basket]);
+    return basketStore.basket?.lineItems.find((item) => item?.productId === props.productData?.id);
+  }, [basketStore.basket?.lineItems, props.productData?.id]);
 
   const openModal = () => {
     setIsModalOpen(true);
@@ -76,10 +77,10 @@ export const ProductDetailComponent = (props: IProductDetailProps) => {
     setIsModalOpen(false);
   };
 
-  const addProductToCart = () => {
-    if (basket) {
-      updateBasketById(basket?.id, {
-        version: basket?.version,
+  const addProductToCart = async () => {
+    if (basketStore.basket) {
+      updateBasketById(basketStore.basket?.id, {
+        version: basketStore.basket?.version,
         actions: [
           {
             action: CartActionsType.ADDITEM,
@@ -90,12 +91,28 @@ export const ProductDetailComponent = (props: IProductDetailProps) => {
         ],
       })(dispatch);
     }
+    if (!basketStore.basket) {
+      createBasket(dispatch).then((data) => {
+        const basket: IBasket = data as IBasket;
+        updateBasketById(basket?.id, {
+          version: basket?.version,
+          actions: [
+            {
+              action: CartActionsType.ADDITEM,
+              variantId: props.productData?.masterData.current.masterVariant.id,
+              productId: props.productData?.id,
+              quantity: 1,
+            },
+          ],
+        })(dispatch);
+      });
+    }
   };
 
   const removeProductFromCart = () => {
-    if (basket && currentLineItem) {
-      updateBasketById(basket?.id, {
-        version: basket?.version,
+    if (basketStore.basket && currentLineItem) {
+      updateBasketById(basketStore.basket?.id, {
+        version: basketStore.basket?.version,
         actions: [
           {
             action: CartActionsType.REMOVEITEM,
@@ -107,10 +124,6 @@ export const ProductDetailComponent = (props: IProductDetailProps) => {
       })(dispatch);
     }
   };
-
-  useEffect(() => {
-    console.log('props.productData', props.productData);
-  }, [props]);
   return (
     <div className="product-element">
       <ProductDetailModal isOpened={isModalOpen} outerCloseCb={closeModal} images={images} />
