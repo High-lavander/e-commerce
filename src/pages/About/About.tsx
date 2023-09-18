@@ -29,15 +29,14 @@ function About() {
     role: 'Half Team Lead and designer',
     github: '//github.com/bogdanovich231',
     contribution:
-      'Worked on handling requests and interacting with Redux, ensuring efficient application state management. Implemented a robust authentication system for our service, ensuring the security of customer data. Responsible for Commerce Tools API requests to update product states.  Developed a detailed product page and a shopping cart page, ensuring a seamless purchasing process.',
+      'Implemented the design for all key project pages.Additionally, I was responsible for writing Jest tests to test the code. Created informative and appealing product descriptions, worked on components to ensure smooth navigation and interactivity of the website. Managed requests to the Commerce Tools API for product information and actively participated in task tracking on Jira for more efficient task distribution within the team.',
   };
   const thirdPerson: AboutProps = {
     photo: `${thirdMemberImg}`,
     fullName: 'Shakhzod Ikramov',
     role: 'Half Team Lead and Front-end developer',
     github: '//github.com/Shakhzod235',
-    contribution:
-      'Worked on handling requests and interacting with Redux, ensuring efficient application state management. Implemented a robust authentication system for our service, ensuring the security of customer data. Responsible for Commerce Tools API requests to update product states.  Developed a detailed product page and a shopping cart page, ensuring a seamless purchasing process.',
+    contribution: `Joined the team in the third sprint and immediately took on the task of implementing the 'About Us' and 'Contact' pages. Existing code was optimized and refactored to improve performance and user experience. This process included changes to the HTML structure and semantic improvements.`,
   };
   return (
     <main>
