@@ -3,9 +3,16 @@
   flex-wrap: nowrap;
   justify-content: space-around;
   align-items: center;
-  // & * {
-  //   // border-right: 1px solid #a2a2a2;
-  // }
+  margin-bottom: 1rem;
+  @media screen and (max-width: 540px) {
+    flex-direction: column;
+  }
+  &__item-block {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
   &__image {
     display: block;
     width: 200px;
@@ -16,15 +23,27 @@
       width: 100px;
       height: 70px;
     }
+    @media screen and (max-width: 540px) {
+      width: 60px;
+      height: 40px;
+    }
   }
   &__name {
     min-width: 120px;
+        @media screen and (max-width: 720px) {
+          min-width: 45px;
+          font-size: 1.2rem;
+        }
   }
   &__prices {
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    @media screen and (max-width: 540px) {
+      flex-direction: row;
+      column-gap: 8px;
+    }
   }
   &__discount-price {
     font-weight: 500;
@@ -86,6 +105,7 @@
   }
   &__total{
     min-width: 60px;
+    text-align: center;
   }
 }
 .quantity-button {

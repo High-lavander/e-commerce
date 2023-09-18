@@ -106,31 +106,33 @@ export const LineItemComponent = (props: ILineItemsProps) => {
             props?.discountedPricePerQuantity?.[0].discountedPrice.value.centAmount}
         </div>
       </div>
-      <div className="line-item__quantity-container">
-        <button
-          className="line-item__quantity-button quantity-button quantity-button__increment"
-          onClick={incrementQuantity}
-        >
-          +
-        </button>
-        <div className="line-item__count">
-          <input value={quantity} onChange={quantityChange} className="line-item__quantity-input" type="number" />
-          <span
-            className={`line-item__quantity-update update-arrows ${isBasketLoading && 'update-arrows__loading'}`}
-            onClick={updateQuantity}
-          ></span>
+      <div className="line-item__item-block">
+        <div className="line-item__quantity-container">
+          <button
+            className="line-item__quantity-button quantity-button quantity-button__increment"
+            onClick={incrementQuantity}
+          >
+            +
+          </button>
+          <div className="line-item__count">
+            <input value={quantity} onChange={quantityChange} className="line-item__quantity-input" type="number" />
+            <span
+              className={`line-item__quantity-update update-arrows ${isBasketLoading && 'update-arrows__loading'}`}
+              onClick={updateQuantity}
+            ></span>
+          </div>
+          <button
+            className="line-item__quantity-button  quantity-button quantity-button__decrement"
+            onClick={decrementQuantity}
+          >
+            -
+          </button>
         </div>
-        <button
-          className="line-item__quantity-button  quantity-button quantity-button__decrement"
-          onClick={decrementQuantity}
-        >
-          -
+        <div className="line-item__total">{props.totalPrice.centAmount}</div>
+        <button className="line-item__quantity-button quantity-button__delete" onClick={deleteFromBasket}>
+          x
         </button>
       </div>
-      <div className="line-item__total">{props.totalPrice.centAmount}</div>
-      <button className="line-item__quantity-button quantity-button__delete" onClick={deleteFromBasket}>
-        x
-      </button>
     </div>
   );
 };
