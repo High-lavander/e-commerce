@@ -1,6 +1,6 @@
 .about {
-  margin-top: 130px;
-  margin-bottom: 180px;
+  padding-top: 130px;
+  padding-bottom: 180px;
 }
 
 .container {
@@ -53,5 +53,80 @@
     flex-direction: column;
     align-items: center;
     gap: 70px;
+  }
+}
+
+.ourStack {
+  padding-top: 180px;
+  padding-bottom: 225px;
+  background: #f9f8f8;
+}
+
+.ourStackContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  .stackInfo {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 50px;
+    margin-bottom: 90px;
+
+    .stackTitle {
+      color: #7db593;
+      font-family: 'Yellowtail', cursive;
+      font-size: 2.25rem;
+      line-height: normal;
+    }
+
+    .stackSubtitle {
+      margin-bottom: 15px;
+      color: #274c5b;
+      font-size: 3.125rem;
+      font-weight: 800;
+      line-height: normal;
+    }
+
+    .stackDescription {
+      margin-bottom: 35px;
+      color: #525c60;
+      font-size: 1.125rem;
+      line-height: 1.86075rem;
+    }
+
+    .stackBtn {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 25px 40px;
+      border-radius: 16px;
+      border: 1px solid #274c5b;
+      background: #fff;
+      color: #274c5b;
+      font-size: 1.25rem;
+      font-weight: 700;
+      line-height: normal;
+      transition: 0.3s background-color;
+
+      &:hover {
+        background: #e0f0e4;
+        border-color: #085525;
+      }
+    }
+
+    .rightCol {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+  }
+
+  .stackCards {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 30px;
   }
 }

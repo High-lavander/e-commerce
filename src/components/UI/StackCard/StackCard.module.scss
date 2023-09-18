@@ -1,0 +1,17 @@
+.stackCard {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 250px;
+  height: 330px;
+  border-radius: 30px;
+  background: #fff;
+
+  .stackTitle {
+    color: #274c5b;
+    font-size: 1.5625rem;
+    font-weight: 800;
+    line-height: normal;
+  }
+}
