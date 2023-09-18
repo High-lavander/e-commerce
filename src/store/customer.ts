@@ -11,6 +11,7 @@ const initialState = () => {
       status: 'idle',
       customerError: '',
       isCustomerLoading: false,
+      tokenData: null,
     };
   } catch {
     return {
@@ -18,6 +19,7 @@ const initialState = () => {
       status: 'idle',
       customerError: '',
       isCustomerLoading: false,
+      tokenData: null,
     };
   }
 };
@@ -35,6 +37,12 @@ interface ICustomer {
   authenticationMode: string;
 }
 
+export interface IToken {
+  access_token: string;
+  token_type: string;
+  expires_in: number;
+  scope?: string;
+}
 export const getToken = () => {
   return fetch(`https://auth.${process.env.VITE_CTP_API_REGION}.commercetools.com/oauth/token`, {
     method: 'POST',
@@ -44,6 +52,10 @@ export const getToken = () => {
     },
     body: `grant_type=client_credentials&scope=manage_project:${process.env.VITE_CTP_PROJECT_KEY}`,
   }).then((res) => res.json());
+};
+
+export const getStoreToken = async (dispatch: AppDispatch) => {
+  getToken().then((data) => dispatch(customerSlice.actions.setToken(data)));
 };
 
 export const createCustomer = (formData: string) => async (dispatch: AppDispatch, navigate: NavigateFunction) => {
@@ -110,6 +122,9 @@ export const customerSlice = createSlice({
   reducers: {
     setCustomer: (state, action) => {
       state.customer = action.payload;
+    },
+    setToken: (state, action) => {
+      state.tokenData = action.payload;
     },
     customerFetching(state) {
       state.isCustomerLoading = true;
