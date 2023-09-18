@@ -13,9 +13,46 @@ import Footer from './components/Footer/Footer';
 import UserProfile from './pages/UserProfile/UserProfile';
 import BasketPage from './pages/Basket/BasketPage';
 import Loading from './components/Loading/Loading';
+import { useAppDispatch, useAppSelector } from './store/hooks';
+import { fetchToken } from './store/token';
+import { useEffect } from 'react';
+import { CartActionsType, createBasket, updateBasketById } from './store/basket';
 
 const Shop = lazy(() => import('./pages/Shop/Shop'));
 function App() {
+  const customerStore = useAppSelector((state) => state.customer);
+  const basketStore = useAppSelector((store) => store.basket);
+  const dispatch = useAppDispatch();
+
+  const handleCreateBasket = () => {
+    createBasket(dispatch);
+  };
+
+  const handleSetCutomerId = () => {
+    if (basketStore.basket) {
+      updateBasketById(basketStore.basket?.id, {
+        version: basketStore.basket?.version || 1,
+        actions: [
+          {
+            action: CartActionsType.SETCUSTOMERID,
+            customerId: customerStore.customer?.id,
+          },
+        ],
+      })(dispatch);
+    }
+  };
+
+  useEffect(() => {
+    dispatch(fetchToken);
+    if (customerStore.customer) {
+      if (!basketStore.basket?.customerId) {
+        handleCreateBasket();
+        setTimeout(() => {
+          handleSetCutomerId();
+        }, 0);
+      }
+    }
+  }, []);
   return (
     <>
       <Header />

@@ -4,7 +4,7 @@ interface IInputElementProps {
   className?: string;
   value?: string | number;
   checked?: boolean;
-  type: 'text' | 'number' | 'password' | 'email' | 'date' | 'checkbox';
+  type?: 'text' | 'number' | 'password' | 'email' | 'date' | 'checkbox';
   validationCb?: 'name' | 'password' | 'email' | 'date' | 'street' | 'city' | 'postalCode' | 'country';
   id?: string;
   maxLength?: number;

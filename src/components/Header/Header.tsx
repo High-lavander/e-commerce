@@ -13,8 +13,8 @@ function Header() {
 
   const loggedIn = useAppSelector((state) => Boolean(state.customer.customer));
   const { customer } = useAppSelector((state) => state.customer);
+  const { basket } = useAppSelector((state) => state.basket);
   const dispatch = useDispatch();
-  const itemsCount = 0;
 
   const toggleMenu = () => {
     setMenuOpen(!menuOpen);
@@ -109,7 +109,7 @@ function Header() {
             <Link to={`/basket/${customer?.id}`} onClick={closeMenu}>
               <div className="header_shopping-basket">
                 <span className="header_basket-icon"></span>
-                <span className="header_basket-counter">{itemsCount || 0}</span>
+                <span className="header_basket-counter">{basket?.totalLineItemQuantity || 0}</span>
               </div>
             </Link>
           </li>

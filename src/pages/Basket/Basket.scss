@@ -5,4 +5,79 @@
     justify-content: center;
     align-items: center;
   }
+  &__empty {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    row-gap: 2rem;
+    margin-bottom: 5rem;
+  }
+  &__empty-title {
+    font-size: 4rem;
+    color: #EFD372;
+    @media screen and (max-width: 720px) {
+      font-size: 2.2rem;
+    }
+  }
+  &__empty-message {
+    font-size: 3rem;
+    @media screen and (max-width: 720px) {
+      font-size: 1.6rem;
+    }
+    color: #274C5B;
+  }
+  &__items {
+    margin-bottom: 2rem;
+  }
+  &__button-shop {
+    position: relative;
+    padding: 1rem;
+    padding-right: 3rem;
+    background-color: #EFD372;
+  }
+  &__button-arrow {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+  }
+  &__total-container {
+    padding: 1rem;
+    background-color: rgba($color: #00ff91, $alpha: 0.1);
+    font-weight: 500;
+  }
+  &__promo {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2rem;
+  }
+  &__promo-input {
+    border-radius: 16px;
+    padding: 8px;
+  }
+  &__promo-button {
+    background-color: #274C5B;
+    color: #fff;
+  }
+  &__footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  &__clear-button {
+    position: relative;
+    padding-right: 2rem;
+    background-color: #EFD372;
+
+    &::after {
+      position: absolute;
+      content: '';
+      right: 6px;
+      width: 1.3rem;
+      height: 1.3rem;
+      background-image: url('../../assets/icons/trash-can-filled.svg');
+      background-size: cover;
+    }
+  }
 }
