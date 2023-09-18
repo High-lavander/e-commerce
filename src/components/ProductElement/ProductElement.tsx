@@ -1,9 +1,10 @@
 import { useState } from 'react';
 import IProductElement from '../../ApiCatalog/ApiCatalog';
 import './ProductElement.scss';
-import { CartActionsType, updateBasketById } from '../../store/basket';
+import { CartActionsType, createBasket, updateBasketById } from '../../store/basket';
 import { useAppDispatch, useAppSelector } from '../../store/hooks';
 import { Link } from 'react-router-dom';
+import type { IBasket } from '../../store/basket';
 
 function ProductElement({
   product,
@@ -13,18 +14,18 @@ function ProductElement({
   productData: IProductElement;
 }) {
   const dispatch = useAppDispatch();
-  const { basket } = useAppSelector((state) => state.basket);
+  const basketStore = useAppSelector((state) => state.basket);
 
-  const findCartItem = basket?.lineItems.find((item) => item.productId === productData.id);
+  const findCartItem = basketStore.basket?.lineItems.find((item) => item.productId === productData.id);
   const [cartItemCount, setCartItemCount] = useState(findCartItem ? findCartItem.quantity : 0);
 
   const addProductToCart = () => {
-    if (basket) {
-      const existingCartItem = basket.lineItems.find((item) => item.productId === productData.id);
+    if (basketStore.basket) {
+      const existingCartItem = basketStore.basket.lineItems.find((item) => item.productId === productData.id);
 
       if (existingCartItem) {
-        updateBasketById(basket?.id, {
-          version: basket?.version,
+        updateBasketById(basketStore.basket?.id, {
+          version: basketStore.basket?.version,
           actions: [
             {
               action: CartActionsType.ADDITEM,
@@ -36,8 +37,8 @@ function ProductElement({
         })(dispatch);
         setCartItemCount(existingCartItem.quantity + 1);
       } else {
-        updateBasketById(basket?.id, {
-          version: basket?.version,
+        updateBasketById(basketStore.basket?.id, {
+          version: basketStore.basket?.version,
           actions: [
             {
               action: CartActionsType.ADDITEM,
@@ -49,6 +50,41 @@ function ProductElement({
         })(dispatch);
         setCartItemCount(1);
       }
+    }
+    if (!basketStore.basket) {
+      createBasket(dispatch).then((data) => {
+        const basket: IBasket = data as IBasket;
+        const existingCartItem = basket.lineItems.find((item) => item.productId === productData.id);
+
+        if (existingCartItem) {
+          updateBasketById(basket?.id, {
+            version: basket?.version,
+            actions: [
+              {
+                action: CartActionsType.ADDITEM,
+                variantId: product?.masterVariant?.id,
+                productId: productData.id,
+                quantity: 1,
+              },
+            ],
+          })(dispatch);
+
+          setCartItemCount(existingCartItem.quantity + 1);
+        } else {
+          updateBasketById(basket?.id, {
+            version: basket?.version,
+            actions: [
+              {
+                action: CartActionsType.ADDITEM,
+                variantId: product?.masterVariant?.id,
+                productId: productData.id,
+                quantity: 1,
+              },
+            ],
+          })(dispatch);
+          setCartItemCount(1);
+        }
+      });
     }
   };
   return (
