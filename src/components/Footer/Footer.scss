@@ -2,46 +2,32 @@ $primary: #274C5B;
 $gray: #525C60;
 
 .footer {
-    display: flex;
-    justify-content: center;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 30px;
+    justify-items: center;
     margin-top: 4rem;
-    gap: 53px;
 
-    &_contact {
-        display: flex;
-        align-items: flex-end;
-        flex-direction: column;
-
-        ul {
-            margin: 0;
-            padding: 0px;
-
-            li {
-                text-align: right;
-                margin-bottom: 32px;
-            }
-        }
-    }
-
+    &_contact,
     &_pages {
         display: flex;
-        align-items: flex-start;
         flex-direction: column;
+        align-items: center;
 
         ul {
             margin: 0;
-            padding-left: 0px;
+            padding: 0;
 
             li {
-                margin-bottom: 20px;
+                margin-bottom: 25px;
+                text-align: center;
             }
         }
     }
 
     h4 {
         color: $primary;
-        margin: 0;
-        margin-bottom: 32px;
+        margin-bottom: 1.5rem;
     }
 
     h3 {
@@ -49,46 +35,62 @@ $gray: #525C60;
     }
 
     p {
-        margin: 0px;
-        color: $gray ;
-        font-weight: bold;
+        margin: 0;
+        color: $gray;
+        font-weight: 400;
     }
 
     a {
         color: $gray;
-        font-weight: 400;
+        font-weight: 500;
+
+        &:hover {
+            color: #7EB693;
+        }
     }
-}
 
-.footer_information {
-    max-width: 543px;
-
-    &_description {
+    &_information {
+        max-width: 543px;
         text-align: center;
 
-        p {
-            font-weight: 400;
+        &_logo {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            img {
+                width: 50%;
+                margin-bottom: 15px;
+            }
+
+            h3 {
+                margin-left: 10px;
+            }
         }
     }
 
-    &_logo {
-        display: flex;
-        justify-content: center;
-        align-items: center;
 
-        h3 {
-            margin-left: 10px;
-        }
-    }
 }
 
-@media screen and (max-width: 700px) {
+@media screen and (max-width: 1050px) {
     .footer {
-        flex-direction: column;
-        align-items: center;
-    }
+        grid-template-columns: 1fr;
 
-    .footer_contact {
-        align-items: center;
+        &_contact,
+        &_pages {
+            order: 2;
+        }
+
+        &_information {
+            order: 1;
+        }
+
+        &_pages {
+            ul {
+                li {
+                    margin-bottom: 15px;
+                }
+            }
+        }
     }
 }

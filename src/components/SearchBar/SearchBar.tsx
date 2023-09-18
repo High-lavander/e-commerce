@@ -2,7 +2,12 @@ import React, { useState } from 'react';
 import logo from '../../assets/icons/search.svg';
 
 import './SearchBar.scss';
-function SearchBar({ onSearch }: { onSearch: (query: string) => void }) {
+
+interface SearchBarProps {
+  onSearch: (query: string) => void; // Make sure onSearch is correctly typed
+}
+
+function SearchBar({ onSearch }: SearchBarProps) {
   const [searchQuery, setSearchQuery] = useState('');
 
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {

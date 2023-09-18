@@ -1,3 +1,4 @@
+import { lazy, Suspense } from 'react';
 import { Route, Routes } from 'react-router';
 import { Header } from './components';
 import Main from './pages/main/main';
@@ -8,15 +9,16 @@ import LoginPage from './pages/login/login';
 import Error404 from './pages/Error404/Error404';
 import RegistrationPage from './pages/registration/registration';
 import RedirectToMainLoggged from './components/Redirect/Redirect';
-import Catalog from './components/Catalog/Catalog';
 import Footer from './components/Footer/Footer';
 import UserProfile from './pages/UserProfile/UserProfile';
 import BasketPage from './pages/Basket/BasketPage';
+import Loading from './components/Loading/Loading';
 import { useAppDispatch, useAppSelector } from './store/hooks';
 import { fetchToken } from './store/token';
 import { useEffect } from 'react';
 import { CartActionsType, createBasket, updateBasketById } from './store/basket';
 
+const Shop = lazy(() => import('./pages/Shop/Shop'));
 function App() {
   const customerStore = useAppSelector((state) => state.customer);
   const basketStore = useAppSelector((store) => store.basket);
@@ -58,9 +60,16 @@ function App() {
       <Routes>
         <Route path="/" element={<Main />} />
         <Route path="/About" element={<About />} />
-        <Route path="/product/:id" element={<DetailedProduct />} />
+        <Route path="/product/:id" element={<DetailedProduct />} />s
         <Route path="/contact" element={<Contact />} />
-        <Route path="/shop" element={<Catalog />} />
+        <Route
+          path="/shop"
+          element={
+            <Suspense fallback={<Loading />}>
+              <Shop />
+            </Suspense>
+          }
+        />
         <Route
           path="/registration"
           element={

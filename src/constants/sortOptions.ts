@@ -7,19 +7,19 @@ interface ISortOption {
 
 const sortOptions: ISortOption[] = [
   {
-    name: 'по названию(а-я)',
+    name: 'by name(asc)',
     value: 'name.en asc',
   },
   {
-    name: 'по названию(я-а)',
+    name: 'by name(desc)',
     value: 'name.en desc',
   },
   {
-    name: 'по цене(сначала дорогие)',
+    name: 'by price(desc)',
     value: 'price desc',
   },
   {
-    name: 'по цене(сначала дешёвые)',
+    name: 'by price(asc)',
     value: 'price asc',
   },
 ];

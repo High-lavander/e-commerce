@@ -1,16 +1,17 @@
 .range {
     width: 100%;
-    background-color: #fff;
     border-radius: 5px;
-    padding: 20px;
+    padding: 0px 20px;
+
+    h4 {
+        color: #274C5B;
+        margin-bottom: 20px;
+        text-align: center;
+        font-weight: 600;
+    }
 }
 
-h4 {
-    color: #000;
-    margin-bottom: 20px;
-    text-align: center;
-    font-weight: 600;
-}
+
 
 .price-content {
     display: flex;
@@ -43,7 +44,7 @@ input[type=range]::-webkit-slider-thumb {
     height: 15px;
     width: 15px;
     border-radius: 50%;
-    background: #36b37e;
+    background: #274C5B;
     cursor: pointer;
     margin-top: -5px;
     position: relative;

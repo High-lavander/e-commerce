@@ -16,13 +16,13 @@ const SortSelect: FC<ISortSelectProps> = ({ sortOption, setSortOption }) => {
 
   return (
     <>
-      <div onClick={() => setIsDropDownOpened(!isDropDownOpened)} style={{ cursor: 'pointer' }}>
-        {'Сортировать: '}
+      <div onClick={() => setIsDropDownOpened(!isDropDownOpened)} style={{ cursor: 'pointer', color: '#7EB693' }}>
+        {'Sort: '}
         {sortOption.name}
       </div>
       {isDropDownOpened
         ? sortOptions.map((option, i) => (
-            <div onClick={onOptionClick(option)} key={i} style={{ cursor: 'pointer' }}>
+            <div onClick={onOptionClick(option)} key={i} style={{ cursor: 'pointer', color: '#274C5B' }}>
               {option.name}
             </div>
           ))

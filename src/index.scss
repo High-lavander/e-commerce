@@ -1,19 +1,11 @@
 @import url('./loader.scss');
 @import url('./default.scss');
+
 :root {
   font-family: Roboto, Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
   line-height: 1.5;
   font-weight: 400;
 
-  color-scheme: light dark;
-  color: rgba(255, 255, 255, 0.87);
-  background-color: white;
-
-  font-synthesis: none;
-  text-rendering: optimizeLegibility;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  -webkit-text-size-adjust: 100%;
 }
 
 h1,
@@ -30,6 +22,7 @@ ul {
   margin: 0;
   padding: 0;
 }
+
 li {
   list-style: none;
 }
@@ -74,35 +67,6 @@ button {
   }
 }
 
-button:hover {
-  border-color: #646cff;
-}
-
-button:focus,
-button:focus-visible {
-  outline: 4px auto -webkit-focus-ring-color;
-}
-
-@media (prefers-color-scheme: light) {
-  :root {
-    color: #213547;
-    background-color: #ffffff;
-  }
-
-  a:hover {
-    color: var(--active-font-color);
-  }
-
-  button {
-    background-color: #f9f9f9;
-  }
-}
-
-input::-webkit-outer-spin-button,
-input::-webkit-inner-spin-button {
-  -webkit-appearance: none;
-  margin: 0;
-}
 
 .app {
   display: flex;
@@ -113,6 +77,7 @@ input::-webkit-inner-spin-button {
     &_text {
       padding: 8px;
       font-size: inherit;
+
       &:disabled {
         user-select: none;
         pointer-events: none;
@@ -123,6 +88,7 @@ input::-webkit-inner-spin-button {
     &_email {
       padding: 8px;
       font-size: inherit;
+
       &:disabled {
         user-select: none;
         pointer-events: none;
@@ -134,6 +100,7 @@ input::-webkit-inner-spin-button {
     &_password {
       padding: 8px;
       font-size: inherit;
+
       &:disabled {
         user-select: none;
         pointer-events: none;
@@ -146,6 +113,7 @@ input::-webkit-inner-spin-button {
       padding: 8px;
       font-size: inherit;
       user-select: none;
+
       &:disabled {
         user-select: none;
         pointer-events: none;
@@ -157,6 +125,7 @@ input::-webkit-inner-spin-button {
     &_number {
       padding: 8px;
       font-size: inherit;
+
       &:disabled {
         user-select: none;
         pointer-events: none;
