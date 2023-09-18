@@ -64,7 +64,7 @@ function About() {
         <div className={styles.container}>
           <div className={styles.ourStackContainer}>
             <div className={styles.stackInfo}>
-              <div className={styles.leftCol}>
+              <div className={styles.stackLeftCol}>
                 <h3 className={styles.stackTitle}>What was used?</h3>
                 <h2 className={styles.stackSubtitle}>Our key technologies</h2>
                 <p className={styles.stackDescription}>
@@ -87,7 +87,7 @@ function About() {
                 </button>
               </div>
               <div className={styles.stackRightCol}>
-                <img src={aboutFood} alt="fruits and salad" />
+                <img className={styles.stackImg} src={aboutFood} alt="fruits and salad" />
               </div>
             </div>
             <div className={styles.stackCards}>

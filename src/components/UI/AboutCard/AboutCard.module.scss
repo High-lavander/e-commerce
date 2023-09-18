@@ -1,7 +1,6 @@
 .aboutCard {
   display: flex;
   justify-content: center;
-  align-items: flex-start;
   gap: 70px;
   border-radius: 50px;
   background: #f9f8f8;
@@ -63,7 +62,64 @@
       line-height: 1.86075rem;
     }
   }
+}
 
+@media (min-width: 768px) and (max-width: 1200px) {
+  .aboutCard {
+    flex-direction: column;
+    width: 85%;
+    gap: 35px;
 
+    .photoContainer {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+  
+      .photo {
+        width: 100%;
+        height: 100%;
+        border-radius: 50px 50px 0 0;
+      }
+    }
+    .aboutCardInfo {
+      padding: 0 32px 32px 32px;
+      .roleTitle {
+        margin-bottom: 20px;
+      }
+      .contributionTitle {
+        font-size: 1.6875rem;
+      }
+    }
+  }
+}
+
+@media (min-width: 380px) and (max-width: 767px) {
+  .aboutCard {
+    flex-direction: column;
+    width: 95%;
+    gap: 25px;
+
+    .photoContainer {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+  
+      .photo {
+        width: 100%;
+        height: 100%;
+        border-radius: 50px 50px 0 0;
+      }
+    }
+    .aboutCardInfo {
+      padding: 0 32px 32px 32px;
+      .roleTitle {
+        margin-bottom: 15px;
+      }
+      .contributionTitle {
+        font-size: 1.6875rem;
+        margin-bottom: 10px;
+      }
+    }
+  }
 
 }
