@@ -1,0 +1,69 @@
+.aboutCard {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  gap: 70px;
+  border-radius: 50px;
+  background: #f9f8f8;
+
+
+  .photoContainer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    .photo {
+      width: 420px;
+      height: 100%;
+      border-radius: 50px 0 0 50px;
+    }
+  }
+
+  .aboutCardInfo {
+    width: 100%;
+    height: 100%;
+    padding: 32px 32px 32px 0;
+
+    .fullnameContainer {
+      display: flex;
+      gap: 15px;
+
+      .fullnameTitle {
+        margin: 0;
+        color: #274c5b;
+        font-size: 1.5625rem;
+        font-weight: 800;
+        line-height: normal;
+      }
+
+      .githubLink {
+        display: flex;
+        align-items: center;
+      }
+    }
+
+    .roleTitle {
+      margin: 0 0 45px 0;
+      color: #7db593;
+      font-family: 'Yellowtail', cursive;
+      font-size: 1.375rem;
+      line-height: normal;
+    }
+
+    .contributionTitle {
+      color: #274c5b;
+      font-size: 2.1875rem;
+      font-weight: 800;
+      line-height: normal;
+    }
+
+    .contributionDescription {
+      color: #525c60;
+      font-size: 1.125rem;
+      line-height: 1.86075rem;
+    }
+  }
+
+
+
+}

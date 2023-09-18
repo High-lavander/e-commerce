@@ -1,0 +1,57 @@
+.about {
+  margin-top: 130px;
+  margin-bottom: 180px;
+}
+
+.container {
+  display: flex;
+  align-items: center;
+  gap: 75px;
+  width: 1380px;
+  margin: 0 auto;
+  padding: 0 10px;
+}
+
+.aboutContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+
+  .aboutHeading {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    max-width: 700px;
+
+    .aboutTitle {
+      color: #7db593;
+      font-family: 'Yellowtail', cursive;
+      font-size: 3.125rem;
+      line-height: normal;
+    }
+
+    .aboutSubtitle {
+      margin-bottom: 30px;
+      color: #274c5b;
+      font-size: 3.125rem;
+      font-weight: 800;
+      line-height: normal;
+    }
+
+    .aboutDescription {
+      margin-bottom: 95px;
+      color: #525c60;
+      font-size: 1.125rem;
+      line-height: 1.86075rem;
+      text-align: center;
+    }
+  }
+
+  .aboutCards {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 70px;
+  }
+}
