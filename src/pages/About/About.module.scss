@@ -1,0 +1,432 @@
+.about {
+  padding-top: 130px;
+  padding-bottom: 180px;
+}
+
+.container {
+  display: flex;
+  align-items: center;
+  gap: 75px;
+  width: 1380px;
+  max-width: 100vw;
+  margin: 0 auto;
+  padding: 0 10px;
+}
+
+.aboutContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  max-width: 100vw;
+
+  .aboutHeading {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    max-width: 700px;
+
+    .aboutTitle {
+      color: #7db593;
+      font-family: 'Yellowtail', cursive;
+      font-size: 3.125rem;
+      line-height: normal;
+    }
+
+    .aboutSubtitle {
+      margin-bottom: 30px;
+      color: #274c5b;
+      font-size: 3.125rem;
+      font-weight: 800;
+      line-height: normal;
+    }
+
+    .aboutDescription {
+      margin-bottom: 95px;
+      color: #525c60;
+      font-size: 1.125rem;
+      line-height: 1.86075rem;
+      text-align: center;
+    }
+  }
+
+  .aboutCards {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 70px;
+  }
+}
+
+.ourStack {
+  padding-top: 180px;
+  padding-bottom: 225px;
+  background: #f9f8f8;
+}
+
+.ourStackContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  max-width: 100vw;
+
+  .stackInfo {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 50px;
+    margin-bottom: 90px;
+
+    .stackTitle {
+      color: #7db593;
+      font-family: 'Yellowtail', cursive;
+      font-size: 2.25rem;
+      line-height: normal;
+    }
+
+    .stackSubtitle {
+      margin-bottom: 15px;
+      color: #274c5b;
+      font-size: 3.125rem;
+      font-weight: 800;
+      line-height: normal;
+    }
+
+    .stackDescription {
+      margin-bottom: 35px;
+      color: #525c60;
+      font-size: 1.125rem;
+      line-height: 1.86075rem;
+    }
+
+    .stackBtn {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 25px 40px;
+      border-radius: 16px;
+      border: 1px solid #274c5b;
+      background: #fff;
+      color: #274c5b;
+      font-size: 1.25rem;
+      font-weight: 700;
+      line-height: normal;
+      transition: 0.3s background-color;
+
+      &:hover {
+        background: #e0f0e4;
+        border-color: #085525;
+      }
+    }
+
+    .stackRightCol {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+  }
+
+  .stackCards {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 30px;
+  }
+
+}
+
+.course {
+  padding-top: 105px;
+  padding-bottom: 80px;
+}
+
+.courseContainer {
+  display: flex;
+  justify-content: center;
+  gap: 65px;
+}
+
+.courseLeftCol {
+  flex: 1;
+  padding: 50px 50px 50px 45px;
+  border-radius: 30px;
+  background: #f9f8f8;
+
+  .courseTitle {
+    color: #7eb693;
+    font-family: 'Yellowtail', cursive;
+    font-size: 2.25rem;
+    line-height: normal;
+  }
+
+  .courseDescription {
+    margin-bottom: 60px;
+    color: #525c60;
+    font-size: 1.875rem;
+    line-height: 3.10125rem;
+  }
+
+  .courseLink {
+    display: flex;
+    justify-content: flex-end;
+  }
+
+  .courseLogo {
+    width: 280px;
+
+    &:hover {
+      background: none;
+    }
+  }
+}
+
+.courseRightCol {
+  flex: 1;
+  padding: 35px 45px 50px 45px;
+  border-radius: 30px;
+  background: #7eb693;
+
+  .stackIcons {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    margin-bottom: 50px;
+
+    .stackIconsFirstRow {
+      display: flex;
+      justify-content: flex-start;
+      gap: 20px;
+    }
+
+    .stackIconsSecondRow {
+      display: flex;
+      justify-content: flex-end;
+      gap: 20px;
+    }
+
+    .stackLogo {
+      width: 150px;
+      height: 150px;
+      padding: 20px;
+      border-radius: 100%;
+      background: #fff;
+    }
+  }
+
+
+  .stackText {
+    color: #eff6f1;
+    font-size: 1.875rem;
+    line-height: 3.10125rem;
+  }
+}
+
+@media (min-width: 768px) and (max-width: 1200px) {
+  .about {
+    padding-top: 55px;
+    padding-bottom: 105px;
+  }
+
+  .ourStack {
+    padding-top: 95px;
+    padding-bottom: 105px;
+  }
+
+  .ourStackContainer {
+    width: 90%;
+    margin: 0 auto;
+
+    .stackInfo {
+      flex-direction: column-reverse;
+
+      .stackLeftCol {
+        padding: 0 32px;
+      }
+
+      .stackRightCol {
+
+        .stackImg {
+          width: 400px;
+        }
+      }
+    }
+
+    .stackCards {
+      flex-wrap: wrap;
+      gap: 50px;
+    }
+  }
+
+  .courseContainer {
+    flex-direction: column;
+    width: 85%;
+    margin: 0 auto;
+  }
+
+  .courseLeftCol {
+    .courseLogo {
+      width: 250px;
+    }
+
+    .courseTitle {
+      font-size: 2.05rem;
+    }
+
+    .courseDescription {
+      font-size: 1.675rem;
+    }
+  }
+
+  .courseRightCol {
+    .stackIcons {
+      .stackLogo {
+        width: 130px;
+        height: 130px;
+      }
+
+      .stackIconsFirstRow,
+      .stackIconsSecondRow {
+        gap: 25px;
+      }
+    }
+  }
+}
+
+@media (min-width: 380px) and (max-width: 767px) {
+  .container {
+    padding: 0 5px;
+  }
+
+  .about {
+    padding-top: 30px;
+    padding-bottom: 50px;
+  }
+
+  .aboutContainer {
+    .aboutHeading {
+      .aboutTitle {
+        font-size: 2.525rem;
+      }
+
+      .aboutSubtitle {
+        margin-bottom: 10px;
+        font-size: 2.325rem;
+      }
+
+      .aboutDescription {
+        margin-bottom: 35px;
+      }
+    }
+
+    .aboutCards {
+      gap: 40px;
+    }
+  }
+
+  .ourStack {
+    padding-top: 50px;
+    padding-bottom: 50px;
+  }
+
+  .ourStackContainer {
+    width: 90%;
+    margin: 0 auto;
+
+    .stackInfo {
+      flex-direction: column-reverse;
+      gap: 20px;
+      margin-bottom: 40px;
+
+      .stackLeftCol {
+        padding: 0 15px;
+
+        .stackTitle {
+          text-align: center;
+          font-size: 1.8rem;
+        }
+
+        .stackSubtitle {
+          text-align: center;
+          font-size: 2rem;
+        }
+
+        .stackDescription {
+          text-align: center;
+          margin-bottom: 20px;
+        }
+
+        .stackBtn {
+          margin: 0 auto;
+        }
+      }
+
+      .stackRightCol {
+
+        .stackImg {
+          width: 350px;
+        }
+      }
+    }
+
+    .stackCards {
+      flex-wrap: wrap;
+      gap: 30px;
+    }
+  }
+
+  .course {
+    padding-top: 50px;
+    padding-bottom: 50px;
+  }
+
+  .courseContainer {
+    flex-direction: column;
+    width: 95%;
+    margin: 0 auto;
+    gap: 50px;
+
+    .courseLeftCol {
+      padding: 25px 25px 25px 20px;
+
+      .courseLogo {
+        width: 200px;
+      }
+
+      .courseTitle {
+        font-size: 2.05rem;
+      }
+
+      .courseDescription {
+        margin-bottom: 30px;
+        font-size: 1.475rem;
+        line-height: 2.1rem;
+      }
+    }
+
+    .courseRightCol {
+      padding: 15px;
+
+      .stackIcons {
+        margin-bottom: 20px;
+
+        .stackLogo {
+          width: 90px;
+          height: 90px;
+          padding: 15px;
+        }
+
+        .stackIconsFirstRow,
+        .stackIconsSecondRow {
+          gap: 6%;
+        }
+      }
+
+      .stackText {
+        font-size: 1.6rem;
+        line-height: 2.3rem;
+      }
+    }
+  }
+
+
+}

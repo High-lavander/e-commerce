@@ -5,6 +5,9 @@ export default interface IProductElement {
   key: string;
   price: number;
   imageUrl: string;
+  description: {
+    en: string;
+  };
   masterData: {
     current: {
       description: {
@@ -12,6 +15,7 @@ export default interface IProductElement {
       };
       categories: [{ typeId: string; id: string }];
       masterVariant: {
+        id: number;
         prices: {
           value: {
             centAmount: number;
@@ -35,7 +39,12 @@ export default interface IGetCategory {
   };
 }
 
-export const getAllProducts = async (filter: string | null, sort: string | null, searchQuery: string | null) => {
+export const getAllProducts = async (
+  filter: string | null,
+  sort: string | null,
+  searchQuery: string | null,
+  currentPage: number
+) => {
   try {
     const tokenObject = await getToken();
     const accessToken = tokenObject.access_token;
@@ -55,6 +64,9 @@ export const getAllProducts = async (filter: string | null, sort: string | null,
     if (sort) {
       url.push(url.length > 1 ? `&sort=${sort}` : `?sort=${sort}`);
     }
+    url.push(`&limit=8`);
+    const offset = (currentPage - 1) * 8;
+    url.push(`&offset=${offset}`);
 
     const response = await fetch(url.join(''), {
       method: 'GET',

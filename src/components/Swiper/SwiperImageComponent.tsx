@@ -1,11 +1,9 @@
 import { Navigation, Pagination, Scrollbar, A11y } from 'swiper/modules';
-
 import { Swiper, SwiperSlide } from 'swiper/react';
-
+import styles from './SwiperImageComponent.module.scss';
 import 'swiper/scss';
 import 'swiper/scss/navigation';
 import 'swiper/scss/pagination';
-import styles from './SwiperImageComponent.module.scss';
 interface ISwiperComponentProps {
   images?: string[];
   swiperClass?: string;
@@ -23,8 +21,6 @@ export const SwiperImageComponent = (props: ISwiperComponentProps) => {
       navigation
       pagination={{ clickable: true }}
       scrollbar={{ draggable: true }}
-      onSwiper={(swiper) => console.log(swiper)}
-      onSlideChange={() => console.log('slide change')}
       className={`${styles.swiper} ${props.swiperClass}`}
     >
       {props.images &&

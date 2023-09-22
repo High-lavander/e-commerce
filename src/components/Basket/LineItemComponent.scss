@@ -1,0 +1,143 @@
+.line-item {
+  display: flex;
+  flex-wrap: nowrap;
+  justify-content: space-around;
+  align-items: center;
+  margin-bottom: 1rem;
+  @media screen and (max-width: 540px) {
+    flex-direction: column;
+  }
+  &__item-block {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  &__image {
+    display: block;
+    width: 200px;
+    height: 140px;
+    object-fit: cover;
+    border-radius: 16px;
+    @media screen and (max-width: 720px) {
+      width: 100px;
+      height: 70px;
+    }
+    @media screen and (max-width: 540px) {
+      width: 60px;
+      height: 40px;
+    }
+  }
+  &__name {
+    min-width: 120px;
+        @media screen and (max-width: 720px) {
+          min-width: 45px;
+          font-size: 1.2rem;
+        }
+  }
+  &__prices {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    @media screen and (max-width: 540px) {
+      flex-direction: row;
+      column-gap: 8px;
+    }
+  }
+  &__discount-price {
+    font-weight: 500;
+    color: #0099ff;
+  }
+  &__old-price{
+    opacity: 0.7;
+    text-decoration: line-through;
+  }
+  &__count {
+    position: relative;
+  }
+  &__quantity-container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    column-gap: 1rem;
+    width: 200px;
+    @media screen and (max-width: 720px) {
+      width: auto;
+    }
+  }
+  &__quantity-input {
+    width: 92px;
+    height: 63px;
+    padding-right: 2.5rem;
+    padding-left: 0.5rem;
+    font-size: 20px;
+    text-align: center;
+    border-radius: 16px;
+
+    @media screen and (max-width: 720px) {
+      padding-right: 1.2rem;
+      padding-left: 0.3rem;
+      width: 64px;
+      height: 40px;
+    }
+  }
+  &__quantity-label {
+    padding-bottom: 0;
+  }
+  &__quantity-update {
+    position: absolute;
+    display: block;
+    top: 14px;
+    right: 8px;
+    width: 2rem;
+    height: 2rem;
+    background-image: url('../../assets/icons/update-arrows.svg');
+    background-size: contain;
+    cursor: pointer;
+
+    @media screen and (max-width: 720px) {
+      top: 11px;
+      right: 4px;
+      height: 18px;
+      width: 18px;
+    }
+  }
+  &__total{
+    min-width: 60px;
+    text-align: center;
+  }
+}
+.quantity-button {
+  padding: 4px;
+  height: 30px;
+  width: 30px;
+  color: #fff;
+  font-size: 1rem;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+  &__increment {
+    background-color: #274C5B;
+  }
+  &__decrement {
+    background-color: #EFD372;
+  }
+  &__delete {
+    padding: 4px 8px;
+    background-color: #EFD372;
+  }
+} 
+@keyframes update-arrows-spin {
+  0%{
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+.update-arrows {
+  &__loading {
+    animation: update-arrows-spin 1s linear 0s infinite normal forwards;
+  }
+}

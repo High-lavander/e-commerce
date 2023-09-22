@@ -2,7 +2,7 @@ import { createSlice } from '@reduxjs/toolkit';
 import { AppDispatch } from '.';
 
 // interface Cart = Basket
-interface IBasket {
+export interface IBasket {
   id: string;
   version: number;
   key?: string;
@@ -11,11 +11,25 @@ interface IBasket {
   customerGroup?: ICustomerGroupReference;
   anonymousId?: string;
   businessUnit?: object;
+  discountCodes?: IDiscountCodes[];
   store?: object;
   lineItems: ILineItem[];
+  totalLineItemQuantity: number;
+  totalPrice: ITotalPrice;
 }
 
-interface ILineItem {
+interface IDiscountCodes {
+  discountCode: { typeId: string; id: string };
+  state: string;
+}
+interface ITotalPrice {
+  centAmount: number;
+  currencyCode: string;
+  fractionDigits: number;
+  type: string;
+}
+
+export interface ILineItem {
   id: string;
   key?: string;
   productId: string;
@@ -93,10 +107,13 @@ interface IBasketRequestBody {
 }
 
 interface IBasketAction {
-  action: CartActionsType.ADDITEM;
-  productId: string;
+  action: CartActionsType;
+  customerId?: string;
+  productId?: string;
+  lineItemId?: string;
   variantId?: number;
-  quantity: number;
+  quantity?: number;
+  code?: string;
 }
 
 export enum CartActionsType {
@@ -111,11 +128,24 @@ export enum CartActionsType {
   SETCUSTOMERID = 'setCustomerId',
   SETANONYMOUSID = 'setAnonymousId',
 }
-const initialState: IBasketState = {
-  basket: null,
-  basketError: '',
-  basketMessage: '',
-  isBasketLoading: false,
+const initialState = (): IBasketState => {
+  try {
+    const basketString = localStorage.getItem('basket') || '';
+    const basket = JSON.parse(basketString);
+    return {
+      basket,
+      basketError: '',
+      basketMessage: '',
+      isBasketLoading: false,
+    };
+  } catch {
+    return {
+      basket: null,
+      basketError: '',
+      basketMessage: '',
+      isBasketLoading: false,
+    };
+  }
 };
 
 const getToken = () => {
@@ -201,23 +231,32 @@ export const getBasketByCustomerId = (id: string) => async (dispatch: AppDispatc
 export const createBasket = async (dispatch: AppDispatch) => {
   dispatch(basketSlice.actions.basketFetching());
   const tokenObject = await getToken();
-  fetch(`https://api.${process.env.VITE_CTP_API_REGION}.commercetools.com/${process.env.VITE_CTP_PROJECT_KEY}/carts`, {
-    method: 'POST',
-    headers: {
-      Authorization: `Bearer ${tokenObject.access_token}`,
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify({
-      currency: 'EUR',
-    }),
-  })
+  return fetch(
+    `https://api.${process.env.VITE_CTP_API_REGION}.commercetools.com/${process.env.VITE_CTP_PROJECT_KEY}/carts`,
+    {
+      method: 'POST',
+      headers: {
+        Authorization: `Bearer ${tokenObject.access_token}`,
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        currency: 'EUR',
+      }),
+    }
+  )
     .then((res) => res.json())
     .then((data) => {
       if ('errors' in data) {
         dispatch(basketSlice.actions.basketFetchingError(data.errors?.[0].detailedErrorMessage || data.message));
         return;
       }
+      try {
+        localStorage.setItem('basket', JSON.stringify(data));
+      } catch (e) {
+        console.log('Error localstorage \n', e);
+      }
       dispatch(basketSlice.actions.basketFetchingSuccess(data));
+      return data as IBasket;
     })
     .catch((e) => dispatch(basketSlice.actions.basketFetchingError('Error' + e)));
 };
@@ -247,14 +286,20 @@ export const replicateBasket = (cartReferenceId: string) => async (dispatch: App
         dispatch(basketSlice.actions.basketFetchingError(data.errors?.[0].detailedErrorMessage || data.message));
         return;
       }
+      try {
+        localStorage.setItem('basket', JSON.stringify(data));
+      } catch (e) {
+        console.log('Error localstorage \n', e);
+      }
       dispatch(basketSlice.actions.basketFetchingSuccess(data));
     })
     .catch((e) => dispatch(basketSlice.actions.basketFetchingError('Error' + e)));
 };
 
 export const updateBasketById = (id: string, postForm: IBasketRequestBody) => async (dispatch: AppDispatch) => {
-  dispatch(basketSlice.actions.basketFetching());
   const tokenObject = await getToken();
+
+  dispatch(basketSlice.actions.basketFetching());
   fetch(
     `https://api.${process.env.VITE_CTP_API_REGION}.commercetools.com/${process.env.VITE_CTP_PROJECT_KEY}/carts/${id}`,
     {
@@ -271,6 +316,11 @@ export const updateBasketById = (id: string, postForm: IBasketRequestBody) => as
       if ('errors' in data) {
         dispatch(basketSlice.actions.basketFetchingError(data.errors?.[0].detailedErrorMessage || data.message));
         return;
+      }
+      try {
+        localStorage.setItem('basket', JSON.stringify(data));
+      } catch (e) {
+        console.log('Error localstorage \n', e);
       }
       dispatch(basketSlice.actions.basketFetchingSuccess(data));
     })
@@ -300,6 +350,11 @@ export const recalculateBasketById = (id: string) => async (dispatch: AppDispatc
         dispatch(basketSlice.actions.basketFetchingError(data.errors?.[0].detailedErrorMessage || data.message));
         return;
       }
+      try {
+        localStorage.setItem('basket', JSON.stringify(data));
+      } catch (e) {
+        console.log('Error localstorage \n', e);
+      }
       dispatch(basketSlice.actions.basketFetchingSuccess(data));
     })
     .catch((e) => dispatch(basketSlice.actions.basketFetchingError('Error' + e)));
@@ -324,7 +379,12 @@ export const deleteBasketById = (id: string, version: number) => async (dispatch
         dispatch(basketSlice.actions.basketFetchingError(data.errors?.[0].detailedErrorMessage || data.message));
         return;
       }
-      dispatch(basketSlice.actions.basketFetchingSuccess(data));
+      try {
+        localStorage.removeItem('basket');
+        dispatch(basketSlice.actions.basketFetchingSuccess(null));
+      } catch (e) {
+        console.log('Error localstorage \n', e);
+      }
     })
     .catch((e) => dispatch(basketSlice.actions.basketFetchingError('Error' + e)));
 };

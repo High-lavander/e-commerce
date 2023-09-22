@@ -1,4 +1,5 @@
 import { configureStore, ThunkAction, Action, combineReducers } from '@reduxjs/toolkit';
+import tokenReducer from './token';
 import customerReducer from './customer';
 import customersReducer from './customers';
 import userProfileReducer from './userProfile';
@@ -7,6 +8,7 @@ import basketReducer from './basket';
 
 const rootReducer = combineReducers({
   customer: customerReducer,
+  token: tokenReducer,
   customers: customersReducer,
   userProfile: userProfileReducer,
   productDetail: productDetailReducer,

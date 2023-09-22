@@ -1,7 +1,10 @@
-import { useEffect, useState } from 'react';
+import { useMemo, useState } from 'react';
 import './ProductDetailComponent.scss';
 import { SwiperImageComponent } from '../Swiper/SwiperImageComponent';
 import { ProductDetailModal } from './ProductDetailModal';
+import { CartActionsType, createBasket, updateBasketById } from '../../store/basket';
+import { useAppDispatch, useAppSelector } from '../../store/hooks';
+import type { IBasket } from '../../store/basket';
 
 interface IProductDetailProps {
   productData?: IProductDetail;
@@ -57,8 +60,14 @@ interface IImage {
   url: string;
 }
 export const ProductDetailComponent = (props: IProductDetailProps) => {
+  const dispatch = useAppDispatch();
+  const basketStore = useAppSelector((state) => state.basket);
   const images = props.productData?.masterData.current.masterVariant.images.map((img) => img.url) || [];
   const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const currentLineItem = useMemo(() => {
+    return basketStore.basket?.lineItems.find((item) => item?.productId === props.productData?.id);
+  }, [basketStore.basket?.lineItems, props.productData?.id]);
 
   const openModal = () => {
     setIsModalOpen(true);
@@ -67,9 +76,54 @@ export const ProductDetailComponent = (props: IProductDetailProps) => {
   const closeModal = () => {
     setIsModalOpen(false);
   };
-  useEffect(() => {
-    console.log('props.productData', props.productData);
-  }, [props]);
+
+  const addProductToCart = async () => {
+    if (basketStore.basket) {
+      updateBasketById(basketStore.basket?.id, {
+        version: basketStore.basket?.version,
+        actions: [
+          {
+            action: CartActionsType.ADDITEM,
+            variantId: props.productData?.masterData.current.masterVariant.id,
+            productId: props.productData?.id,
+            quantity: 1,
+          },
+        ],
+      })(dispatch);
+    }
+    if (!basketStore.basket) {
+      createBasket(dispatch).then((data) => {
+        const basket: IBasket = data as IBasket;
+        updateBasketById(basket?.id, {
+          version: basket?.version,
+          actions: [
+            {
+              action: CartActionsType.ADDITEM,
+              variantId: props.productData?.masterData.current.masterVariant.id,
+              productId: props.productData?.id,
+              quantity: 1,
+            },
+          ],
+        })(dispatch);
+      });
+    }
+  };
+
+  const removeProductFromCart = () => {
+    if (basketStore.basket && currentLineItem) {
+      updateBasketById(basketStore.basket?.id, {
+        version: basketStore.basket?.version,
+        actions: [
+          {
+            action: CartActionsType.REMOVEITEM,
+            lineItemId: currentLineItem?.id,
+            productId: props.productData?.id,
+            quantity: 1,
+          },
+        ],
+      })(dispatch);
+    }
+  };
   return (
     <div className="product-element">
       <ProductDetailModal isOpened={isModalOpen} outerCloseCb={closeModal} images={images} />
@@ -104,9 +158,21 @@ export const ProductDetailComponent = (props: IProductDetailProps) => {
           </div>
           <div className="product-element__product-cart product-cart">
             <div className="product-cart__inner">
-              <div className="product-cart__quantity"></div>
-              <div className="product-cart__quantity-window"></div>
-              <div className="product-cart__add-button"></div>
+              {currentLineItem ? (
+                <button
+                  className={`product-cart__cart-button cart__button cart__button_remove`}
+                  onClick={removeProductFromCart}
+                >
+                  Remove From Cart
+                </button>
+              ) : (
+                <button
+                  className={`product-cart__cart-button cart__button cart__button_add`}
+                  onClick={addProductToCart}
+                >
+                  Add To Cart
+                </button>
+              )}
             </div>
           </div>
         </div>

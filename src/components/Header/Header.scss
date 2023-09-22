@@ -31,14 +31,17 @@ $primary: #274C5B;
   padding: 0px;
 }
 
+.header_sign_circle{
+  &:hover {
+    background: $primary;
+  }
+}
 a {
 
   img {
     width: 24px;
 
-    &:hover {
-      background: $primary;
-    }
+
   }
 }
 
@@ -46,6 +49,8 @@ a {
   display: flex;
   align-items: center;
   justify-content: space-around;
+  margin-top: 20px;
+  margin-bottom: 20px;
 }
 
 .header_logo {

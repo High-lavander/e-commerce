@@ -3,9 +3,22 @@
   justify-content: center;
   align-items: center;
   height: 450px;
-  color: #274C5B;
+  background-size: cover;
+}
+
+.title {
+  color: #274c5b;
   font-size: 4.375rem;
   font-style: normal;
   font-weight: 800;
   line-height: normal;
+}
+
+@media (min-width: 380px) and (max-width: 767px) {
+  .banner {
+    height: 250px;
+    font-size: 2.7rem;
+    background-size: cover;
+
+  }
 }

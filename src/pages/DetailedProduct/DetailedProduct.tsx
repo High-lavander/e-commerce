@@ -15,6 +15,7 @@ function DetailedProduct() {
     if (router.id) {
       getProductById(router.id)(dispatch);
     }
+    console.log('DetailedProduct');
   }, []);
   return (
     <div>
