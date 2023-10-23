@@ -12,6 +12,17 @@
     "lint:fix": "eslint ./src --fix --color",
     "test": "jest --coverage"
   },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
+  },
+  "lint-staged": {
+    "*.{js,jsx,ts,tsx}": [
+      "eslint --fix",
+      "prettier --write"
+    ]
+  },
   "dependencies": {
     "@reduxjs/toolkit": "^1.9.5",
     "@types/react-redux": "^7.1.25",
